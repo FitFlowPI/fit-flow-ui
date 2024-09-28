@@ -1,0 +1,21 @@
+:host {
+  display: block;
+  position: relative;
+  opacity: 1;
+  overflow: visible;
+  background-repeat: repeat-x;
+  background-position: center center;
+}
+
+.wave-layer {
+  filter: blur(3px);
+}
+
+/*@keyframes move-wave {*/
+/*  from {*/
+/*    background-position: center center;*/
+/*  }*/
+/*  to {*/
+/*    background-position: 400px center;*/
+/*  }*/
+/*}*/

@@ -1,0 +1,96 @@
+:host {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+}
+:host .title {
+  margin-top: 23px;
+  font-weight: 700;
+  color: var(--yellow);
+}
+:host .welcome {
+  color: var(--white);
+  text-align: center;
+}
+:host .welcome h2 {
+  font-weight: 600;
+}
+:host .form-container {
+  padding: 40px 0;
+  background-color: var(--black);
+  width: 100%;
+  overflow: visible;
+  position: relative;
+  border-top: 1px solid var(--yellow);
+  border-bottom: 1px solid var(--yellow);
+}
+:host .form-container, :host .form-container * {
+  display: inline-flex;
+  flex-direction: column;
+}
+:host .form-container:before {
+  content: "";
+  opacity: 0.2;
+  position: absolute;
+  z-index: -1;
+  height: 40px;
+  left: -10%;
+  width: 120%;
+  background-image: radial-gradient(var(--yellow) 0%, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, 0) 100%);
+  overflow: visible;
+  top: -20px;
+}
+:host .form-container:after {
+  content: "";
+  opacity: 0.2;
+  position: absolute;
+  z-index: -1;
+  height: 40px;
+  left: -10%;
+  width: 120%;
+  background-image: radial-gradient(var(--yellow) 0%, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, 0) 100%);
+  overflow: visible;
+  bottom: -20px;
+}
+:host .form-container form {
+  gap: 15px;
+  margin: 0 30px;
+}
+:host .form-container form .password-recovery-link {
+  display: inline-flex;
+  font-size: 0.8rem;
+  font-weight: 300;
+  width: 100%;
+  align-items: end;
+  color: var(--yellow);
+}
+:host .form-container label {
+  color: var(--white);
+}
+:host .app-button {
+  margin: 30px 0;
+}
+:host .wave-background-bottom {
+  position: absolute !important;
+  transform: rotateZ(-20deg);
+  z-index: -1;
+  bottom: -20%;
+  right: -25%;
+}
+:host .wave-background-top {
+  position: absolute !important;
+  transform: rotateZ(-20deg);
+  z-index: -1;
+  top: -20%;
+  left: -25%;
+}
+:host .wave-background-top .wave-layer {
+  filter: blur(3px) !important;
+}
+
+/*# sourceMappingURL=login.component.css.map */

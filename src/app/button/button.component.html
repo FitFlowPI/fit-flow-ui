@@ -1,0 +1,16 @@
+<div class="background">
+  <app-svg-generator
+    class="svg-wave"
+    [displacement]="'fixed'"
+    [height]="'100%'"
+    [waveHeight]="400"
+    [count]=20
+    [thickness]=15
+    [display]="'fill'"
+    [id]="'button-' + id">
+    <button #button class="button-container">
+      <ng-content></ng-content>
+    </button>
+  </app-svg-generator>
+</div>
+

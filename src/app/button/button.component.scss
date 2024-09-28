@@ -1,0 +1,72 @@
+$border-radius: 15px;
+$border-width: 2px;
+
+.background {
+  position: relative;
+  display: inline-block;
+
+  &, * {
+    cursor: pointer;
+  }
+
+  .svg-wave {
+    display: inline-block !important;
+    width: auto !important;
+    border-radius: $border-radius;
+    //animation: move-wave-fixed 10s linear infinite;
+
+  }
+
+  &:hover .button-container {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+  .button-container {
+    display: inline-block;
+    position: relative;
+    padding: 8px 25px; /* Adjust padding as needed */
+    margin: $border-width;
+    background-color: var(--black);
+    border: none;
+    color: var(--white);
+    font-weight: 500;
+    border-radius: $border-radius;
+    transition: background-color 0.3s ease-in-out;
+    overflow: hidden;
+
+    .ripple {
+      content: '';
+      position: absolute;
+      background:
+        radial-gradient(
+            circle at center,
+            transparent 30%,
+            white 100%
+        );
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      aspect-ratio: 1 / 1;
+      width: 100%;
+      animation: ripple 0.8s ease-out forwards;
+      mask:
+        radial-gradient(
+            circle at center,
+            transparent 30%,
+            black 100%
+        );
+    }
+  }
+}
+
+@keyframes ripple {
+  from {
+    width: 0;
+    opacity: 0.9;
+  }
+  to {
+    width: 200%;
+    opacity: 0;
+  }
+}
+
+

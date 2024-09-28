@@ -1,0 +1,26 @@
+.p-inputtext {
+  padding: 0.30rem 0.75rem;
+}
+
+.p-password-panel {
+  background-color: var(--black);
+  border: 1px solid var(--yellow);
+}
+
+.p-password-meter {
+  background-color: var(--brighter-black);
+}
+
+.p-password-info {
+  color: var(--white);
+}
+
+.input-contrast {
+  background-color: var(--black) !important;
+  border-color: var(--yellow) !important;
+  color: var(--white) !important;
+}
+
+.input-contrast:focus {
+  box-shadow: 0 0 5px 1px var(--yellow) !important;
+}
