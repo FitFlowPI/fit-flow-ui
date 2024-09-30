@@ -7,15 +7,6 @@
   background-position: center center;
 }
 
-.wave-layer {
-  filter: blur(3px);
-}
-
-/*@keyframes move-wave {*/
-/*  from {*/
-/*    background-position: center center;*/
-/*  }*/
-/*  to {*/
-/*    background-position: 400px center;*/
-/*  }*/
+/*.wave-layer {*/
+/*  filter: blur(3px);*/
 /*}*/

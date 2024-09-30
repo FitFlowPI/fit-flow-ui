@@ -1,9 +1,3 @@
-// Variables for colors and spacing
-$black: var(--black);
-$white: var(--white);
-$yellow: var(--yellow);
-$darker-blue: var(--darker-blue);
-
 @mixin glow($position, $glow-height, $opacity) {
   content: '';
   opacity: $opacity;
@@ -48,18 +42,33 @@ $darker-blue: var(--darker-blue);
 }
 
 :host {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
+
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: hidden;
   position: relative;
+
+  .wave-background-bottom {
+    @include wave-background-absolute('bottom');
+  }
+  .wave-background-top {
+    @include wave-background-absolute('top');
+  }
+}
+
+.auth-forms {
+  width: 100%;
+  height: 100%;
+  padding: 25px;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   overflow: hidden;
 
   .title {
-    margin-top: 23px;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--yellow);
   }
 
@@ -69,13 +78,13 @@ $darker-blue: var(--darker-blue);
     text-align: center;
 
     h2 {
-      font-weight: 600;
+      font-weight: 500;
     }
 
     span {
-
+      font-weight: 200;
+      font-size: 0.8em;
     }
-
   }
 
   .form-container {
@@ -84,57 +93,33 @@ $darker-blue: var(--darker-blue);
     $glow-opacity: 0.2;
 
     padding: 40px 0;
-    background-color: var(--black);
     width: 100%;
     overflow: visible;
     position: relative;
-    border-top: 1px solid var(--yellow);
-    border-bottom: 1px solid var(--yellow);
+    //background-color: var(--black);
+    //border-top: 1px solid var(--yellow);
+    //border-bottom: 1px solid var(--yellow);
+    //&:before {
+    //  @include glow('top', $glow-height, $glow-opacity);
+    //}
+    //
+    //&:after {
+    //  @include glow('bottom', $glow-height, $glow-opacity);
+    //}
 
-    &, * {
+    &, form, div {
       display: inline-flex;
       flex-direction: column;
     }
 
-    &:before {
-      @include glow('top', $glow-height, $glow-opacity);
-    }
-
-    &:after {
-      @include glow('bottom', $glow-height, $glow-opacity);
-    }
-
     form {
       gap: 15px;
-      margin: 0 30px;
-
-      .password-recovery-link {
-        display: inline-flex;
-        font-size: 0.8rem;
-        font-weight: 300;
-        width: 100%;
-        align-items: end;
-        color: var(--yellow);
-      }
-
     }
 
-    label {
-      color: var(--white);
-    }
-  }
-
-  .app-button {
-    margin: 30px 0;
-  }
-
-  .wave-background-bottom {
-    @include wave-background-absolute('bottom');
-  }
-  .wave-background-top {
-    @include wave-background-absolute('top');
-    .wave-layer {
-      filter: blur(3px) !important;
+    .text-link {
+      justify-content: end;
+      padding-right: 5px;
     }
   }
 }
+

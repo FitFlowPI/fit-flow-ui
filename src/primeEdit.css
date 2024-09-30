@@ -16,6 +16,7 @@
 }
 
 .input-contrast {
+  border-radius: 15px !important;
   background-color: var(--black) !important;
   border-color: var(--yellow) !important;
   color: var(--white) !important;

@@ -21,7 +21,10 @@ export class SvgGeneratorComponent implements OnInit, AfterViewInit {
   @Input() displacement: 'fixed' | 'fasterTop' | 'fasterBottom' | 'equal' = 'fixed';
   @Input() display: 'fill' | 'spaced' = "spaced";
   @Input() invertColors: boolean = false;
-  @Input({ required: true }) id: string = '0';
+  @Input() blur: number = 0;
+  @Input() opacity: number = 1;
+  @Input() speed: number = 1;
+  @Input({ required: true }) id: string = '';
 
   private actualHeight: number = 0;
   private actualWidth: number = 0;
@@ -97,7 +100,9 @@ export class SvgGeneratorComponent implements OnInit, AfterViewInit {
 
     this.renderer.setStyle(this.el.nativeElement, 'height', `${this.actualHeight}px`);
     this.renderer.setStyle(this.el.nativeElement, 'width', `${this.actualWidth}px`)
-    this.renderer.setStyle(this.el.nativeElement, 'animation', `move-wave-fixed-${this.id} ${10}s linear infinite`)
+    this.renderer.setStyle(this.el.nativeElement, 'filter', `blur(${this.blur}px)`);
+    this.renderer.setStyle(this.el.nativeElement, 'opacity', `${this.opacity}`);
+    this.renderer.setStyle(this.el.nativeElement, 'animation', `move-wave-fixed-${this.id} ${10 / this.speed}s linear infinite`)
     this.renderer.setStyle(this.el.nativeElement, 'background-image', `url("${
       this.svgToDataUrl(`
           <svg
@@ -134,7 +139,7 @@ export class SvgGeneratorComponent implements OnInit, AfterViewInit {
       />`;
 
       // Apply animation based on unique ID
-      const duration = 1800; // Adjust speed based on index
+      const duration = 1800 / this.speed;
       const uniqueId = `wave-layer-${i}`;
       let div = this.el.nativeElement.querySelector(`#${uniqueId}`);
       if (!div) {
@@ -155,6 +160,8 @@ export class SvgGeneratorComponent implements OnInit, AfterViewInit {
       this.renderer.setStyle(div, 'width', '100%');
       this.renderer.setStyle(div, 'background-position', `center center`);
       this.renderer.setStyle(div, 'background-repeat', 'repeat-x');
+      this.renderer.setStyle(div, 'filter', `blur(${this.blur}px)`);
+      this.renderer.setStyle(div, 'opacity', `${this.opacity}`);
       this.renderer.setStyle(div, 'background-image', `url("${
         this.svgToDataUrl(`
           <svg
