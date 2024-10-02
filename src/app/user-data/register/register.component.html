@@ -1,0 +1,42 @@
+<div class="auth-forms">
+  <h2 class="title">Criar Conta</h2>
+
+  <div class="welcome">
+    <h2> Vamos Lá! </h2>
+  </div>
+
+  <div class="form-container">
+    <form method="POST">
+      <div class="flex flex-column gap-2">
+        <label for="fullName">Nome Completo</label>
+        <input class="input-contrast" pInputText id="fullName" />
+      </div>
+      <div class="flex flex-column gap-2">
+        <label for="email">Email</label>
+        <input class="input-contrast" pInputText id="email" />
+      </div>
+      <div class="flex flex-column gap-2">
+        <label for="senha">Senha</label>
+        <input class="input-contrast" type="password" pPassword pInputText id="senha" />
+      </div>
+      <div class="flex flex-column gap-2">
+        <label for="confirmPassword">Confirmar Senha</label>
+        <input class="input-contrast" type="password" autocomplete="off" pInputText id="confirmPassword" />
+      </div>
+    </form>
+  </div>
+
+  <p class="text-link text-center privacy-terms">
+    <span>
+      Ao continuar, você concorda com nossos
+      <a href="terms-of-use" title="termos de uso">Termos de Uso </a>
+      e
+      <a href="privacy-policy" title="politicas de privacidade">Politicas de Privacidade </a>
+    </span>
+  </p>
+
+  <app-button id="b-register" class="app-button">Cadastrar-se</app-button>
+  <p class="text-link to-login text-center">
+    <span> Já possui uma conta?&nbsp;<a [routerLink]="['/auth', 'login']" title="ir para login">Entre na sua conta </a> </span>
+  </p>
+</div>

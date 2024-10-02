@@ -1,0 +1,116 @@
+:host {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  position: relative;
+}
+:host .wave-background-bottom {
+  position: absolute !important;
+  transform: rotateZ(-20deg);
+  z-index: -1;
+  bottom: -20%;
+  right: -25%;
+}
+:host .wave-background-top {
+  position: absolute !important;
+  transform: rotateZ(-20deg);
+  z-index: -1;
+  top: -20%;
+  left: -25%;
+}
+
+.auth-forms {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  animation: slide-left 0.5s ease-out forwards;
+}
+.auth-forms .title {
+  padding-top: 25px;
+  margin-top: 0;
+  flex-shrink: 0;
+  font-weight: 600;
+  color: var(--yellow);
+}
+.auth-forms .welcome {
+  flex-shrink: 0;
+  color: var(--white);
+  text-align: center;
+  padding: 0 25px;
+}
+.auth-forms .welcome h2 {
+  font-weight: 500;
+}
+.auth-forms .welcome span {
+  font-weight: 200;
+  font-size: 0.8em;
+}
+.auth-forms .form-container {
+  flex-shrink: 1;
+  align-items: center;
+  min-height: 0;
+  width: 100%;
+  position: relative;
+}
+.auth-forms .form-container:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  top: 0;
+  right: 0;
+  background-image: linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0)), linear-gradient(rgb(0, 0, 0), rgba(0, 0, 0, 0));
+  background-position: bottom, top;
+  background-size: 100% 20px;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+.auth-forms .form-container form {
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: visible;
+  gap: 6px;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.auth-forms .form-container form::-webkit-scrollbar {
+  display: none;
+}
+.auth-forms .form-container form div {
+  display: inline-flex;
+  flex-direction: column;
+  overflow: visible;
+  padding: 0 25px;
+}
+
+.text-link {
+  flex-shrink: 0;
+  justify-content: center;
+}
+.text-link.privacy-terms {
+  padding: 0 25px;
+}
+.text-link.to-register, .text-link.to-login {
+  margin-bottom: 0;
+  padding: 0 25px 25px 25px;
+}
+
+@keyframes slide-left {
+  from {
+    transform: translateX(-100vw);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/*# sourceMappingURL=user-data.component.css.map */

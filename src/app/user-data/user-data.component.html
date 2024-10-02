@@ -1,0 +1,31 @@
+<app-svg-generator
+  [waveHeight]=this.waveHeight
+  [width]=this.width
+  [height]=this.height
+  [count]=this.count
+  [thickness]=this.thickness
+  [blur]=this.blur
+  [speed]=this.speed
+  [opacity]=this.opacity
+  id="w-login-t"
+  [displacement]=this.displacement
+  class="wave-background-top">
+</app-svg-generator>
+
+<app-login *ngIf="actionType === 'login'"> </app-login>
+<app-register *ngIf="actionType === 'register'"> </app-register>
+
+<app-svg-generator
+  [waveHeight]=this.waveHeight
+  [width]=this.width
+  [height]=this.height
+  [count]=this.count
+  [thickness]=this.thickness
+  [blur]=this.blur
+  [speed]=this.speed
+  [opacity]=this.opacity
+  [invertColors]="true"
+  id="w-login-b"
+  [displacement]=this.displacement
+  class="wave-background-bottom">
+</app-svg-generator>

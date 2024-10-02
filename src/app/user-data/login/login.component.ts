@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import {InputTextModule} from "primeng/inputtext";
 import {FormsModule} from "@angular/forms";
 import {PasswordModule} from "primeng/password";
-import {ButtonComponent} from "../button/button.component";
-import {SvgGeneratorComponent} from "../generators/svg-generator/svg-generator.component";
+import {ButtonComponent} from "../../button/button.component";
+import {SvgGeneratorComponent} from "../../generators/svg-generator/svg-generator.component";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -13,10 +14,11 @@ import {SvgGeneratorComponent} from "../generators/svg-generator/svg-generator.c
     FormsModule,
     PasswordModule,
     ButtonComponent,
-    SvgGeneratorComponent
+    SvgGeneratorComponent,
+    RouterLink
   ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: '../user-data.component.scss'
 })
 export class LoginComponent {
 
