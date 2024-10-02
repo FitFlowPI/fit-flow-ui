@@ -4,8 +4,8 @@
   <div class="welcome">
     <h2> Bem vindo </h2>
     <span>
-    prossiga com o login para utilizar nosso aplicativo
-  </span>
+      prossiga com o login para utilizar nosso aplicativo
+    </span>
   </div>
 
   <div class="form-container">
@@ -24,9 +24,9 @@
     </form>
   </div>
 
-  <app-button id="b-login" class="app-button">Entrar</app-button>
-  <p class="text-link">
-    <span> Ainda não possui uma conta?&nbsp;<a href="auth/register" title="ir para cadastro">Cadastre-se </a> </span>
+  <app-button id="b-login">Entrar</app-button>
+  <p class="text-link to-register">
+    <span> Ainda não possui uma conta?&nbsp;<a [routerLink]="['/auth', 'register']" title="ir para cadastro">Cadastre-se </a> </span>
   </p>
 </div>
 

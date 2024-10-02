@@ -4,6 +4,7 @@ import {FormsModule} from "@angular/forms";
 import {PasswordModule} from "primeng/password";
 import {ButtonComponent} from "../../button/button.component";
 import {SvgGeneratorComponent} from "../../generators/svg-generator/svg-generator.component";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -13,10 +14,11 @@ import {SvgGeneratorComponent} from "../../generators/svg-generator/svg-generato
     FormsModule,
     PasswordModule,
     ButtonComponent,
-    SvgGeneratorComponent
+    SvgGeneratorComponent,
+    RouterLink
   ],
   templateUrl: './login.component.html',
-  styleUrl: '../auth-pages.component.scss'
+  styleUrl: '../user-data.component.scss'
 })
 export class LoginComponent {
 

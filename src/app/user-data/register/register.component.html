@@ -26,7 +26,7 @@
     </form>
   </div>
 
-  <p class="text-link text-center">
+  <p class="text-link text-center privacy-terms">
     <span>
       Ao continuar, você concorda com nossos
       <a href="terms-of-use" title="termos de uso">Termos de Uso </a>
@@ -36,7 +36,7 @@
   </p>
 
   <app-button id="b-register" class="app-button">Cadastrar-se</app-button>
-  <p class="text-link">
-    <span> Ainda não possui uma conta?&nbsp;<a href="auth/register" title="ir para cadastro">Cadastre-se </a> </span>
+  <p class="text-link to-login text-center">
+    <span> Já possui uma conta?&nbsp;<a [routerLink]="['/auth', 'login']" title="ir para login">Entre na sua conta </a> </span>
   </p>
 </div>

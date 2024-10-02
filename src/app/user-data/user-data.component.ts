@@ -6,7 +6,7 @@ import {NgIf} from "@angular/common";
 import {RegisterComponent} from "./register/register.component";
 
 @Component({
-  selector: 'app-auth-pages',
+  selector: 'app-user-data',
   standalone: true,
   imports: [
     LoginComponent,
@@ -14,10 +14,10 @@ import {RegisterComponent} from "./register/register.component";
     NgIf,
     RegisterComponent
   ],
-  templateUrl: './auth-pages.component.html',
-  styleUrl: './auth-pages.component.scss'
+  templateUrl: './user-data.component.html',
+  styleUrl: './user-data.component.scss'
 })
-export class AuthPagesComponent implements OnInit{
+export class UserDataComponent implements OnInit{
   // background wave svg properties
   waveHeight: number = 200;
   width: string = "200%";
@@ -29,13 +29,13 @@ export class AuthPagesComponent implements OnInit{
   opacity: number = 0.5;
   displacement: 'fasterTop' | 'fasterBottom' | 'fixed' = 'fasterTop';
 
-  authType: string = '';
+  actionType: string = '';
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.authType = params['authType'];  // Obtemos o valor do parâmetro
+      this.actionType = params['actionType'];
     });
   }
 }
