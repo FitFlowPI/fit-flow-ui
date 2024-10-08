@@ -53,11 +53,9 @@ export class UserDataComponent implements OnInit {
         this.actionType = newActionType;
 
         // Remove a classe de animação desativada quando o actionType mudar
-        if (this.formCard) {
-          const children = this.formCard.nativeElement.children;
-          for (let child of children) {
-            this.renderer.removeClass(child, 'disabled-animation');
-          }
+        const children = this.elementRef.nativeElement.children;
+        for (let child of children) {
+          this.renderer.removeClass(child, 'disabled-animation');
         }
       }
     });

@@ -25,43 +25,30 @@
   height: 100vh;
   overflow: hidden;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  position: relative;
 
-  .form-card {
+  .data-form {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden;
-    max-height: 600px;
-    max-width: 500px;
-    position: relative;
 
-    .data-form {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      padding: 10px 25px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-
-      &.visible:not(.disabled-animation) {
-        animation: right-to-center 0.5s ease-out forwards;
-      }
-      &.visible.disabled-animation {
-        animation: none;
-        transform: translateX(0);
-      }
-      &.hidden:not(.disabled-animation) {
-        animation: center-to-left 0.5s ease-out forwards;
-      }
-      &.hidden.disabled-animation {
-        animation: none;
-        transform: translateX(-100%);
-      }
+    &.visible:not(.disabled-animation) {
+      animation: right-to-center 0.5s ease-out forwards;
+    }
+    &.visible.disabled-animation {
+      animation: none;
+      transform: translateX(0);
+    }
+    &.hidden:not(.disabled-animation) {
+      animation: center-to-left 0.5s ease-out forwards;
+    }
+    &.hidden.disabled-animation {
+      animation: none;
+      transform: translateX(-100%);
     }
   }
 
@@ -72,6 +59,18 @@
     @include wave-background-absolute('top');
   }
 
+}
+
+.form-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  width: 100%;
+  height: 100%;
+  max-width: 450px;
+  max-height: 600px;
 }
 
 .title {
@@ -165,19 +164,6 @@
 // responsiveness
 
 @media only screen and (min-width: 600px) {
-  .form-card {
-    mask-image:
-      linear-gradient(to right,
-        transparent,
-        black 40px,
-        black calc(100% - 40px),
-        transparent
-      );
-
-    .data-form {
-      padding: 35px 65px !important;
-    }
-  }
   :host {
     .wave-background-top {
       transform: rotateZ(0) translateX(-10%) translateY(-50%);

@@ -10,10 +10,8 @@
   class="wave-background-top">
 </app-svg-generator>
 
-  <div #formCard class="form-card">
-    <app-login class="data-form disabled-animation" [ngClass]="actionType === 'login' ? 'visible' : 'hidden'" id="login"> </app-login>
-    <app-register class="data-form disabled-animation" [ngClass]="actionType === 'register' ? 'visible' : 'hidden'" id="register"> </app-register>
-  </div>
+  <app-login class="data-form disabled-animation" [ngClass]="actionType === 'login' ? 'visible' : 'hidden'" id="login"> </app-login>
+  <app-register class="data-form disabled-animation" [ngClass]="actionType === 'register' ? 'visible' : 'hidden'" id="register"> </app-register>
 
 <app-svg-generator
   [waveHeight]=this.waveHeight
