@@ -14,8 +14,8 @@ export class SvgGeneratorComponent implements OnInit, AfterViewInit {
   @Input() waveLength: number = 1600;
   @Input() thickness: number = 15;
   @Input() offsetX: number = 60;
-  @Input() height: number | string = 400;
-  @Input() width: number | string = '100%';
+  @Input() height: number | string = '';
+  @Input() width: number | string = '';
   @Input() startColor: string = '#2805FF';
   @Input() endColor: string = '#FE9800';
   @Input() displacement: 'fixed' | 'fasterTop' | 'fasterBottom' | 'equal' = 'fixed';
@@ -46,23 +46,31 @@ export class SvgGeneratorComponent implements OnInit, AfterViewInit {
   }
 
   private updateDimensions() {
-    if (this.height.toString().includes('%', -1)) {
-      const heightNumber = parseInt(this.height.toString().replace(/\D/g, ''));
-      const parentHeight = this.el.nativeElement.parentElement?.clientHeight;
-      this.actualHeight = ((parentHeight || window.innerHeight) * heightNumber) / 100;
-    } else {
-      this.actualHeight = this.height as number;
-    }
-    if (this.width.toString().includes('%', -1)) {
-      const widthNumber = parseInt(this.width.toString().replace(/\D/g, ''));
-      const parentWidth = this.el.nativeElement.parentElement?.clientWidth;
-      this.actualWidth = ((parentWidth || window.innerWidth) * widthNumber) / 100;
-    } else {
-      this.actualWidth = this.width as number;
-    }
 
-    this.renderer.setStyle(this.el.nativeElement, 'height', `${this.actualHeight}px`);
-    this.renderer.setStyle(this.el.nativeElement, 'width', `${this.actualWidth}px`);
+    if (this.height.toString() !== '') {
+      if (this.height.toString().includes('%', -1)) {
+        const heightNumber = parseInt(this.height.toString().replace(/\D/g, ''));
+        const parentHeight = this.el.nativeElement.parentElement?.clientHeight;
+        this.actualHeight = ((parentHeight || window.innerHeight) * heightNumber) / 100;
+      } else {
+        this.actualHeight = this.height as number;
+      }
+      this.renderer.setStyle(this.el.nativeElement, 'height', `${this.actualHeight}px`);
+    } else {
+      this.actualHeight = this.el.nativeElement.clientHeight;
+    }
+    if (this.width.toString() !== '') {
+      if (this.width.toString().includes('%', -1)) {
+        const widthNumber = parseInt(this.width.toString().replace(/\D/g, ''));
+        const parentWidth = this.el.nativeElement.parentElement?.clientWidth;
+        this.actualWidth = ((parentWidth || window.innerWidth) * widthNumber) / 100;
+      } else {
+        this.actualWidth = this.width as number;
+      }
+      this.renderer.setStyle(this.el.nativeElement, 'width', `${this.actualWidth}px`);
+    } else {
+      this.actualWidth = this.el.nativeElement.clientWidth;
+    }
   }
 
 

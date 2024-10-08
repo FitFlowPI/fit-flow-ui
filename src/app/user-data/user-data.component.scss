@@ -1,12 +1,12 @@
-$margin-size: 25px;
-
 @mixin wave-background-absolute($position) {
 
   $verticalDisplacement: -20%;
   $horizontalDisplacement: -25%;
 
-  position: absolute !important;
+  position: fixed !important;
   transform: rotateZ(-20deg);
+  height: 25%;
+  width: 120%;
   z-index: -1;
 
   @if ($position == 'top') {
@@ -21,12 +21,49 @@ $margin-size: 25px;
 
 :host {
 
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
   display: flex;
-  overflow-y: hidden;
-  overflow-x: hidden;
-  position: relative;
+  justify-content: center;
+  align-items: center;
+
+  .form-card {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    max-height: 600px;
+    max-width: 500px;
+    position: relative;
+
+    .data-form {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 10px 25px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+
+      &.visible:not(.disabled-animation) {
+        animation: right-to-center 0.5s ease-out forwards;
+      }
+      &.visible.disabled-animation {
+        animation: none;
+        transform: translateX(0);
+      }
+      &.hidden:not(.disabled-animation) {
+        animation: center-to-left 0.5s ease-out forwards;
+      }
+      &.hidden.disabled-animation {
+        animation: none;
+        transform: translateX(-100%);
+      }
+    }
+  }
 
   .wave-background-bottom {
     @include wave-background-absolute('bottom');
@@ -34,94 +71,64 @@ $margin-size: 25px;
   .wave-background-top {
     @include wave-background-absolute('top');
   }
+
 }
 
-.auth-forms {
+.title {
+  margin-top: 0;
+  flex-shrink: 0;
+  font-weight: 600;
+  color: var(--yellow);
+}
 
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+.welcome {
+  flex-shrink: 0;
+  color: var(--white);
+  text-align: center;
+
+  h2 {
+    font-weight: 500;
+  }
+
+  span {
+    font-weight: 200;
+    font-size: 0.8em;
+  }
+}
+
+.form-container {
+  flex-shrink: 1;
   align-items: center;
-  justify-content: space-between;
-
-  .title {
-    padding-top: $margin-size;
-    margin-top: 0;
-    flex-shrink: 0;
-    font-weight: 600;
-    color: var(--yellow);
-  }
-
-  .welcome {
-    flex-shrink: 0;
-    color: var(--white);
-    text-align: center;
-    padding: 0 $margin-size;
-
-    h2 {
-      font-weight: 500;
-    }
-
-    span {
-      font-weight: 200;
-      font-size: 0.8em;
-    }
-  }
-
-  .form-container {
-    flex-shrink: 1;
-    align-items: center;
-    min-height: 0;
+  min-height: 0;
+  width: 100%;
+  position: relative;
+  mask-image:
+    linear-gradient(to bottom,
+      transparent,
+      black 20px,
+      black calc(100% - 20px),
+      transparent
+    );
+  form {
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    position: relative;
-
-    &:after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      top: 0;
-      right: 0;
-      background-image:
-        linear-gradient(
-            rgba(0, 0, 0, 0),
-            rgba(0, 0, 0, 1)
-        ),
-        linear-gradient(
-            rgba(0, 0, 0, 1),
-            rgba(0, 0, 0, 0)
-        );
-      background-position: bottom, top;
-      background-size: 100% 20px;
-      background-repeat: no-repeat;
-      pointer-events: none;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: visible;
+    gap: 6px;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    &::-webkit-scrollbar {
+      display: none;
     }
-
-    form {
-      padding: 20px 0;
-      display: flex;
+    div {
+      display: inline-flex;
       flex-direction: column;
-      width: 100%;
-      height: 100%;
-      overflow-y: scroll;
-      overflow-x: visible;
-      gap: 6px;
-      -ms-overflow-style: none;  /* IE and Edge */
-      scrollbar-width: none;  /* Firefox */
-      &::-webkit-scrollbar {
-        display: none;
-      }
-      div {
-        display: inline-flex;
-        flex-direction: column;
-        overflow: visible;
-        padding: 0 $margin-size;
-      }
+      overflow: visible;
     }
   }
-  animation: slide-left 0.5s ease-out forwards;
-
 }
 
 .text-link {
@@ -129,20 +136,61 @@ $margin-size: 25px;
   justify-content: center;
 
   &.privacy-terms {
-    padding: 0 $margin-size;
   }
 
   &.to-register, &.to-login {
     margin-bottom: 0;
-    padding: 0 $margin-size $margin-size $margin-size;
   }
 }
 
-@keyframes slide-left {
+@keyframes right-to-center {
   from {
-    transform: translateX(-100vw);
+    transform: translateX(100%);
   }
   to {
     transform: translateX(0);
+  }
+}
+
+@keyframes center-to-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+// responsiveness
+
+@media only screen and (min-width: 600px) {
+  .form-card {
+    mask-image:
+      linear-gradient(to right,
+        transparent,
+        black 40px,
+        black calc(100% - 40px),
+        transparent
+      );
+
+    .data-form {
+      padding: 35px 65px !important;
+    }
+  }
+  :host {
+    .wave-background-top {
+      transform: rotateZ(0) translateX(-10%) translateY(-50%);
+      top: 0;
+      left: 0;
+      height: 60%;
+      width: 120%;
+    }
+    .wave-background-bottom {
+      transform: rotateZ(0) translateX(-10%) translateY(50%);
+      bottom: 0;
+      left: 0;
+      height: 60%;
+      width: 120%;
+    }
   }
 }

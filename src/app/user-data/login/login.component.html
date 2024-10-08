@@ -1,32 +1,29 @@
-<div class="auth-forms">
-  <h2 class="title">Log In</h2>
+<h2 class="title">Log In</h2>
 
-  <div class="welcome">
-    <h2> Bem vindo </h2>
-    <span>
-      prossiga com o login para utilizar nosso aplicativo
-    </span>
-  </div>
-
-  <div class="form-container">
-    <form method="POST">
-      <div class="flex flex-column gap-2">
-        <label for="email">Nome de Usuário ou Email</label>
-        <input class="input-contrast" pInputText id="email" />
-      </div>
-      <div class="flex flex-column gap-2">
-        <label for="senha">Senha</label>
-        <input class="input-contrast" type="password" pInputText id="senha" />
-        <p class="text-link">
-          <span> Esqueceu sua senha?&nbsp;<a href="auth/password-recovery" title="ir para recuperação de senha">Clique aqui </a> </span>
-        </p>
-      </div>
-    </form>
-  </div>
-
-  <app-button id="b-login">Entrar</app-button>
-  <p class="text-link to-register">
-    <span> Ainda não possui uma conta?&nbsp;<a [routerLink]="['/auth', 'register']" title="ir para cadastro">Cadastre-se </a> </span>
-  </p>
+<div class="welcome">
+  <h2> Bem vindo </h2>
+  <span>
+    prossiga com o login para utilizar nosso aplicativo
+  </span>
 </div>
 
+<div class="form-container">
+  <form method="POST">
+    <div class="flex flex-column gap-2">
+      <label for="email">Nome de Usuário ou Email</label>
+      <input class="input-contrast" pInputText id="email" />
+    </div>
+    <div class="flex flex-column gap-2">
+      <label for="senha">Senha</label>
+      <input class="input-contrast" type="password" pInputText id="senha" />
+      <p class="text-link">
+        <span> Esqueceu sua senha?&nbsp;<a href="auth/password-recovery" title="ir para recuperação de senha">Clique aqui </a> </span>
+      </p>
+    </div>
+  </form>
+</div>
+
+<app-button id="b-login">Entrar</app-button>
+<p class="text-link to-register">
+  <span> Ainda não possui uma conta?&nbsp;<a [routerLink]="['/auth', 'register']" title="ir para cadastro">Cadastre-se </a> </span>
+</p>
