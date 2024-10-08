@@ -107,6 +107,9 @@
   flex-direction: column;
   overflow: visible;
 }
+.form-container form div input {
+  overflow: visible !important;
+}
 
 .text-link {
   flex-shrink: 0;
