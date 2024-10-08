@@ -1,8 +1,15 @@
-import {Component, OnInit} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnChanges,
+  OnInit,
+  Renderer2,
+  SimpleChanges, ViewChild,
+} from '@angular/core';
 import {LoginComponent} from "./login/login.component";
 import {SvgGeneratorComponent} from "../generators/svg-generator/svg-generator.component";
 import {ActivatedRoute} from "@angular/router";
-import {NgIf} from "@angular/common";
+import {NgClass, NgIf} from "@angular/common";
 import {RegisterComponent} from "./register/register.component";
 
 @Component({
@@ -12,16 +19,15 @@ import {RegisterComponent} from "./register/register.component";
     LoginComponent,
     SvgGeneratorComponent,
     NgIf,
-    RegisterComponent
+    RegisterComponent,
+    NgClass
   ],
   templateUrl: './user-data.component.html',
   styleUrl: './user-data.component.scss'
 })
-export class UserDataComponent implements OnInit{
+export class UserDataComponent implements OnInit {
   // background wave svg properties
   waveHeight: number = 200;
-  width: string = "200%";
-  height: string = "25%";
   count: number = 20;
   thickness: number = 4;
   blur: number = 15;
@@ -29,13 +35,31 @@ export class UserDataComponent implements OnInit{
   opacity: number = 0.5;
   displacement: 'fasterTop' | 'fasterBottom' | 'fixed' = 'fasterTop';
 
+  @ViewChild('formCard') formCard?: ElementRef;
+
   actionType: string = '';
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private renderer: Renderer2,
+    private elementRef: ElementRef
+  ) {}
 
-  ngOnInit(): void {
+  ngOnInit():void {
     this.route.params.subscribe(params => {
-      this.actionType = params['actionType'];
+      const newActionType = params['actionType'];
+
+      if (newActionType !== this.actionType) {
+        this.actionType = newActionType;
+
+        // Remove a classe de animação desativada quando o actionType mudar
+        if (this.formCard) {
+          const children = this.formCard.nativeElement.children;
+          for (let child of children) {
+            this.renderer.removeClass(child, 'disabled-animation');
+          }
+        }
+      }
     });
   }
 }
