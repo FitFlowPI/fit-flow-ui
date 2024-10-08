@@ -124,6 +124,9 @@
       display: none;
     }
     div {
+      input {
+        overflow: visible !important;
+      }
       display: inline-flex;
       flex-direction: column;
       overflow: visible;
