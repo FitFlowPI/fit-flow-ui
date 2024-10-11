@@ -63,7 +63,7 @@ body {
   width: 100%;
   font-weight: 200;
   font-size: 0.7em;
-  a {
+  .hyperlink {
     font-size: 1em;
     display: inline;
   }
@@ -73,7 +73,7 @@ button {
   white-space: nowrap;
 }
 
-a {
+.hyperlink {
   position: relative;
   text-decoration: none;
   display: inline-flex;
@@ -85,7 +85,7 @@ a {
   transition: text-shadow 0.5s ease-in-out;
 }
 
-a:before {
+.hyperlink:before {
   content: '';
   position: absolute;
   bottom: 0;
@@ -95,9 +95,10 @@ a:before {
   width: 0;
   transition: width 0.1s ease-in-out;
 }
-a:hover {
+.hyperlink:hover, .return-button:hover {
   text-shadow: 1px 1px 5px var(--yellow);
+  cursor: pointer;
 }
-a:hover:before {
+.hyperlink:hover:before {
   width: 98%;
 }

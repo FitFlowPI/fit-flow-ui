@@ -1,5 +1,5 @@
 import {Component, ElementRef, HostListener, Input, Renderer2, ViewChild} from '@angular/core';
-import {SvgGeneratorComponent} from "../generators/svg-generator/svg-generator.component";
+import {SvgGeneratorComponent} from "../../app/generators/svg-generator/svg-generator.component";
 
 @Component({
   selector: 'app-button',
