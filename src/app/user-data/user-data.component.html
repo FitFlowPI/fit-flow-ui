@@ -10,8 +10,23 @@
   class="wave-background-top">
 </app-svg-generator>
 
-  <app-login class="data-form disabled-animation" [ngClass]="actionType === 'login' ? 'visible' : 'hidden'" id="login"> </app-login>
-  <app-register class="data-form disabled-animation" [ngClass]="actionType === 'register' ? 'visible' : 'hidden'" id="register"> </app-register>
+  <app-login
+    class="data-form disabled-animation"
+    [ngClass]="actionType === 'login' ? 'visible' : 'hidden'" id="login">
+  </app-login>
+  <app-register
+    class="data-form disabled-animation"
+    [ngClass]="actionType === 'register' ? 'visible' : 'hidden'" id="register">
+  </app-register>
+  <app-password-recovery
+    class="data-form disabled-animation "
+    [ngClass]="actionType === 'recovery' ? 'visible' : 'hidden'" id="recovery">
+  </app-password-recovery>
+<!--TODO make password recovery only accessed by the link sent to email -->
+  <app-update-password
+    class="data-form disabled-animation "
+    [ngClass]="actionType === 'update-password' ? 'visible' : 'hidden'" id="update-password">
+  </app-update-password>
 
 <app-svg-generator
   [waveHeight]=this.waveHeight
