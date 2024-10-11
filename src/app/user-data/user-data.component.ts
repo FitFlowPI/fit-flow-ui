@@ -1,4 +1,5 @@
 import {
+  AfterViewInit, ChangeDetectorRef,
   Component,
   ElementRef,
   OnChanges,
@@ -11,6 +12,8 @@ import {SvgGeneratorComponent} from "../generators/svg-generator/svg-generator.c
 import {ActivatedRoute} from "@angular/router";
 import {NgClass, NgIf} from "@angular/common";
 import {RegisterComponent} from "./register/register.component";
+import {PasswordRecoveryComponent} from "./password-recovery/password-recovery.component";
+import {UpdatePasswordComponent} from "./update-password/update-password.component";
 
 @Component({
   selector: 'app-user-data',
@@ -20,10 +23,12 @@ import {RegisterComponent} from "./register/register.component";
     SvgGeneratorComponent,
     NgIf,
     RegisterComponent,
-    NgClass
+    NgClass,
+    PasswordRecoveryComponent,
+    UpdatePasswordComponent
   ],
   templateUrl: './user-data.component.html',
-  styleUrl: './user-data.component.scss'
+  styleUrl: './user-data.component.scss',
 })
 export class UserDataComponent implements OnInit {
   // background wave svg properties
@@ -42,7 +47,8 @@ export class UserDataComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private renderer: Renderer2,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private cdRef: ChangeDetectorRef // Inject ChangeDetectorRef
   ) {}
 
   ngOnInit():void {
@@ -51,15 +57,21 @@ export class UserDataComponent implements OnInit {
 
       if (newActionType !== this.actionType) {
         this.actionType = newActionType;
-
-        // Remove a classe de animação desativada quando o actionType mudar
-        if (this.formCard) {
-          const children = this.formCard.nativeElement.children;
-          for (let child of children) {
-            this.renderer.removeClass(child, 'disabled-animation');
-          }
-        }
+        // Delay class removal until view is initialized
+        this.cdRef.detectChanges(); // Detect and trigger view changes
+        this.removeAnimationClass();
       }
     });
   }
+
+  removeAnimationClass(): void {
+    const children = this.elementRef.nativeElement.children;
+    for (let child of children) {
+      if (child.id === this.actionType) {
+        console.log('removed from: ', child.id);
+        this.renderer.removeClass(child, 'disabled-animation');
+      }
+    }
+  }
+
 }

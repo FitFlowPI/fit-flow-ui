@@ -2,22 +2,24 @@ import { Component } from '@angular/core';
 import {ButtonComponent} from "../../../shared/button/button.component";
 import {FormsModule} from "@angular/forms";
 import {InputTextModule} from "primeng/inputtext";
-import {PasswordModule} from "primeng/password";
+import {PaginatorModule} from "primeng/paginator";
 import {RouterLink} from "@angular/router";
+import {PasswordModule} from "primeng/password";
 
 @Component({
-  selector: 'app-register',
+  selector: 'app-update-password',
   standalone: true,
   imports: [
     ButtonComponent,
     FormsModule,
     InputTextModule,
-    PasswordModule,
-    RouterLink
+    PaginatorModule,
+    RouterLink,
+    PasswordModule
   ],
-  templateUrl: './register.component.html',
+  templateUrl: './update-password.component.html',
   styleUrl: '../user-data.component.scss'
 })
-export class RegisterComponent {
+export class UpdatePasswordComponent {
 
 }

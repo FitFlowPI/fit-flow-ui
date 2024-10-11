@@ -6,7 +6,7 @@ import {PasswordModule} from "primeng/password";
 import {RouterLink} from "@angular/router";
 
 @Component({
-  selector: 'app-register',
+  selector: 'app-password-recovery',
   standalone: true,
   imports: [
     ButtonComponent,
@@ -15,9 +15,9 @@ import {RouterLink} from "@angular/router";
     PasswordModule,
     RouterLink
   ],
-  templateUrl: './register.component.html',
+  templateUrl: './password-recovery.component.html',
   styleUrl: '../user-data.component.scss'
 })
-export class RegisterComponent {
+export class PasswordRecoveryComponent {
 
 }
