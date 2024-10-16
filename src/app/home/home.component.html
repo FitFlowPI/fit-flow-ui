@@ -1,0 +1,28 @@
+<div class="home-container">
+  <header class="nav">
+    <div #navTop class="nav-top" [ngClass]="{'nav-visible': isInNav, 'nav-hidden': !isInNav}">
+      <div #logo class="logo">
+        <svg [ngStyle]="{'height.px': logoHeight}" viewBox="-40 -10 760 715">
+          <path fill-rule="evenodd" fill="currentcolor" d="M635.000,213.400 L407.1000,287.027 L407.1000,337.027 L535.000,295.835 C557.091,288.669 575.000,300.769 575.000,322.861 L575.000,421.861 C575.000,443.952 557.091,467.669 535.000,474.835 L407.1000,516.027 L407.1000,611.1000 C407.1000,634.091 390.091,657.817 367.1000,664.993 L276.1000,694.553 C254.909,701.728 236.1000,689.637 236.1000,667.546 L236.1000,568.546 C236.1000,546.454 254.909,522.728 276.1000,515.553 L404.1000,473.974 L404.1000,412.974 L164.1000,490.933 C142.909,498.109 124.1000,486.018 124.1000,463.927 L124.1000,364.927 C124.1000,342.835 142.909,319.109 164.1000,311.933 L404.1000,233.974 L404.1000,169.974 L39.1000,288.537 C17.909,295.713 -0.000,283.622 -0.000,261.530 L-0.000,162.530 C-0.000,140.439 17.909,116.713 39.1000,109.537 L367.1000,2.993 C390.091,-4.183 407.1000,7.909 407.1000,29.1000 L407.1000,108.027 L635.000,34.400 C657.091,27.235 675.000,39.335 675.000,61.426 L675.000,160.426 C675.000,182.517 657.091,206.235 635.000,213.400 Z" />
+        </svg>
+      </div>
+    </div>
+    <div class="nav-bottom" [ngClass]="{'nav-visible': isInNav, 'nav-hidden': !isInNav}"></div>
+  </header>
+  <div class="picture-container">
+    <div #picture class="home-picture">
+      <app-svg-generator id="home" [displacement]="'fasterTop'" [count]="15" [padding]="0" [width]="'100%'" [height]="'50%'" [waveHeight]="800" class="wave-background"></app-svg-generator>
+    </div>
+  </div>
+
+  <div class="chart-section">
+    <div #chartContainer class="chart-container">
+      <div #chartTitle class="feature-title no-display hidden">Acompanhe seu progresso</div>
+      <div #chart class="chart-wrapper no-display hidden">
+        <div class="line-demo">
+          <p-chart class="demo-chart" type="line" [data]="demoChartData2" [options]="demoChartOptions2"></p-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
