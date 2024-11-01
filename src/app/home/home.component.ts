@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { NgClass, NgStyle } from "@angular/common";
-import { SvgGeneratorComponent } from "../generators/svg-generator/svg-generator.component";
+import { SvgGeneratorComponent } from "../shared/svg-generator/svg-generator.component";
 import { ChartModule } from 'primeng/chart';
 import { demoChartOptions2, demoChartData2 } from "../JSONs";
 

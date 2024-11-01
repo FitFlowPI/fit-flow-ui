@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {ButtonComponent} from "../../../shared/button/button.component";
+import {ButtonComponent} from "../../shared/button/button.component";
 import {FormsModule} from "@angular/forms";
 import {InputTextModule} from "primeng/inputtext";
 import {PasswordModule} from "primeng/password";

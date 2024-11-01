@@ -34,8 +34,6 @@
 :host .wave-background-bottom {
   position: fixed !important;
   transform: rotateZ(-20deg);
-  height: 25%;
-  width: 120%;
   z-index: -1;
   bottom: -20%;
   right: -25%;
@@ -43,8 +41,6 @@
 :host .wave-background-top {
   position: fixed !important;
   transform: rotateZ(-20deg);
-  height: 25%;
-  width: 120%;
   z-index: -1;
   top: -20%;
   left: -25%;
@@ -85,17 +81,17 @@
   transition: text-shadow 0.5s ease-out;
 }
 
-.welcome {
+.header {
   flex-shrink: 0;
   color: var(--white);
   text-align: center;
 }
-.welcome h2 {
+.header h2 {
   font-weight: 500;
 }
-.welcome span {
+.header span {
   font-weight: 200;
-  font-size: 0.8em;
+  font-size: 0.8rem;
 }
 
 .form-container {
@@ -132,6 +128,9 @@
   flex-shrink: 0;
   justify-content: center;
 }
+.text-link a {
+  font-size: 0.7rem;
+}
 .text-link.to-register, .text-link.to-login {
   margin-bottom: 0;
 }
@@ -164,27 +163,34 @@
     transform: rotateZ(0) translateX(-10%) translateY(-50%);
     top: 0;
     left: 0;
-    height: 60%;
-    width: 120%;
   }
   :host .wave-background-bottom {
     transform: rotateZ(0) translateX(-10%) translateY(50%);
     bottom: 0;
     left: 0;
-    height: 60%;
-    width: 120%;
   }
 }
 @media only screen and (max-height: 500px) {
-  .welcome span {
+  .header span {
     display: none;
   }
   .form-card.compact {
     padding-bottom: 40px !important;
   }
 }
+@media only screen and (max-width: 250px) {
+  .header span {
+    display: none;
+  }
+  .header h2 {
+    font-size: 1rem;
+  }
+  .form-card.compact {
+    padding-bottom: 40px !important;
+  }
+}
 @media only screen and (max-height: 350px) {
-  .welcome {
+  .header {
     display: none;
   }
 }

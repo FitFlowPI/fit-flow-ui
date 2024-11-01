@@ -1,0 +1,36 @@
+<app-svg-generator
+  #waveBackground
+  (fixedSvgUrl)="useSvgBackground($event)"
+  class="svg-wave"
+  [ngStyle]="{
+  'border-radius': borderRadius,
+  'padding': borderWidth,
+  'width': wrapContent ? 'auto' : '100% !important',
+  'display': wrapContent ? 'inline-flex' : 'flex',
+  'aspect-ratio': wrapContent ? 'auto' : aspectRatio,
+  }"
+  [displacement]="'fixed'"
+  [waveHeight]="400"
+  [count]=20
+  [thickness]=15
+  [display]="'fill'"
+  [colors]="colors"
+  [id]="'id'">
+  <button
+    #button
+    [ngStyle]="{
+    'border-radius': borderRadius,
+    'padding': padding,
+    'aspect-ratio': wrapContent ? aspectRatio : 'auto',
+    'display': wrapContent ? display : 'flex',
+    'width': wrapContent ? width : '100%',
+    'height': wrapContent ? height : '100%',
+    'font-size': fontSize,
+    'font-weight': fontWeight
+    }"
+    class="button-container"
+  >
+    <ng-content></ng-content>
+  </button>
+</app-svg-generator>
+

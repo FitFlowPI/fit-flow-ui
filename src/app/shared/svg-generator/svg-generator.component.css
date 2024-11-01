@@ -1,8 +1,6 @@
 :host {
   display: block;
   position: relative;
-  opacity: 1;
-  overflow: visible;
   background-repeat: repeat-x;
   background-position: center center;
 }

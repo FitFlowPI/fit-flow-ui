@@ -7,6 +7,8 @@
   [opacity]=this.opacity
   id="w-login-t"
   [displacement]=this.displacement
+  [width]=this.width
+  [height]=this.heightValue
   class="wave-background-top">
 </app-svg-generator>
 
@@ -28,6 +30,14 @@
     [ngClass]="actionType === 'update-password' ? 'visible' : 'hidden'" id="update-password">
   </app-update-password>
 
+<!-- DETAILS -->
+
+<app-gender-select
+  class="data-form disabled-animation"
+  [ngClass]="actionType === 'gender-select' ? 'visible' : 'hidden'" id="gender-select">
+</app-gender-select>
+
+
 <app-svg-generator
   [waveHeight]=this.waveHeight
   [count]=this.count
@@ -38,5 +48,7 @@
   [invertColors]="true"
   id="w-login-b"
   [displacement]=this.displacement
+  [width]=this.width
+  [height]=this.heightValue
   class="wave-background-bottom">
 </app-svg-generator>

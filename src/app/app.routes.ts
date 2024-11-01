@@ -5,11 +5,11 @@ import {UserDataComponent} from "./user-data/user-data.component";
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'auth/login',
+    redirectTo: 'user/login',
     pathMatch: 'full'
   },
   {
-    path: 'auth/:actionType',
+    path: 'user/:actionType',
     component: UserDataComponent,
   },
   {

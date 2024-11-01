@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import {InputTextModule} from "primeng/inputtext";
 import {FormsModule} from "@angular/forms";
 import {PasswordModule} from "primeng/password";
-import {ButtonComponent} from "../../../shared/button/button.component";
-import {SvgGeneratorComponent} from "../../generators/svg-generator/svg-generator.component";
+import {ButtonComponent} from "../../shared/button/button.component";
+import {SvgGeneratorComponent} from "../../shared/svg-generator/svg-generator.component";
 import {RouterLink} from "@angular/router";
 
 @Component({

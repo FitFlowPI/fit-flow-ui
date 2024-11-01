@@ -1,32 +1,32 @@
-.background {
-  position: relative;
-  display: inline-block;
+:host {
+  background-size: cover;
 }
-.background, .background * {
+
+* {
   cursor: pointer;
 }
-.background .svg-wave {
-  display: inline-block !important;
-  width: auto !important;
-  border-radius: 30px;
+
+.svg-wave {
+  width: auto;
+  height: auto;
 }
-.background:hover .button-container {
+
+.svg-wave:hover .button-container {
   background-color: rgba(0, 0, 0, 0);
 }
-.background .button-container {
-  display: inline-block;
+
+.button-container {
+  display: inline-flex;
   position: relative;
-  padding: 8px 25px; /* Adjust padding as needed */
-  margin: 2px;
   background-color: var(--black);
   border: none;
   color: var(--white);
-  font-weight: 500;
-  border-radius: 30px;
   transition: background-color 0.3s ease-in-out;
   overflow: hidden;
+  align-items: center;
+  justify-content: center;
 }
-.background .button-container .ripple {
+.button-container .ripple {
   content: "";
   position: absolute;
   background: radial-gradient(circle at center, transparent 30%, white 100%);

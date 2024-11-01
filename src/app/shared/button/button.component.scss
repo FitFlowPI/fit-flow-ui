@@ -1,0 +1,63 @@
+:host {
+  background-size: cover;
+}
+
+* {
+  cursor: pointer;
+}
+
+.svg-wave {
+  width: auto;
+  height: auto;
+}
+
+.svg-wave:hover .button-container {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.button-container {
+  display: inline-flex;
+  position: relative;
+  background-color: var(--black);
+  border: none;
+  color: var(--white);
+  transition: background-color 0.3s ease-in-out;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+
+  .ripple {
+    content: '';
+    position: absolute;
+    background:
+      radial-gradient(
+          circle at center,
+          transparent 30%,
+          white 100%
+      );
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    animation: ripple 0.8s ease-out forwards;
+    mask:
+      radial-gradient(
+          circle at center,
+          transparent 30%,
+          black 100%
+      );
+  }
+}
+
+@keyframes ripple {
+  from {
+    width: 0;
+    opacity: 0.9;
+  }
+  to {
+    width: 200%;
+    opacity: 0;
+  }
+}
+
+

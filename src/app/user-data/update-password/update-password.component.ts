@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {ButtonComponent} from "../../../shared/button/button.component";
+import {ButtonComponent} from "../../shared/button/button.component";
 import {FormsModule} from "@angular/forms";
 import {InputTextModule} from "primeng/inputtext";
 import {PaginatorModule} from "primeng/paginator";
@@ -18,7 +18,7 @@ import {PasswordModule} from "primeng/password";
     PasswordModule
   ],
   templateUrl: './update-password.component.html',
-  styleUrl: '../user-data.component.scss'
+  styleUrls: ['../user-data.component.scss']
 })
 export class UpdatePasswordComponent {
 
