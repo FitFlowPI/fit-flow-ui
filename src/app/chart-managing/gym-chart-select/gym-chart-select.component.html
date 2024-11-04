@@ -1,0 +1,7 @@
+<div class="chart-page">
+  <h2 class="title"> Suas Séries </h2>
+  <app-gym-chart *ngFor="let data of chartData" [chartData]="data"></app-gym-chart>
+  <button #addButton class="new-chart-button" (click)="newSeriesButtonClick($event)">
+    Adicionar Série <fa-icon [icon]="faPlus"></fa-icon>
+  </button>
+</div>

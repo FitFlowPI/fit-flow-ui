@@ -1,0 +1,44 @@
+@mixin wave-background-absolute($position) {
+
+  $verticalDisplacement: -20%;
+  $horizontalDisplacement: -25%;
+
+  position: fixed !important;
+  transform: rotateZ(-20deg);
+  overflow: visible !important;
+  z-index: -1;
+
+  @if ($position == 'top') {
+    top: $verticalDisplacement;
+    left: $horizontalDisplacement
+  }
+  @if ($position == 'bottom') {
+    bottom: $verticalDisplacement;
+    right: $horizontalDisplacement
+  }
+}
+
+:host {
+  .wave-background-bottom {
+    @include wave-background-absolute('bottom');
+  }
+  .wave-background-top {
+    @include wave-background-absolute('top');
+  }
+}
+
+@media only screen and (min-width: 600px) {
+
+  :host {
+    .wave-background-top {
+      transform: rotateZ(0) translateX(-10%) translateY(-50%);
+      top: 0;
+      left: 0;
+    }
+    .wave-background-bottom {
+      transform: rotateZ(0) translateX(-10%) translateY(50%);
+      bottom: 0;
+      left: 0;
+    }
+  }
+}
