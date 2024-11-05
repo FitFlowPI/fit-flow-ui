@@ -1,5 +1,5 @@
 .p-inputtext {
-  padding: 0.3rem 0.75rem;
+  padding: 0.30rem 0.75rem;
 }
 
 .p-password-panel {
@@ -35,7 +35,7 @@
   border-color: var(--yellow);
   color: var(--white);
   border-radius: 5px;
-  padding: 0.5rem 0.75rem;
+  padding: 0.50rem 0.75rem;
 }
 
 .p-inputtext.rounded {
@@ -59,6 +59,7 @@
   box-shadow: 0 0 5px 1px var(--yellow);
 }
 
+
 .p-datatable .p-datatable-tbody > tr {
   background: transparent;
 }
@@ -72,58 +73,64 @@
   color: var(--yellow);
   border: none;
 }
-
 .p-datatable .p-datatable-thead > tr:not(.table-input) > th {
   border-bottom: 1px solid var(--yellow);
 }
 
 .edit-button, .add-button {
   color: var(--cyan);
-}
-.edit-button span, .add-button span {
-  color: var(--cyan);
-}
-.edit-button:not(:disabled):hover, .add-button:not(:disabled):hover {
-  background: rgba(37, 99, 235, 0.19);
-  color: #ffffff;
-  border-color: #2563eb;
-}
-.edit-button:not(:disabled):hover span, .add-button:not(:disabled):hover span {
-  color: var(--white);
+
+  span{
+    color: var(--cyan);
+  }
+
+  &:not(:disabled):hover {
+    background: rgba(37, 99, 235, 0.19);
+    color: #ffffff;
+    border-color: #2563eb;
+
+    span {
+      color: var(--white);
+    }
+  }
 }
 
 .cancel-button {
   color: var(--red);
-}
-.cancel-button span {
-  color: var(--red);
-}
-.cancel-button:not(:disabled):hover {
-  background: rgba(235, 37, 37, 0.19);
-  color: #ffffff;
-  border-color: #eb2525;
-}
-.cancel-button:not(:disabled):hover span {
-  color: var(--red);
+
+  span{
+    color: var(--red);
+  }
+
+  &:not(:disabled):hover {
+    background: rgba(235, 37, 37, 0.19);
+    color: #ffffff;
+    border-color: #eb2525;
+
+    span {
+      color: var(--red);
+    }
+  }
 }
 
 .confirm-button {
   color: var(--green);
-}
-.confirm-button span {
-  color: var(--green);
-}
-.confirm-button:not(:disabled):hover {
-  background: rgba(57, 235, 37, 0.19);
-  color: #ffffff;
-  border-color: #3feb25;
-}
-.confirm-button:not(:disabled):hover span {
-  color: var(--green);
+
+  span{
+    color: var(--green);
+  }
+
+  &:not(:disabled):hover {
+    background: rgba(57, 235, 37, 0.19);
+    color: #ffffff;
+    border-color: #3feb25;
+
+    span {
+      color: var(--green);
+    }
+  }
 }
 
 tr.p-element {
   color: var(--white);
 }
-
-/*# sourceMappingURL=primeEdit.css.map */

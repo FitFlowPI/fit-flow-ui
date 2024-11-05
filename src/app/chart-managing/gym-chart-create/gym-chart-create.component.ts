@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { TableModule } from "primeng/table";
 import { ChipsModule } from "primeng/chips";
 import { PaginatorModule } from "primeng/paginator";
@@ -23,44 +23,51 @@ import { ButtonComponent } from '../../shared/button/button.component';
     ButtonDirective,
     Ripple,
     InputGroupModule,
-    NgStyle
+    NgStyle,
   ],
   templateUrl: './gym-chart-create.component.html',
-  styleUrls: ['./gym-chart-create.component.css', '../chart-screens.css']
+  styleUrls: ['./gym-chart-create.component.scss', '../chart-screens.css']
 })
-export class GymChartCreateComponent implements AfterViewInit, OnInit, OnDestroy {
+export class GymChartCreateComponent implements AfterViewInit{
 
+  @ViewChild('table') table?: ElementRef<Component>;
   constructor(private router: Router, private chartService: ChartService) { }
 
-  @ViewChild('table') table?: ElementRef;
-  private resizeObserver!: ResizeObserver;
 
+  seriesName: string = "";
   exercises: Exercise[] = [];
   clonedExercises: { [s: string]: Exercise } = {};
-  mobileWidth: number = 800;
+  mobileWidth: number = 600;
   isMobile: boolean = false;
   minTableSizeRem: number = 40;
-  minTablePx: number = 0;
+
+
+  numberInputLayout: 'vertical' | 'horizontal' = 'horizontal';
+  showId: boolean = true;
 
   ngAfterViewInit() {
-    this.isMobile = window.innerWidth >= this.mobileWidth;
-    this.minTablePx = this.convertRemToPx(this.minTableSizeRem);
-  }
-
-  ngOnInit() {
-    this.setupResizeObserver();
-  }
-
-  ngOnDestroy() {
-    // Clean up the observer to prevent memory leaks
-    if (this.resizeObserver) {
-      this.resizeObserver.disconnect();
-    }
+    this.isMobile = window.innerWidth <= this.mobileWidth;
+    this.checkResponsiveness();
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize() {
-    // Handle resize events if necessary
+  onResize () {
+    this.isMobile = window.innerWidth <= this.mobileWidth;
+    this.checkResponsiveness();
+  }
+
+  checkResponsiveness() {
+
+    const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    if (this.table) {
+      if (window.innerWidth <= 680 * (rootFontSize / 16)) {
+        this.numberInputLayout = 'vertical';
+      } else {
+        this.numberInputLayout = 'horizontal';
+      }
+      this.showId = !(window.innerWidth <= 540 * (rootFontSize / 16));
+      console.log('checking');
+    }
   }
 
   onRowEditInit(exercise: Exercise) {
@@ -98,35 +105,24 @@ export class GymChartCreateComponent implements AfterViewInit, OnInit, OnDestroy
     return remValue * rootFontSize;
   }
 
-  private setupResizeObserver() {
-    this.resizeObserver = new ResizeObserver(entries => {
-      for (let entry of entries) {
-        const { width, height } = entry.contentRect;
-        console.log(`Element resized: width = ${width}, height = ${height}`);
-      }
-    });
-
-    if (this.table) this.resizeObserver.observe(this.table.nativeElement);
-  }
-
   submit() {
     // Use the ChartService to manage charts
     const storedCharts = JSON.parse(localStorage.getItem('charts') || '[]');
-  
+
     // Determine the next letter based on the length of stored charts
     const nextCharCode = 65 + storedCharts.length; // ASCII code for 'A' is 65
     const nextSeriesName = `Série ${String.fromCharCode(nextCharCode)}`;
-  
+
     // Define the new chart with its name and exercises
     const newChart = {
       id: Date.now(),  // Keep a unique ID
       name: nextSeriesName,
       exercises: this.exercises
     };
-  
+
     // Add the new chart to the service and save it
     this.chartService.updateCharts([...storedCharts, newChart]);
-  
+
     // Optionally reset exercises
     this.exercises = [];
 
