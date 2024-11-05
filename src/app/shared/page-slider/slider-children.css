@@ -1,0 +1,46 @@
+.slider-component {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slider-component.visible:not(.disabled-animation) {
+  animation: right-to-center 0.5s ease-in-out forwards;
+}
+.slider-component.visible.disabled-animation {
+  animation: none !important;
+  transform: translateX(0);
+}
+.slider-component.hidden:not(.disabled-animation) {
+  animation: center-to-left 0.5s ease-in-out forwards;
+}
+.slider-component.hidden.disabled-animation {
+  animation: none !important;;
+  transform: translateX(-100%);
+}
+
+
+/*animations*/
+
+@keyframes right-to-center {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes center-to-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}

@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import {SvgGeneratorComponent} from "../svg-generator/svg-generator.component";
 import {NgStyle} from "@angular/common";
+import {buttonRipple} from "./buttonEffects";
 
 @Component({
   selector: 'app-button',
@@ -68,29 +69,7 @@ export class ButtonComponent implements AfterViewInit{
 
   @HostListener('click', ['$event'])
   handleClick(e: MouseEvent) {
-
-    if (this.button) {
-
-      const buttonRect = this.button.nativeElement.getBoundingClientRect();
-
-      const ripple = this.renderer.createElement('span');
-      this.renderer.addClass(ripple, 'ripple');
-      this.renderer.setStyle(
-        ripple,
-        'top',
-        `${e.clientY - buttonRect.y}px`
-      );
-      this.renderer.setStyle(
-        ripple,
-        'left',
-        `${e.clientX - buttonRect.x}px`
-      );
-      this.renderer.appendChild(this.button.nativeElement, ripple);
-
-      setTimeout(() => {
-        this.renderer.removeChild(this.button?.nativeElement, ripple);
-      }, 800);
-    }
+    buttonRipple(this.id, e, this.renderer, this.button!.nativeElement)
   }
 
   useSvgBackground(value: string) {

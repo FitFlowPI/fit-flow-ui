@@ -80,25 +80,25 @@
   height: 100vh;
   width: 100vw;
 }
-.chart-section .chart-container {
+.chart-section .chart-page {
   display: flex;
   flex-direction: column;
   gap: 50px;
 }
-.chart-section .chart-container .chart-wrapper {
+.chart-section .chart-page .chart-wrapper {
   display: inline-flex;
   width: 100vw;
   justify-content: center;
   perspective: 400px;
   overflow: visible;
 }
-.chart-section .chart-container .chart-wrapper .line-demo {
+.chart-section .chart-page .chart-wrapper .line-demo {
   display: inline-block;
   transform: rotateY(-30deg);
   transform-origin: center;
   transform-style: preserve-3d;
 }
-.chart-section .chart-container .chart-wrapper .line-demo .demo-chart {
+.chart-section .chart-page .chart-wrapper .line-demo .demo-chart {
   z-index: 1;
 }
 
