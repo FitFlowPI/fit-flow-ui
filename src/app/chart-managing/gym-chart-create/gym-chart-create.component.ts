@@ -106,27 +106,27 @@ export class GymChartCreateComponent implements AfterViewInit{
   }
 
   submit() {
-    // Use the ChartService to manage charts
     const storedCharts = JSON.parse(localStorage.getItem('charts') || '[]');
-
-    // Determine the next letter based on the length of stored charts
-    const nextCharCode = 65 + storedCharts.length; // ASCII code for 'A' is 65
-    const nextSeriesName = `Série ${String.fromCharCode(nextCharCode)}`;
-
+  
+    // Determine the series name based on the input or generate a default name
+    const nextSeriesName = this.seriesName || `Série ${String.fromCharCode(65 + storedCharts.length)}`;
+  
     // Define the new chart with its name and exercises
     const newChart = {
-      id: Date.now(),  // Keep a unique ID
+      id: Date.now(),  // Unique ID
       name: nextSeriesName,
       exercises: this.exercises
     };
-
+  
     // Add the new chart to the service and save it
     this.chartService.updateCharts([...storedCharts, newChart]);
-
-    // Optionally reset exercises
-    this.exercises = [];
-
+  
+    // Reset the inputs
+    this.seriesName = ''; // Clear seriesName input field
+    this.exercises = [];  // Clear exercises array
+  
     // Navigate to the chart selection page
     this.router.navigate(['/chart/chart-select']);
   }
+  
 }

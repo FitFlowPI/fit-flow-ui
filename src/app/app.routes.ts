@@ -23,7 +23,7 @@ export const routes: Routes = [
   {
     path: 'chart/:chartSection',
     component: ChartManagingComponent,
-    // canActivate: [authGuard], // Protect this route
+    canActivate: [authGuard], // Protect this route
   },
   {
     path: 'home',
