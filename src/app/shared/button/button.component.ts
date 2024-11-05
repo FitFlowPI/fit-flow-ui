@@ -44,6 +44,7 @@ export class ButtonComponent implements AfterViewInit{
   @Input() fontSize: string = '0.95rem';
   @Input() fontWeight: string = '500';
   @Input() wrapContent: boolean = true;
+  @Input() disabled: boolean = false;
   @Output() isActive: boolean = false;
   @ViewChild('button') button?: ElementRef<HTMLButtonElement>;
   @ViewChild('waveBackground', { read: ElementRef }) waveBackground?: ElementRef;
