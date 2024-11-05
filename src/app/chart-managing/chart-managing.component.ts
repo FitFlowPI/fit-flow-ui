@@ -23,6 +23,10 @@ import {GymChartCreateComponent} from "./gym-chart-create/gym-chart-create.compo
   styleUrls: ['./chart-managing.component.css', '../shared/page-slider/slider-children.css']
 })
 export class ChartManagingComponent {
+  refreshCharts: boolean = false;
 
-
+  // Method to toggle the refresh
+  triggerRefresh() {
+    this.refreshCharts = !this.refreshCharts; // This will trigger the ngOnChanges in the child
+  }
 }

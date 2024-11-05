@@ -1,11 +1,12 @@
-import {Component, ElementRef, Renderer2, ViewChild} from '@angular/core';
-import {faPlus} from "@fortawesome/free-solid-svg-icons";
-import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {GymChartComponent} from "./gym-chart/gym-chart.component";
-import {NgForOf} from "@angular/common";
-import {GymChart} from "../../models/gym-chart.model";
-import {buttonRipple} from "../../shared/button/buttonEffects";
-import {RouterLink} from "@angular/router";
+import { Component, ElementRef, Renderer2, ViewChild, OnInit } from '@angular/core';
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FaIconComponent } from "@fortawesome/angular-fontawesome";
+import { GymChartComponent } from "./gym-chart/gym-chart.component";
+import { NgForOf } from "@angular/common";
+import { GymChart } from "../../models/gym-chart.model";
+import { buttonRipple } from "../../shared/button/buttonEffects";
+import { RouterLink } from "@angular/router";
+import { ChartService } from '../../services/chart.service'; // Import your service
 
 @Component({
   selector: 'app-gym-chart-select',
@@ -19,37 +20,25 @@ import {RouterLink} from "@angular/router";
   templateUrl: './gym-chart-select.component.html',
   styleUrls: ['./gym-chart-select.component.css', '../chart-screens.css']
 })
-export class GymChartSelectComponent {
-
-  constructor(public renderer: Renderer2){}
+export class GymChartSelectComponent implements OnInit {
+  
+  constructor(public renderer: Renderer2, private chartService: ChartService) {}
 
   // PLACEHOLDERS
+  chartData: Array<GymChart> = [];
 
-  chartData: Array<GymChart> = [{
-    name: 'Série A',
-    timeInMinutes: 60,
-    kcal: 2400,
-    exercises: [
-      {id: 1, name: 'Supino Inclinado', series: 3, repetitions: 15},
-      {id: 2, name: 'Crucifixo', series: 3, repetitions: 12}
-    ]
-  },
-    {
-      name: 'Série B',
-      timeInMinutes: 20,
-      kcal: 1400,
-      exercises: [
-        {id: 1, name: 'Leg Press', series: 3, repetitions: 10},
-        {id: 2, name: 'Panturrilha', series: 3, repetitions: 15}
-      ]
-    }];
+  ngOnInit() {
+    // Subscribe to charts$ to get updates
+    this.chartService.charts$.subscribe(charts => {
+      this.chartData = charts;
+      this.refreshCharts(); // Call your refresh logic here
+    });
+  }
 
-  // -----------------------------------------------------
-
-  @ViewChild('addButton') addButton?: ElementRef<HTMLButtonElement>
+  @ViewChild('addButton') addButton?: ElementRef<HTMLButtonElement>;
 
   addButtonRippleEffect(event: MouseEvent) {
-    buttonRipple('addChart', event, this.renderer, this.addButton!.nativeElement)
+    buttonRipple('addChart', event, this.renderer, this.addButton!.nativeElement);
   }
 
   newSeriesButtonClick(event: MouseEvent) {
@@ -57,4 +46,16 @@ export class GymChartSelectComponent {
   }
 
   protected readonly faPlus = faPlus;
+
+  // Method to add a new chart
+  addNewChart(newChart: GymChart) {
+    this.chartData.push(newChart);
+    this.chartService.updateCharts(this.chartData); // Update the service
+  }
+
+  // Refresh charts logic
+  refreshCharts() {
+    console.log('chartData has changed:', this.chartData);
+    // Additional logic to refresh the display
+  }
 }

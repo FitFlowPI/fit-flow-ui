@@ -1,19 +1,21 @@
-import {AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {TableModule} from "primeng/table";
-import {ChipsModule} from "primeng/chips";
-import {PaginatorModule} from "primeng/paginator";
-import {NgIf, NgStyle} from "@angular/common";
-import {ButtonDirective} from "primeng/button";
-import {Ripple} from "primeng/ripple";
-import {Exercise} from "../../models/exercise.model";
-import {InputGroupModule} from "primeng/inputgroup";
-import {NgForm} from "@angular/forms";
-import {ButtonComponent} from "../../shared/button/button.component";
+import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { TableModule } from "primeng/table";
+import { ChipsModule } from "primeng/chips";
+import { PaginatorModule } from "primeng/paginator";
+import { NgIf, NgStyle } from "@angular/common";
+import { ButtonDirective } from "primeng/button";
+import { Ripple } from "primeng/ripple";
+import { Exercise } from "../../models/exercise.model";
+import { InputGroupModule } from "primeng/inputgroup";
+import { Router } from '@angular/router';
+import { ChartService } from '../../services/chart.service'; // Import your service
+import { ButtonComponent } from '../../shared/button/button.component';
 
 @Component({
   selector: 'app-gym-chart-create',
   standalone: true,
   imports: [
+    ButtonComponent,
     TableModule,
     ChipsModule,
     PaginatorModule,
@@ -21,28 +23,24 @@ import {ButtonComponent} from "../../shared/button/button.component";
     ButtonDirective,
     Ripple,
     InputGroupModule,
-    NgStyle,
-    ButtonComponent
+    NgStyle
   ],
   templateUrl: './gym-chart-create.component.html',
   styleUrls: ['./gym-chart-create.component.css', '../chart-screens.css']
 })
 export class GymChartCreateComponent implements AfterViewInit, OnInit, OnDestroy {
 
+  constructor(private router: Router, private chartService: ChartService) { }
+
   @ViewChild('table') table?: ElementRef;
   private resizeObserver!: ResizeObserver;
 
-  exercises: Exercise[] = [
-    {id: 1, name: 'Supino Inclinado', series: 3, repetitions: 15},
-    {id: 2, name: 'Crucifixo', series: 3, repetitions: 12}
-  ];
+  exercises: Exercise[] = [];
   clonedExercises: { [s: string]: Exercise } = {};
   mobileWidth: number = 800;
   isMobile: boolean = false;
-
   minTableSizeRem: number = 40;
   minTablePx: number = 0;
-
 
   ngAfterViewInit() {
     this.isMobile = window.innerWidth >= this.mobileWidth;
@@ -60,10 +58,9 @@ export class GymChartCreateComponent implements AfterViewInit, OnInit, OnDestroy
     }
   }
 
-
   @HostListener('window:resize', ['$event'])
-  onResize () {
-
+  onResize() {
+    // Handle resize events if necessary
   }
 
   onRowEditInit(exercise: Exercise) {
@@ -71,14 +68,8 @@ export class GymChartCreateComponent implements AfterViewInit, OnInit, OnDestroy
   }
 
   onRowEditSave(exercise: Exercise) {
-    // check if its invalid
-    // if (expression) {
-    //   delete this.clonedExercises[exercise.id];
-         // save exercise
-    //   // create a message service and put here
-    // } else {
-    //   // if its invalid throw an error message
-    // }
+    // Save logic for editing an exercise (implement validation if necessary)
+    delete this.clonedExercises[exercise.id];
   }
 
   onRowEditCancel(exercise: Exercise, index: number) {
@@ -103,27 +94,43 @@ export class GymChartCreateComponent implements AfterViewInit, OnInit, OnDestroy
   }
 
   convertRemToPx(remValue: number): number {
-    // Get the root font size in pixels
     const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
     return remValue * rootFontSize;
   }
 
   private setupResizeObserver() {
-    // Initialize the ResizeObserver
     this.resizeObserver = new ResizeObserver(entries => {
       for (let entry of entries) {
         const { width, height } = entry.contentRect;
         console.log(`Element resized: width = ${width}, height = ${height}`);
-        // Do something with the new width and height
       }
     });
 
-    // Observe the element
     if (this.table) this.resizeObserver.observe(this.table.nativeElement);
   }
 
   submit() {
-    //enviar this.exercises
-  }
+    // Use the ChartService to manage charts
+    const storedCharts = JSON.parse(localStorage.getItem('charts') || '[]');
+  
+    // Determine the next letter based on the length of stored charts
+    const nextCharCode = 65 + storedCharts.length; // ASCII code for 'A' is 65
+    const nextSeriesName = `Série ${String.fromCharCode(nextCharCode)}`;
+  
+    // Define the new chart with its name and exercises
+    const newChart = {
+      id: Date.now(),  // Keep a unique ID
+      name: nextSeriesName,
+      exercises: this.exercises
+    };
+  
+    // Add the new chart to the service and save it
+    this.chartService.updateCharts([...storedCharts, newChart]);
+  
+    // Optionally reset exercises
+    this.exercises = [];
 
+    // Navigate to the chart selection page
+    this.router.navigate(['/chart/chart-select']);
+  }
 }
