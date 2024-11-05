@@ -1,10 +1,11 @@
 import {Component, ElementRef, Renderer2, ViewChild} from '@angular/core';
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {GymChartComponent} from "../gym-chart/gym-chart.component";
+import {GymChartComponent} from "./gym-chart/gym-chart.component";
 import {NgForOf} from "@angular/common";
 import {GymChart} from "../../models/gym-chart.model";
 import {buttonRipple} from "../../shared/button/buttonEffects";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-gym-chart-select',
@@ -12,10 +13,11 @@ import {buttonRipple} from "../../shared/button/buttonEffects";
   imports: [
     FaIconComponent,
     GymChartComponent,
-    NgForOf
+    NgForOf,
+    RouterLink
   ],
   templateUrl: './gym-chart-select.component.html',
-  styleUrl: './gym-chart-select.component.css'
+  styleUrls: ['./gym-chart-select.component.css', '../chart-screens.css']
 })
 export class GymChartSelectComponent {
 
@@ -28,8 +30,8 @@ export class GymChartSelectComponent {
     timeInMinutes: 60,
     kcal: 2400,
     exercises: [
-      {name: 'Supino Inclinado', series: 3, repetitions: 15},
-      {name: 'Crucifixo', series: 3, repetitions: 12}
+      {id: 1, name: 'Supino Inclinado', series: 3, repetitions: 15},
+      {id: 2, name: 'Crucifixo', series: 3, repetitions: 12}
     ]
   },
     {
@@ -37,8 +39,8 @@ export class GymChartSelectComponent {
       timeInMinutes: 20,
       kcal: 1400,
       exercises: [
-        {name: 'Leg Press', series: 3, repetitions: 10},
-        {name: 'Panturrilha', series: 3, repetitions: 15}
+        {id: 1, name: 'Leg Press', series: 3, repetitions: 10},
+        {id: 2, name: 'Panturrilha', series: 3, repetitions: 15}
       ]
     }];
 

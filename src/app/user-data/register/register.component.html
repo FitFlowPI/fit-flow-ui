@@ -9,19 +9,19 @@
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" method="POST">
       <div class="flex flex-column gap-2">
         <label for="fullName">Nome Completo</label>
-        <input class="input-contrast" pInputText id="fullName" formControlName="fullName" />
+        <input class="input-contrast rounded" pInputText id="fullName" formControlName="fullName" />
       </div>
       <div class="flex flex-column gap-2">
         <label for="email">Email</label>
-        <input class="input-contrast" pInputText id="email" formControlName="email" />
+        <input class="input-contrast rounded" pInputText id="email" formControlName="email" />
       </div>
       <div class="flex flex-column gap-2">
         <label for="senha">Senha</label>
-        <input class="input-contrast" type="password" pPassword pInputText id="senha" formControlName="password" />
+        <input class="input-contrast rounded" type="password" pPassword pInputText id="senha" formControlName="password" />
       </div>
       <div class="flex flex-column gap-2">
         <label for="confirmPassword">Confirmar Senha</label>
-        <input class="input-contrast" type="password" autocomplete="off" pInputText id="confirmPassword" formControlName="confirmPassword" />
+        <input class="input-contrast rounded" type="password" autocomplete="off" pInputText id="confirmPassword" formControlName="confirmPassword" />
       </div>
     </form>
   </div>

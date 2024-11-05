@@ -10,12 +10,12 @@
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="flex flex-column gap-2">
         <label for="email">Nome de Usuário ou Email</label>
-        <input class="input-contrast" pInputText id="email" formControlName="email" />
+        <input class="input-contrast rounded" pInputText id="email" formControlName="email" />
       </div>
-      
+
       <div class="flex flex-column gap-2">
         <label for="senha">Senha</label>
-        <input class="input-contrast" type="password" pInputText id="senha" formControlName="password" />
+        <input class="input-contrast rounded" type="password" pInputText id="senha" formControlName="password" />
         <p class="text-link">
           <span> Esqueceu sua senha?&nbsp;
             <a class="hyperlink" [routerLink]="['/user', 'recovery']" title="ir para recuperação de senha">Clique aqui</a>

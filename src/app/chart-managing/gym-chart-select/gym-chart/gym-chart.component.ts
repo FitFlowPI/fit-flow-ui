@@ -2,11 +2,11 @@ import {Component, Input} from '@angular/core';
 import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {faPlay} from "@fortawesome/free-solid-svg-icons/faPlay";
-import {ButtonComponent} from "../../shared/button/button.component";
+import {ButtonComponent} from "../../../shared/button/button.component";
 import {faRunning} from "@fortawesome/free-solid-svg-icons/faRunning";
 import {faFire} from "@fortawesome/free-solid-svg-icons/faFire";
 import {faClock} from "@fortawesome/free-solid-svg-icons/faClock";
-import {GymChart} from "../../models/gym-chart.model";
+import {GymChart} from "../../../models/gym-chart.model";
 
 @Component({
   selector: 'app-gym-chart',
