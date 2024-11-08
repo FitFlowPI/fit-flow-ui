@@ -1,7 +1,8 @@
 import {ElementRef, Renderer2} from "@angular/core";
 
-export function buttonRipple(elementId: string, mouseEvent: MouseEvent, renderer: Renderer2, button: HTMLButtonElement | HTMLElement) {
+export function buttonRipple(elementId: string, mouseEvent: MouseEvent, renderer: Renderer2, button?: HTMLButtonElement | HTMLElement) {
   if (button) {
+    mouseEvent.stopPropagation();
     const buttonRect = button.getBoundingClientRect();
 
     // Ensure the button has necessary styles
@@ -23,6 +24,7 @@ export function buttonRipple(elementId: string, mouseEvent: MouseEvent, renderer
     renderer.setStyle(ripple, 'width', '100%');
     renderer.setStyle(ripple, 'animation', `ripple-${elementId} 0.8s ease-out forwards`);
     renderer.setStyle(ripple, 'mask', 'radial-gradient(circle at center, transparent 30%, black 100%)');
+    renderer.setStyle(ripple, 'pointer-events', 'none');
     renderer.setStyle(ripple, 'webkitMask', 'radial-gradient(circle at center, transparent 30%, black 100%)'); // For WebKit compatibility
 
     renderer.appendChild(button, ripple);

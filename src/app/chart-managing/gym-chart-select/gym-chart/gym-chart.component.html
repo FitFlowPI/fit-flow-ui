@@ -1,9 +1,41 @@
 <div class="chart-container">
-  <div #summary class="summary">
-<!--    <div class="chart-options">-->
-<!--      AAA-->
-<!--    </div>-->
-    <div class="info-container" (click)="toggleActive()">
+  <div #summary
+       class="summary"
+       (click)="onClick($event)"
+       (mousedown)="onHoldStart()"
+       (mouseleave)="onHoldEnd()"
+       (mouseup)="onHoldEnd()">
+    <div class="chart-options" [ngClass]="{'show': isMenuActive}">
+      <app-button
+        width="1rem"
+        id="b-series-menu-return"
+        borderRadius="50%"
+        aspectRatio="1/1"
+        [colors]="['#ffc400', '#bfec00']"
+        (click)="isMenuActive = false"
+      >
+        <fa-icon size="sm" [icon]="faArrowLeft"></fa-icon>
+      </app-button>
+      <app-button
+        width="1rem"
+        id="b-series-menu-edit"
+        borderRadius="50%"
+        aspectRatio="1/1"
+        [colors]="['#00ffa5', '#0057fd']"
+      >
+        <fa-icon size="sm" [icon]="faPencil"></fa-icon>
+      </app-button>
+      <app-button
+        width="1rem"
+        id="b-series-menu-delete"
+        borderRadius="50%"
+        aspectRatio="1/1"
+        [colors]="['#f600ff', '#ff0000']"
+      >
+        <fa-icon size="sm" [icon]="faTrash"></fa-icon>
+      </app-button>
+    </div>
+    <div class="info-container">
       <h3> {{ chartData.name }} </h3>
       <div class="series-info">
         <div> <fa-icon [icon]="faClock"></fa-icon> {{ chartData.timeInMinutes }} Minutes </div>
@@ -12,7 +44,7 @@
       </div>
     </div>
     <app-button
-
+      class="play-button"
       padding="30px"
       id="b-start-training"
       borderRadius="20px"
@@ -21,7 +53,7 @@
       <fa-icon [icon]="faPlay"></fa-icon>
     </app-button>
   </div>
-  <div class="exercise-list" *ngIf="isActive">
+  <div class="exercise-list" [ngClass]="{'show': isExerciseListActive}">
     <table>
       <tr>
         <th>Exercício</th> <th class="table-center">Séries</th> <th class="table-center">Repetições</th>

@@ -1,5 +1,5 @@
-import {Component, Input} from '@angular/core';
-import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
+import {AfterViewInit, Component, ElementRef, Input, Renderer2, ViewChild} from '@angular/core';
+import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {faPlay} from "@fortawesome/free-solid-svg-icons/faPlay";
 import {ButtonComponent} from "../../../shared/button/button.component";
@@ -7,6 +7,11 @@ import {faRunning} from "@fortawesome/free-solid-svg-icons/faRunning";
 import {faFire} from "@fortawesome/free-solid-svg-icons/faFire";
 import {faClock} from "@fortawesome/free-solid-svg-icons/faClock";
 import {GymChart} from "../../../models/gym-chart.model";
+import {buttonRipple} from "../../../shared/button/buttonEffects";
+import {faArrowLeft} from "@fortawesome/free-solid-svg-icons/faArrowLeft";
+import {faEdit} from "@fortawesome/free-solid-svg-icons/faEdit";
+import {faTrash} from "@fortawesome/free-solid-svg-icons/faTrash";
+import {faPencil} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-gym-chart',
@@ -16,14 +21,23 @@ import {GymChart} from "../../../models/gym-chart.model";
     FontAwesomeModule,
     NgIf,
     ButtonComponent,
-    NgForOf
+    NgForOf,
+    NgClass
   ],
   templateUrl: './gym-chart.component.html',
   styleUrl: './gym-chart.component.css'
 })
 export class GymChartComponent {
 
-  isActive: boolean = false;
+  constructor(private renderer: Renderer2) {}
+
+  @ViewChild('summary') summary?: ElementRef<HTMLElement>;
+
+  isExerciseListActive: boolean = false;
+  isMenuActive: boolean = false;
+  isHolding: boolean = false;
+
+  private holdTimeOut: any;
 
   @Input({required: true}) chartData: GymChart = {
     name: '?',
@@ -32,12 +46,36 @@ export class GymChartComponent {
     exercises: []
   };
 
+
+  // TODO: change so the ID is automatic
+  onClick(event: MouseEvent) {
+    if (!this.isHolding) this.toggleActive();
+    this.isHolding = false;
+    buttonRipple('series-card', event, this.renderer, this.summary!.nativeElement);
+  }
+
+  onHoldStart() {
+    this.holdTimeOut = setTimeout(() => {
+      this.isMenuActive = !this.isMenuActive;
+      this.isHolding = true;
+    }, 700)
+  }
+
+  onHoldEnd() {
+    clearInterval(this.holdTimeOut);
+  }
+
+
   toggleActive() {
-    this.isActive = !this.isActive;
+    this.isExerciseListActive = !this.isExerciseListActive;
   }
 
   protected readonly faPlay = faPlay;
   protected readonly faRunning = faRunning;
   protected readonly faFire = faFire;
   protected readonly faClock = faClock;
+  protected readonly faArrowLeft = faArrowLeft;
+  protected readonly faEdit = faEdit;
+  protected readonly faTrash = faTrash;
+  protected readonly faPencil = faPencil;
 }
