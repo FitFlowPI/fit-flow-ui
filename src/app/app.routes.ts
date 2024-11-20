@@ -4,6 +4,7 @@ import { UserDataComponent } from "./user-data/user-data.component";
 import { GymChartSelectComponent } from "./chart-managing/gym-chart-select/gym-chart-select.component";
 import { authGuard } from './auth.guard'; // Import the guard
 import { LogoutComponent } from './user-data/logout/logout.component';
+import {ChartManagingComponent} from "./chart-managing/chart-managing.component";
 
 export const routes: Routes = [
   {
@@ -21,8 +22,8 @@ export const routes: Routes = [
   },
   {
     path: 'chart/:chartSection',
-    component: GymChartSelectComponent,
-    canActivate: [authGuard], // Protect this route
+    component: ChartManagingComponent,
+    // canActivate: [authGuard], // Protect this route
   },
   {
     path: 'home',

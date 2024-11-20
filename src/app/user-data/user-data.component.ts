@@ -1,14 +1,8 @@
 import {
-  ChangeDetectorRef,
   Component,
-  ElementRef,
-  OnInit,
-  Renderer2,
-  ViewChild,
 } from '@angular/core';
 import {LoginComponent} from "./login/login.component";
 import {SvgGeneratorComponent} from "../shared/svg-generator/svg-generator.component";
-import {ActivatedRoute} from "@angular/router";
 import {NgClass, NgIf} from "@angular/common";
 import {RegisterComponent} from "./register/register.component";
 import {PasswordRecoveryComponent} from "./password-recovery/password-recovery.component";

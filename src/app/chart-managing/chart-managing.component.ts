@@ -1,9 +1,11 @@
 import {Component} from '@angular/core';
-import {GymChartComponent} from "./gym-chart/gym-chart.component";
+import {GymChartComponent} from "./gym-chart-select/gym-chart/gym-chart.component";
 import {NgForOf} from "@angular/common";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {SvgGeneratorComponent} from "../shared/svg-generator/svg-generator.component";
 import {PageSliderComponent} from "../shared/page-slider/page-slider.component";
+import {GymChartSelectComponent} from "./gym-chart-select/gym-chart-select.component";
+import {GymChartCreateComponent} from "./gym-chart-create/gym-chart-create.component";
 
 @Component({
   selector: 'app-chart-managing',
@@ -13,12 +15,20 @@ import {PageSliderComponent} from "../shared/page-slider/page-slider.component";
     NgForOf,
     FaIconComponent,
     SvgGeneratorComponent,
-    PageSliderComponent
+    PageSliderComponent,
+    GymChartSelectComponent,
+    GymChartCreateComponent
   ],
   templateUrl: './chart-managing.component.html',
-  styleUrl: './chart-managing.component.css'
+  styleUrls: ['./chart-managing.component.css', '../shared/page-slider/slider-children.css']
 })
 export class ChartManagingComponent {
+  refreshCharts: boolean = false;
 
+  
 
+  // Method to toggle the refresh
+  triggerRefresh() {
+    this.refreshCharts = !this.refreshCharts; // This will trigger the ngOnChanges in the child
+  }
 }

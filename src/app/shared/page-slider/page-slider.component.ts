@@ -32,8 +32,6 @@ export class PageSliderComponent implements OnInit, AfterContentInit {
 
   param: string = '';
 
-  // TODO: resolver a animação depois
-
   ngOnInit():void {
     this.route.params.subscribe(params => {
       const newParam = params[this.paramName!];
@@ -66,7 +64,7 @@ export class PageSliderComponent implements OnInit, AfterContentInit {
     const children = this.elementRef.nativeElement.children;
     for (let child of children) {
       this.renderer.addClass(child, 'slider-component');
-      this.renderer.addClass(child, 'disabled-animation');
+      if (child.id !== this.param) this.renderer.addClass(child, 'disabled-animation');
     }
   }
 

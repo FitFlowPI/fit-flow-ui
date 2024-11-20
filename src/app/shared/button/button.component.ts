@@ -46,7 +46,11 @@ export class ButtonComponent implements AfterViewInit{
   @Input() fontWeight: string = '500';
   @Input() wrapContent: boolean = true;
   @Input() disabled: boolean = false;
-  @Output() isActive: boolean = false;
+  @Input() gap: string = 'auto';
+
+  @Input() isActive: boolean = false;
+  @Input() isEnabled: boolean = true;
+
   @ViewChild('button') button?: ElementRef<HTMLButtonElement>;
   @ViewChild('waveBackground', { read: ElementRef }) waveBackground?: ElementRef;
 
@@ -69,7 +73,9 @@ export class ButtonComponent implements AfterViewInit{
 
   @HostListener('click', ['$event'])
   handleClick(e: MouseEvent) {
-    buttonRipple(this.id, e, this.renderer, this.button!.nativeElement)
+    if (!this.isEnabled) return;
+    if (this.isActive) return;
+    buttonRipple(this.id, e, this.renderer, this.button!.nativeElement);
   }
 
   useSvgBackground(value: string) {
