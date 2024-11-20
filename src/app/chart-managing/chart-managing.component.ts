@@ -25,6 +25,8 @@ import {GymChartCreateComponent} from "./gym-chart-create/gym-chart-create.compo
 export class ChartManagingComponent {
   refreshCharts: boolean = false;
 
+  
+
   // Method to toggle the refresh
   triggerRefresh() {
     this.refreshCharts = !this.refreshCharts; // This will trigger the ngOnChanges in the child

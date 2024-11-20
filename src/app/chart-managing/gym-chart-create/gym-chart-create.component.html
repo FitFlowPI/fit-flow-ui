@@ -2,7 +2,7 @@
 
 <!--  TODO botao voltar -->
 <!--  TODO botao excluir que vira cancelar quando edita -->
-  <h2 class="title"> Criar uma série </h2>
+  <h2 class="title"> {{seriesName}} </h2>
 
 
   <div class="form">
@@ -69,7 +69,16 @@
       </div>
     </div>
     <div *ngIf="isMobile" class="button-add-container">
-      <app-button (click)="addNewExercise()" [colors]="['#1de2ff', '#d200ff']" [wrapContent]="false" width="100%" id="b-mobile-chart-submit" >Adicionar</app-button>
+      <app-button
+        (click)="addNewExercise()"
+        [colors]="['#1de2ff', '#d200ff']"
+        [wrapContent]="false"
+        gap="10px"
+        width="100%"
+        id="b-mobile-chart-submit" >
+        Adicionar
+        <fa-icon [icon]="faAdd"></fa-icon>
+      </app-button>
     </div>
   </div>
 
@@ -266,6 +275,6 @@
     </ng-template>
   </p-table>
   <div class="submit-button-container">
-    <app-button [colors]="['#278000', '#01b081']" style="align-self: end" id="b-chart-submit" (click)="submit()"> Enviar </app-button>
+    <app-button *ngIf="exercises.length > 0" [colors]="['#278000', '#01b081']" style="align-self: end" id="b-chart-submit" (click)="submit()"> Enviar </app-button>
   </div>
 </div>

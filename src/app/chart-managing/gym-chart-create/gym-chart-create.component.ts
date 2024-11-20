@@ -10,6 +10,8 @@ import { InputGroupModule } from "primeng/inputgroup";
 import { Router } from '@angular/router';
 import { ChartService } from '../../services/chart.service'; // Import your service
 import { ButtonComponent } from '../../shared/button/button.component';
+import {FaIconComponent} from "@fortawesome/angular-fontawesome";
+import {faAdd} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-gym-chart-create',
@@ -24,6 +26,7 @@ import { ButtonComponent } from '../../shared/button/button.component';
     Ripple,
     InputGroupModule,
     NgStyle,
+    FaIconComponent,
   ],
   templateUrl: './gym-chart-create.component.html',
   styleUrls: ['./gym-chart-create.component.scss', '../chart-screens.css']
@@ -39,7 +42,6 @@ export class GymChartCreateComponent implements AfterViewInit{
   clonedExercises: { [s: string]: Exercise } = {};
   mobileWidth: number = 600;
   isMobile: boolean = false;
-  minTableSizeRem: number = 40;
 
 
   numberInputLayout: 'vertical' | 'horizontal' = 'horizontal';
@@ -107,26 +109,27 @@ export class GymChartCreateComponent implements AfterViewInit{
 
   submit() {
     const storedCharts = JSON.parse(localStorage.getItem('charts') || '[]');
-  
+
     // Determine the series name based on the input or generate a default name
     const nextSeriesName = this.seriesName || `Série ${String.fromCharCode(65 + storedCharts.length)}`;
-  
+
     // Define the new chart with its name and exercises
     const newChart = {
       id: Date.now(),  // Unique ID
       name: nextSeriesName,
       exercises: this.exercises
     };
-  
+
     // Add the new chart to the service and save it
     this.chartService.updateCharts([...storedCharts, newChart]);
-  
+
     // Reset the inputs
     this.seriesName = ''; // Clear seriesName input field
     this.exercises = [];  // Clear exercises array
-  
+
     // Navigate to the chart selection page
     this.router.navigate(['/chart/chart-select']);
   }
-  
+
+  protected readonly faAdd = faAdd;
 }

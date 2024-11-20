@@ -16,7 +16,7 @@
 
 .form {
   display: inline-flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   flex-shrink: 0;
   width: 100%;
   max-width: 500px;
@@ -35,17 +35,19 @@
 
     &.series-name, &.exercise-name {
       flex: 2;
-      min-width: 300px;
       max-width: 500px;
+      margin: 0;
     }
   }
 
   .numbers {
     display: inline-flex;
+    flex-wrap: wrap;
     flex-direction: row;
     gap: 5px;
     width: 100%;
     max-width: 500px;
+    justify-content: center;
 
     .input-container {
       flex: 1;
