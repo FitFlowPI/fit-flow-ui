@@ -12,6 +12,8 @@ import {faArrowLeft} from "@fortawesome/free-solid-svg-icons/faArrowLeft";
 import {faEdit} from "@fortawesome/free-solid-svg-icons/faEdit";
 import {faTrash} from "@fortawesome/free-solid-svg-icons/faTrash";
 import {faPencil} from "@fortawesome/free-solid-svg-icons";
+import { ChartService } from '../../../services/chart.service';
+import { Router } from '@angular/router'; // Import the Router service
 
 @Component({
   selector: 'app-gym-chart',
@@ -29,7 +31,7 @@ import {faPencil} from "@fortawesome/free-solid-svg-icons";
 })
 export class GymChartComponent {
 
-  constructor(private renderer: Renderer2) {}
+  constructor(private renderer: Renderer2, private chartService: ChartService, private router: Router) {} // Inject Router
 
   @ViewChild('summary') summary?: ElementRef<HTMLElement>;
 
@@ -43,15 +45,21 @@ export class GymChartComponent {
     name: '?',
     timeInMinutes: 0,
     kcal: 0,
-    exercises: []
+    exercises: [],
+    id: 0
   };
 
 
   // TODO: change so the ID is automatic
-  onClick(event: MouseEvent) {
-    if (!this.isHolding) this.toggleActive();
+  onClick(event: MouseEvent, chartId: number) {
+    if (!this.isHolding) {
+      this.toggleActive();
+    }
     this.isHolding = false;
     buttonRipple('series-card', event, this.renderer, this.summary!.nativeElement);
+    
+    // Pass the dynamic chart ID when clicked
+    console.log('Clicked chart ID:', chartId);
   }
 
   onHoldStart() {
@@ -65,9 +73,17 @@ export class GymChartComponent {
     clearInterval(this.holdTimeOut);
   }
 
-
   toggleActive() {
     this.isExerciseListActive = !this.isExerciseListActive;
+  }
+
+  onDeleteChart(chartId: number) {
+    this.chartService.deleteChart(chartId);
+  }
+  
+  onEditChart(chartId: number) {
+    // Navigate to the edit page with the chartId as a route parameter
+    this.router.navigate([`/chart/edit/${chartId}`]); 
   }
 
   protected readonly faPlay = faPlay;

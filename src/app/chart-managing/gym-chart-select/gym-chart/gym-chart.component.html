@@ -1,7 +1,7 @@
 <div class="chart-container">
   <div #summary
        class="summary"
-       (click)="onClick($event)"
+       (click)="onClick($event, chartData.id)"
        (mousedown)="onHoldStart()"
        (mouseleave)="onHoldEnd()"
        (mouseup)="onHoldEnd()">
@@ -22,6 +22,7 @@
         borderRadius="50%"
         aspectRatio="1/1"
         [colors]="['#00ffa5', '#0057fd']"
+        (click)="onEditChart(chartData.id)"
       >
         <fa-icon size="sm" [icon]="faPencil"></fa-icon>
       </app-button>
@@ -31,6 +32,7 @@
         borderRadius="50%"
         aspectRatio="1/1"
         [colors]="['#f600ff', '#ff0000']"
+        (click)="onDeleteChart(chartData.id)"
       >
         <fa-icon size="sm" [icon]="faTrash"></fa-icon>
       </app-button>
