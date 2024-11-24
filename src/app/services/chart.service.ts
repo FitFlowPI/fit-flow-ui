@@ -1,19 +1,28 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { GymChart } from '../models/gym-chart.model';
-
+import { TrainingDay } from '../models/gym-chart.model';
+import {HttpClient} from "@angular/common/http";
 @Injectable({
   providedIn: 'root'
 })
 export class ChartService {
-  private chartsSubject = new BehaviorSubject<Array<GymChart>>(this.loadStoredCharts());
+
+  constructor(private http: HttpClient) {
+  }
+
+  private chartsSubject = new BehaviorSubject<Array<TrainingDay>>(this.loadStoredCharts());
   charts$ = this.chartsSubject.asObservable();
 
-  private loadStoredCharts(): Array<GymChart> {
+
+  getCharts() {
+    // return http.get()
+  }
+
+  private loadStoredCharts(): Array<TrainingDay> {
     return JSON.parse(localStorage.getItem('charts') || '[]');
   }
 
-  updateCharts(charts: Array<GymChart>) {
+  updateCharts(charts: Array<TrainingDay>) {
     this.chartsSubject.next(charts);
     localStorage.setItem('charts', JSON.stringify(charts));
   }

@@ -1,0 +1,14 @@
+<div class="card">
+  <h3 *ngIf="title" class="title"> {{ title }} </h3>
+
+  <button
+    pButton
+    pRipple
+    type="button"
+    icon="pi pi-times"
+    class="p-button-rounded p-button-text close-button"
+    (click)="closeComponent()"
+  >
+  </button>
+  <ng-content></ng-content>
+</div>

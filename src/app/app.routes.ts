@@ -1,10 +1,9 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from "./home/home.component";
 import { UserDataComponent } from "./user-data/user-data.component";
-import { GymChartSelectComponent } from "./chart-managing/gym-chart-select/gym-chart-select.component";
 import { authGuard } from './auth.guard'; // Import the guard
 import { LogoutComponent } from './user-data/logout/logout.component';
-import {ChartManagingComponent} from "./chart-managing/chart-managing.component";
+import {TrainingComponent} from "./training/training.component";
 
 export const routes: Routes = [
   {
@@ -21,8 +20,8 @@ export const routes: Routes = [
     component: UserDataComponent,
   },
   {
-    path: 'chart/:chartSection',
-    component: ChartManagingComponent,
+    path: 'training/:trainingSection',
+    component: TrainingComponent,
     // canActivate: [authGuard], // Protect this route
   },
   {

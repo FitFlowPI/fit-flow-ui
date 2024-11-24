@@ -1,16 +1,16 @@
 import {
-  AfterViewInit,
+  AfterViewInit, ChangeDetectorRef,
   Component,
   ElementRef,
   HostBinding,
   HostListener,
-  Input,
+  Input, OnChanges,
   OnInit, Output,
-  Renderer2,
+  Renderer2, SimpleChanges,
   ViewChild
 } from '@angular/core';
 import {SvgGeneratorComponent} from "../svg-generator/svg-generator.component";
-import {NgStyle} from "@angular/common";
+import {NgClass, NgStyle} from "@angular/common";
 import {buttonRipple} from "./buttonEffects";
 
 @Component({
@@ -18,7 +18,8 @@ import {buttonRipple} from "./buttonEffects";
   standalone: true,
   imports: [
     SvgGeneratorComponent,
-    NgStyle
+    NgStyle,
+    NgClass
   ],
   templateUrl: './button.component.html',
   styleUrl: './button.component.scss',
@@ -27,7 +28,7 @@ import {buttonRipple} from "./buttonEffects";
 
   }`
 })
-export class ButtonComponent implements AfterViewInit{
+export class ButtonComponent implements AfterViewInit, OnInit, OnChanges{
 
   @Input({ required: true }) id: string = '';
   @Input() colors: Array<string> = ['#2805FF', '#FE9800'];
@@ -55,8 +56,24 @@ export class ButtonComponent implements AfterViewInit{
   @ViewChild('waveBackground', { read: ElementRef }) waveBackground?: ElementRef;
 
   placeholder: string = '';
+  private grayScale: Array<string> = ['#868686', '#414141'];
+  public buttonColor: Array<string> = ['#2805FF', '#FE9800'];
+
+  public cursor: string = 'pointer';
 
   constructor(private renderer: Renderer2, private el: ElementRef) {}
+
+
+
+  ngOnInit() {
+    this.changeButtonStyle();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes['isEnabled']) {
+      this.changeButtonStyle();
+    }
+  }
 
   ngAfterViewInit(): void {
     this.renderer.setStyle(this.el.nativeElement, 'background-image', this.placeholder);
@@ -64,7 +81,7 @@ export class ButtonComponent implements AfterViewInit{
     this.renderer.setStyle(this.el.nativeElement, 'min-height', this.minHeight);
     this.renderer.setStyle(this.el.nativeElement, 'min-width', this.minWidth);
     this.renderer.setStyle(this.el.nativeElement, 'max-height', this.maxHeight);
-    this.renderer.setStyle(this.el.nativeElement, 'max-height', this.maxWidth);
+    this.renderer.setStyle(this.el.nativeElement, 'max-width', this.maxWidth);
   }
 
   @HostBinding('style.width') get hostWidth() {
@@ -78,7 +95,18 @@ export class ButtonComponent implements AfterViewInit{
     buttonRipple(this.id, e, this.renderer, this.button!.nativeElement);
   }
 
+  private changeButtonStyle() {
+    if (this.isEnabled) {
+      this.buttonColor = this.colors;
+      this.cursor = 'pointer';
+    } else {
+      this.buttonColor = this.grayScale;
+      this.cursor = 'not-allowed';
+    }
+
+  }
+
   useSvgBackground(value: string) {
-    this.placeholder = value;
+    if (!this.wrapContent) this.placeholder = value;
   }
 }

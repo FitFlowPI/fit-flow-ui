@@ -21,18 +21,18 @@
   text-align: center;
   position: relative;
   padding: 0 10px;
+}
 
-  .return-button {
-    text-decoration: none;
-    color: var(--yellow);
-    width: 20px;
-    font-size: 0.7em;
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    transition: text-shadow 0.5s ease-out;
-  }
+.return-button {
+  text-decoration: none;
+  color: var(--yellow);
+  width: 20px;
+  font-size: 0.7em;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: text-shadow 0.5s ease-out;
 }
 
 .header {

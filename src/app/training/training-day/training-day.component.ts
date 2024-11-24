@@ -2,19 +2,19 @@ import {AfterViewInit, Component, ElementRef, Input, Renderer2, ViewChild} from 
 import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {faPlay} from "@fortawesome/free-solid-svg-icons/faPlay";
-import {ButtonComponent} from "../../../shared/button/button.component";
+import {ButtonComponent} from "../../shared/button/button.component";
 import {faRunning} from "@fortawesome/free-solid-svg-icons/faRunning";
 import {faFire} from "@fortawesome/free-solid-svg-icons/faFire";
 import {faClock} from "@fortawesome/free-solid-svg-icons/faClock";
-import {GymChart} from "../../../models/gym-chart.model";
-import {buttonRipple} from "../../../shared/button/buttonEffects";
+import {TrainingDay} from "../../models/gym-chart.model";
+import {buttonRipple} from "../../shared/button/buttonEffects";
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons/faArrowLeft";
 import {faEdit} from "@fortawesome/free-solid-svg-icons/faEdit";
 import {faTrash} from "@fortawesome/free-solid-svg-icons/faTrash";
 import {faPencil} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
-  selector: 'app-gym-chart',
+  selector: 'app-training-day',
   standalone: true,
   imports: [
     NgOptimizedImage,
@@ -24,10 +24,10 @@ import {faPencil} from "@fortawesome/free-solid-svg-icons";
     NgForOf,
     NgClass
   ],
-  templateUrl: './gym-chart.component.html',
-  styleUrl: './gym-chart.component.css'
+  templateUrl: './training-day.component.html',
+  styleUrl: './training-day.component.css'
 })
-export class GymChartComponent {
+export class TrainingDayComponent {
 
   constructor(private renderer: Renderer2) {}
 
@@ -39,7 +39,7 @@ export class GymChartComponent {
 
   private holdTimeOut: any;
 
-  @Input({required: true}) chartData: GymChart = {
+  @Input({required: true}) chartData: TrainingDay = {
     name: '?',
     timeInMinutes: 0,
     kcal: 0,

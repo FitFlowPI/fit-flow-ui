@@ -131,6 +131,24 @@
   }
 }
 
+.close-button {
+  color: var(--white);
+
+  span{
+    color: var(--white);
+  }
+
+  &:not(:disabled):hover {
+    background: rgba(255, 255, 255, 0.19);
+    color: #ffffff;
+    border-color: var(--red);
+
+    span {
+      color: var(--white);
+    }
+  }
+}
+
 tr.p-element {
   color: var(--white);
 }

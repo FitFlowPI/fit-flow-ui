@@ -1,6 +1,6 @@
 import {Exercise} from "./exercise.model";
 
-export interface GymChart {
+export interface TrainingDay {
   name: string;
   kcal: number;
   timeInMinutes: number;

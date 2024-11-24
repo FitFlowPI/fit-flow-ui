@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ChartManagingComponent } from './chart-managing.component';
+import { TrainingDayComponent } from './training-day.component';
 
-describe('ChartManagingComponent', () => {
-  let component: ChartManagingComponent;
-  let fixture: ComponentFixture<ChartManagingComponent>;
+describe('GymChartComponent', () => {
+  let component: TrainingDayComponent;
+  let fixture: ComponentFixture<TrainingDayComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ChartManagingComponent]
+      imports: [TrainingDayComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ChartManagingComponent);
+    fixture = TestBed.createComponent(TrainingDayComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

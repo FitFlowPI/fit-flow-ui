@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GymChartCreateComponent } from './gym-chart-create.component';
+import { GymChartCreateComponent } from './training-day-create.component';
 
 describe('GymChartCreateComponent', () => {
   let component: GymChartCreateComponent;

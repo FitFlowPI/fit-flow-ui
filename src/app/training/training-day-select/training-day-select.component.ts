@@ -1,36 +1,36 @@
 import { Component, ElementRef, Renderer2, ViewChild, OnInit } from '@angular/core';
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
-import { GymChartComponent } from "./gym-chart/gym-chart.component";
+import { TrainingDayComponent } from "../training-day/training-day.component";
 import { NgForOf } from "@angular/common";
-import { GymChart } from "../../models/gym-chart.model";
+import { TrainingDay } from "../../models/gym-chart.model";
 import { buttonRipple } from "../../shared/button/buttonEffects";
 import { RouterLink } from "@angular/router";
 import { ChartService } from '../../services/chart.service'; // Import your service
 
 @Component({
-  selector: 'app-gym-chart-select',
+  selector: 'app-training-day-select',
   standalone: true,
   imports: [
     FaIconComponent,
-    GymChartComponent,
+    TrainingDayComponent,
     NgForOf,
     RouterLink
   ],
-  templateUrl: './gym-chart-select.component.html',
-  styleUrls: ['./gym-chart-select.component.css', '../chart-screens.css']
+  templateUrl: './training-day-select.component.html',
+  styleUrls: ['./training-day-select.component.css', '../training-screens.css']
 })
-export class GymChartSelectComponent implements OnInit {
-  
+export class TrainingDaySelectComponent implements OnInit {
+
   constructor(public renderer: Renderer2, private chartService: ChartService) {}
 
   // PLACEHOLDERS
-  chartData: Array<GymChart> = [];
+  trainingDayData: Array<TrainingDay> = [];
 
   ngOnInit() {
     // Subscribe to charts$ to get updates
     this.chartService.charts$.subscribe(charts => {
-      this.chartData = charts;
+      this.trainingDayData = charts;
       this.refreshCharts(); // Call your refresh logic here
     });
   }
@@ -48,14 +48,14 @@ export class GymChartSelectComponent implements OnInit {
   protected readonly faPlus = faPlus;
 
   // Method to add a new chart
-  addNewChart(newChart: GymChart) {
-    this.chartData.push(newChart);
-    this.chartService.updateCharts(this.chartData); // Update the service
+  addNewChart(newChart: TrainingDay) {
+    this.trainingDayData.push(newChart);
+    this.chartService.updateCharts(this.trainingDayData); // Update the service
   }
 
   // Refresh charts logic
   refreshCharts() {
-    console.log('chartData has changed:', this.chartData);
+    console.log('trainingDayData has changed:', this.trainingDayData);
     // Additional logic to refresh the display
   }
 }

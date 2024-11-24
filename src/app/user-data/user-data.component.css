@@ -21,7 +21,8 @@
   position: relative;
   padding: 0 10px;
 }
-.title .return-button {
+
+.return-button {
   text-decoration: none;
   color: var(--yellow);
   width: 20px;
