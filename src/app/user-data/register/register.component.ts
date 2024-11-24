@@ -3,9 +3,12 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { ButtonComponent } from '../../shared/button/button.component';
 import { InputTextModule } from "primeng/inputtext";
 import { PasswordModule } from "primeng/password";
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import { RegisterService } from '../../services/register.service';
 import { RegisterPayload, RegisterResponse } from '../../models/register.model';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { ToastService } from '../../services/toast-service.service';
 
 @Component({
   selector: 'app-register',
@@ -15,22 +18,30 @@ import { RegisterPayload, RegisterResponse } from '../../models/register.model';
     InputTextModule,
     PasswordModule,
     RouterLink,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ToastModule
   ],
+  providers: [MessageService],
   templateUrl: './register.component.html',
   styleUrls: ['../user-data.component.scss']
 })
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private registerService: RegisterService) {}
+  constructor(
+    private fb: FormBuilder,
+    private registerService: RegisterService,
+    private messageService: MessageService,
+    private toastService: ToastService, // Inject ToastService
+    private router: Router // Injetar Router
+  ) {}
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
       fullName: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', Validators.required] // Keep this for validation
+      confirmPassword: ['', Validators.required]
     }, {
       validators: this.passwordMatchValidator
     });
@@ -55,22 +66,26 @@ export class RegisterComponent implements OnInit {
         height: 175.0
       };
 
-      // Call the register service to send the payload
       this.registerService.registerUser(payload).subscribe({
         next: (response: RegisterResponse) => {
-          console.log('Registration successful', response);
           const token = response.data.token;
-          localStorage.setItem('authToken', token); // Save the token
-          console.log('Token saved to localStorage');
-          // You can also navigate the user or show a success message here
+          localStorage.setItem('authToken', token);
+
+          // Show success toast message
+          this.toastService.showSuccess('Você foi registrado com sucesso!');
+
+          // Navigate to the home page (or any other page)
+          this.router.navigate(['/user/login']);
         },
         error: (error) => {
-          console.error('Registration failed', error);
-          // Handle the error appropriately (e.g., show a message to the user)
+          console.error('Falha no registro', error);
+
+          // Show error toast message
+          this.toastService.showError('Ocorreu um erro durante o registro. Por favor, tente novamente.');
         }
       });
     } else {
-      console.log('Form is invalid');
+      console.log('Formulário inválido');
     }
   }
 }

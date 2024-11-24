@@ -2,11 +2,12 @@ import {AfterViewInit, ChangeDetectorRef, Component, HostListener} from '@angula
 import { HomeComponent } from "./home/home.component";
 import {RouterLink, RouterOutlet} from "@angular/router";
 import {SvgGeneratorComponent} from "./shared/svg-generator/svg-generator.component";
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [HomeComponent, RouterLink, RouterOutlet, SvgGeneratorComponent],
+  imports: [HomeComponent, RouterLink, RouterOutlet, SvgGeneratorComponent, ToastModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
