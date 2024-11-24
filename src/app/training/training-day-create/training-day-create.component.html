@@ -214,7 +214,7 @@
               type="button"
               pInitEditableRow
               icon="pi pi-pencil"
-              (click)="onRowEditInit(exercise)"
+              (click)="isMobile ? showCard(exercise) : onRowEditInit(exercise)"
               class="p-button-rounded p-button-text edit-button">
             </button>
             <button
@@ -242,7 +242,15 @@
     </ng-template>
   </p-table>
   <div class="submit-button-container">
-    <app-button *ngIf="exercises.length > 0" [colors]="['#278000', '#01b081']" style="align-self: end" id="b-chart-submit" (click)="submit()"> Enviar </app-button>
+    <app-button
+      *ngIf="exercises.length > 0"
+      [colors]="['#278000', '#01b081']"
+      style="align-self: end"
+      id="b-chart-submit"
+      (click)="submit()"
+    >
+      Enviar
+    </app-button>
   </div>
 
   <app-button

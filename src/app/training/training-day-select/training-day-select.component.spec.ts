@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { TrainingDaySelectComponent } from './training-day-select.component';
 
-describe('GymChartSelectComponent', () => {
+describe('TrainingDaySelectComponent', () => {
   let component: TrainingDaySelectComponent;
   let fixture: ComponentFixture<TrainingDaySelectComponent>;
 

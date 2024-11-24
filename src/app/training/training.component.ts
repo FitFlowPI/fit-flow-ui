@@ -6,7 +6,7 @@ import {SvgGeneratorComponent} from "../shared/svg-generator/svg-generator.compo
 import {PageSliderComponent} from "../shared/page-slider/page-slider.component";
 import {TrainingDaySelectComponent} from "./training-day-select/training-day-select.component";
 import {TrainingDayCreateComponent} from "./training-day-create/training-day-create.component";
-import {TrainingDay} from "../models/gym-chart.model";
+import {TrainingDay} from "../models/training-day.model";
 
 @Component({
   selector: 'app-training',

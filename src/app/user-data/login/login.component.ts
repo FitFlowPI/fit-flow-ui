@@ -7,7 +7,7 @@ import { Router } from "@angular/router";
 import { LoginService } from '../../services/login.service';
 import { LoginPayload, LoginResponse } from '../../models/login.model';
 import { RouterLink } from '@angular/router';
-import { ToastService } from '../../services/toast-service.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-login',

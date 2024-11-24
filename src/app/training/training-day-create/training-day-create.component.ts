@@ -8,7 +8,7 @@ import { Ripple } from "primeng/ripple";
 import { Exercise } from "../../models/exercise.model";
 import { InputGroupModule } from "primeng/inputgroup";
 import {Router, RouterLink} from '@angular/router';
-import { ChartService } from '../../services/chart.service'; // Import your service
+import { TrainingSheetService } from '../../services/training-sheet.service'; // Import your service
 import { ButtonComponent } from '../../shared/button/button.component';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {faAdd, faCancel, faCheck, faPencil, faPlus} from "@fortawesome/free-solid-svg-icons";
@@ -40,7 +40,7 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
 
   @ViewChild('table') table?: ElementRef<Component>;
   @ViewChild('trainingDayNameInput', { static: false }) trainingDayNameInput?: ElementRef<HTMLInputElement>;
-  constructor(private router: Router, private chartService: ChartService) { }
+  constructor(private router: Router, private trainingSheetService: TrainingSheetService) { }
 
 
   trainingDayName?: string = "Treino A";
@@ -149,10 +149,11 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
     this.isShowingCard = false;
   }
 
-  showCard(): void {
+  showCard(exercise?: Exercise): void {
     this.isShowingCard = true;
-    console.log('showing card');
-    console.log(this.isShowingCard);
+    if (exercise) {
+      this.onRowEditInit(exercise);
+    }
   }
 
   convertRemToPx(remValue: number): number {
@@ -174,14 +175,14 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
     };
 
     // Add the new chart to the service and save it
-    this.chartService.updateCharts([...storedCharts, newChart]);
+    this.trainingSheetService.updateTrainingDayList([...storedCharts, newChart]);
 
     // Reset the inputs
     this.trainingDayName = ''; // Clear trainingDayName input field
     this.exercises = [];  // Clear exercises array
 
     // Navigate to the chart selection page
-    this.router.navigate(['/chart/chart-select']);
+    this.router.navigate(['/training/training-day-select']);
   }
 
   protected readonly faAdd = faAdd;

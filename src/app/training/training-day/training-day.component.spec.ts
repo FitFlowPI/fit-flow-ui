@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TrainingDayComponent } from './training-day.component';
 
-describe('GymChartComponent', () => {
+describe('TrainingDayComponent', () => {
   let component: TrainingDayComponent;
   let fixture: ComponentFixture<TrainingDayComponent>;
 

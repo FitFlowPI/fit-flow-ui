@@ -3,10 +3,10 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { TrainingDayComponent } from "../training-day/training-day.component";
 import { NgForOf } from "@angular/common";
-import { TrainingDay } from "../../models/gym-chart.model";
+import { TrainingDay } from "../../models/training-day.model";
 import { buttonRipple } from "../../shared/button/buttonEffects";
 import { RouterLink } from "@angular/router";
-import { ChartService } from '../../services/chart.service'; // Import your service
+import { TrainingSheetService } from '../../services/training-sheet.service'; // Import your service
 
 @Component({
   selector: 'app-training-day-select',
@@ -22,14 +22,14 @@ import { ChartService } from '../../services/chart.service'; // Import your serv
 })
 export class TrainingDaySelectComponent implements OnInit {
 
-  constructor(public renderer: Renderer2, private chartService: ChartService) {}
+  constructor(public renderer: Renderer2, private trainingSheetService: TrainingSheetService) {}
 
   // PLACEHOLDERS
   trainingDayData: Array<TrainingDay> = [];
 
   ngOnInit() {
     // Subscribe to charts$ to get updates
-    this.chartService.charts$.subscribe(charts => {
+    this.trainingSheetService.charts$.subscribe(charts => {
       this.trainingDayData = charts;
       this.refreshCharts(); // Call your refresh logic here
     });
@@ -50,7 +50,7 @@ export class TrainingDaySelectComponent implements OnInit {
   // Method to add a new chart
   addNewChart(newChart: TrainingDay) {
     this.trainingDayData.push(newChart);
-    this.chartService.updateCharts(this.trainingDayData); // Update the service
+    this.trainingSheetService.updateTrainingDayList(this.trainingDayData); // Update the service
   }
 
   // Refresh charts logic

@@ -6,13 +6,13 @@ import {ButtonComponent} from "../../shared/button/button.component";
 import {faRunning} from "@fortawesome/free-solid-svg-icons/faRunning";
 import {faFire} from "@fortawesome/free-solid-svg-icons/faFire";
 import {faClock} from "@fortawesome/free-solid-svg-icons/faClock";
-import {TrainingDay} from "../../models/gym-chart.model";
+import {TrainingDay} from "../../models/training-day.model";
 import {buttonRipple} from "../../shared/button/buttonEffects";
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons/faArrowLeft";
 import {faEdit} from "@fortawesome/free-solid-svg-icons/faEdit";
 import {faTrash} from "@fortawesome/free-solid-svg-icons/faTrash";
 import {faPencil} from "@fortawesome/free-solid-svg-icons";
-import { ChartService } from '../../../services/chart.service';
+import { TrainingSheetService } from '../../services/training-sheet.service';
 import { Router } from '@angular/router'; // Import the Router service
 
 @Component({
@@ -31,7 +31,7 @@ import { Router } from '@angular/router'; // Import the Router service
 })
 export class TrainingDayComponent {
 
-  constructor(private renderer: Renderer2, private chartService: ChartService, private router: Router) {} // Inject Router
+  constructor(private renderer: Renderer2, private trainingSheetService: TrainingSheetService, private router: Router) {} // Inject Router
 
   @ViewChild('summary') summary?: ElementRef<HTMLElement>;
 
@@ -46,18 +46,18 @@ export class TrainingDayComponent {
     timeInMinutes: 0,
     kcal: 0,
     exercises: [],
-    id: 0
+    id: '0'
   };
 
 
   // TODO: change so the ID is automatic
-  onClick(event: MouseEvent, chartId: number) {
+  onClick(event: MouseEvent, chartId: string) {
     if (!this.isHolding) {
       this.toggleActive();
     }
     this.isHolding = false;
     buttonRipple('series-card', event, this.renderer, this.summary!.nativeElement);
-    
+
     // Pass the dynamic chart ID when clicked
     console.log('Clicked chart ID:', chartId);
   }
@@ -77,13 +77,13 @@ export class TrainingDayComponent {
     this.isExerciseListActive = !this.isExerciseListActive;
   }
 
-  onDeleteChart(chartId: number) {
-    this.chartService.deleteChart(chartId);
+  onDeleteChart(chartId: string) {
+    this.trainingSheetService.deleteChart(chartId);
   }
-  
-  onEditChart(chartId: number) {
+
+  onEditChart(chartId: string) {
     // Navigate to the edit page with the chartId as a route parameter
-    this.router.navigate([`/chart/edit/${chartId}`]); 
+    this.router.navigate([`/training/training-day-edit/${chartId}`]);
   }
 
   protected readonly faPlay = faPlay;

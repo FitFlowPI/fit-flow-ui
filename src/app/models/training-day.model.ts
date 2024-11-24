@@ -1,6 +1,7 @@
 import {Exercise} from "./exercise.model";
 
 export interface TrainingDay {
+  id: string;
   name: string;
   kcal: number;
   timeInMinutes: number;

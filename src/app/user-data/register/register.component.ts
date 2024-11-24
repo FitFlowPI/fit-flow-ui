@@ -8,7 +8,7 @@ import { RegisterService } from '../../services/register.service';
 import { RegisterPayload, RegisterResponse } from '../../models/register.model';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { ToastService } from '../../services/toast-service.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-register',
