@@ -4,6 +4,7 @@ import { UserDataComponent } from "./user-data/user-data.component";
 import { authGuard } from './auth.guard'; // Import the guard
 import { LogoutComponent } from './user-data/logout/logout.component';
 import {TrainingComponent} from "./training/training.component";
+import { TrainingDayStartComponent } from './training/training-day-start/training-day-start.component';
 
 export const routes: Routes = [
   {
@@ -23,6 +24,10 @@ export const routes: Routes = [
     path: 'training/:trainingSection',
     component: TrainingComponent,
     // canActivate: [authGuard], // Protect this route
+  },
+  {
+    path: 'training/start/:chartId',
+    component: TrainingDayStartComponent
   },
   {
     path: 'home',

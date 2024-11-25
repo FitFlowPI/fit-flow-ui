@@ -86,6 +86,11 @@ export class TrainingDayComponent {
     this.router.navigate([`/training/training-day-edit/${chartId}`]);
   }
 
+  
+  onPlay(chartId: string) {
+    this.router.navigate([`/training/start/${chartId}`]);
+  }
+
   protected readonly faPlay = faPlay;
   protected readonly faRunning = faRunning;
   protected readonly faFire = faFire;

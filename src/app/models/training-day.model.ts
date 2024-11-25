@@ -6,4 +6,5 @@ export interface TrainingDay {
   kcal: number;
   timeInMinutes: number;
   exercises: Array<Exercise>;
+  timeSpent?: number;
 }
