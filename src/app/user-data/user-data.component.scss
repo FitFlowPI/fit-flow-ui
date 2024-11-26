@@ -98,6 +98,21 @@
   }
 }
 
+/* Styles for Invalid Fields */
+input.ng-invalid.ng-touched {
+  border-color: red !important;  /* Red border for invalid fields */
+}
+
+input.ng-valid.ng-touched {
+  border-color: green !important; /* Optional: Green border for valid fields */
+}
+
+.error-message {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
 // responsiveness
 
 
@@ -106,7 +121,7 @@
 
   .form-card {
     max-width: 450px;
-    max-height: 600px;
+    max-height: 750px;
 
     &.compact {
       padding-bottom: 40px !important;

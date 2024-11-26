@@ -9,11 +9,13 @@ import { RegisterPayload, RegisterResponse } from '../../models/register.model';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { ToastService } from '../../services/toast.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [
+    CommonModule,
     ButtonComponent,
     InputTextModule,
     PasswordModule,
@@ -50,7 +52,19 @@ export class RegisterComponent implements OnInit {
   passwordMatchValidator(formGroup: FormGroup) {
     const password = formGroup.get('password')?.value;
     const confirmPassword = formGroup.get('confirmPassword')?.value;
-    return password === confirmPassword ? null : { mismatch: true };
+  
+    if (!confirmPassword) {
+      // If confirmPassword is empty, mark it as required
+      formGroup.get('confirmPassword')?.setErrors({ required: true });
+    } else if (password && confirmPassword && password !== confirmPassword) {
+      // If passwords don't match, mark as invalid
+      formGroup.get('confirmPassword')?.setErrors({ mismatch: true });
+    } else {
+      // If passwords match, remove any errors (if any)
+      formGroup.get('confirmPassword')?.setErrors(null);
+    }
+  
+    return null;
   }
 
   onSubmit() {
@@ -85,6 +99,7 @@ export class RegisterComponent implements OnInit {
         }
       });
     } else {
+      this.toastService.showError('Formulário inválido! Por favor, preencha todos os campos corretamente.');
       console.log('Formulário inválido');
     }
   }

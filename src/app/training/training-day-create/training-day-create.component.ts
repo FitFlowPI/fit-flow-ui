@@ -15,6 +15,7 @@ import {faAdd, faCancel, faCheck, faPencil, faPlus} from "@fortawesome/free-soli
 import {faEdit} from "@fortawesome/free-solid-svg-icons/faEdit";
 import {faX} from "@fortawesome/free-solid-svg-icons/faX";
 import {FloatingCardComponent} from "../../shared/floating-card/floating-card.component";
+import { ActivatedRoute } from '@angular/router'; // Import ActivatedRoute
 
 @Component({
   selector: 'app-training-day-create',
@@ -40,7 +41,7 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
 
   @ViewChild('table') table?: ElementRef<Component>;
   @ViewChild('trainingDayNameInput', { static: false }) trainingDayNameInput?: ElementRef<HTMLInputElement>;
-  constructor(private router: Router, private trainingSheetService: TrainingSheetService) { }
+  constructor(private router: Router, private trainingSheetService: TrainingSheetService, private route: ActivatedRoute) { }
 
 
   trainingDayName?: string = "Treino A";

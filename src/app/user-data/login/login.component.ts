@@ -8,11 +8,13 @@ import { LoginService } from '../../services/login.service';
 import { LoginPayload, LoginResponse } from '../../models/login.model';
 import { RouterLink } from '@angular/router';
 import { ToastService } from '../../services/toast.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
+    CommonModule,
     InputTextModule,
     PasswordModule,
     ButtonComponent,
@@ -66,7 +68,8 @@ export class LoginComponent implements OnInit {
         }
       });
     } else {
-      console.log('Form is invalid');
+      this.toastService.showError('Formulário inválido! Por favor, preencha todos os campos corretamente.');
+      console.log('Formulário inválido');
     }
   }
 }

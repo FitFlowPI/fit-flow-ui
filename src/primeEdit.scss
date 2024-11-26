@@ -5,6 +5,7 @@
 .p-password-panel {
   background-color: var(--black);
   border: 1px solid var(--yellow);
+  pointer-events: none !important;
 }
 
 .p-password-meter {

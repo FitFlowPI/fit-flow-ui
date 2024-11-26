@@ -83,7 +83,7 @@ export class TrainingDayComponent {
 
   onEditChart(chartId: string) {
     // Navigate to the edit page with the chartId as a route parameter
-    this.router.navigate([`/training/training-day-edit/${chartId}`]);
+    this.router.navigate([`/training/training-day-create/${chartId}`]);
   }
 
   
