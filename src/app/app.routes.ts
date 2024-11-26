@@ -5,6 +5,7 @@ import { authGuard } from './auth.guard'; // Import the guard
 import { LogoutComponent } from './user-data/logout/logout.component';
 import {TrainingComponent} from "./training/training.component";
 import { TrainingDayStartComponent } from './training/training-day-start/training-day-start.component';
+import { TrainingDayCreateComponent } from './training/training-day-create/training-day-create.component';
 
 export const routes: Routes = [
   {
@@ -23,11 +24,22 @@ export const routes: Routes = [
   {
     path: 'training/:trainingSection',
     component: TrainingComponent,
-    // canActivate: [authGuard], // Protect this route
+    canActivate: [authGuard], // Protect this route
   },
   {
     path: 'training/start/:chartId',
-    component: TrainingDayStartComponent
+    component: TrainingDayStartComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'training/training-day-create/:chartId',  // Handle edit case with chartId
+    component: TrainingDayCreateComponent,
+    canActivate: [authGuard],  // Your component for both create and edit
+  },
+  {
+    path: 'training/training-day-create',  // Handle create case without chartId
+    component: TrainingDayCreateComponent,
+    canActivate: [authGuard],
   },
   {
     path: 'home',
