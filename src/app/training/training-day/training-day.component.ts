@@ -13,7 +13,7 @@ import {faEdit} from "@fortawesome/free-solid-svg-icons/faEdit";
 import {faTrash} from "@fortawesome/free-solid-svg-icons/faTrash";
 import {faPencil} from "@fortawesome/free-solid-svg-icons";
 import { TrainingSheetService } from '../../services/training-sheet.service';
-import { Router } from '@angular/router'; // Import the Router service
+import {Router, RouterLink} from '@angular/router'; // Import the Router service
 
 @Component({
   selector: 'app-training-day',
@@ -24,7 +24,8 @@ import { Router } from '@angular/router'; // Import the Router service
     NgIf,
     ButtonComponent,
     NgForOf,
-    NgClass
+    NgClass,
+    RouterLink
   ],
   templateUrl: './training-day.component.html',
   styleUrl: './training-day.component.css'
@@ -86,7 +87,7 @@ export class TrainingDayComponent {
     this.router.navigate([`/training/training-day-create/${chartId}`]);
   }
 
-  
+
   onPlay(chartId: string) {
     this.router.navigate([`/training/start/${chartId}`]);
   }
