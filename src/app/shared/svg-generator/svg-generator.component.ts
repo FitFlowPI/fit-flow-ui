@@ -52,9 +52,11 @@ export class SvgGeneratorComponent implements AfterViewInit, OnDestroy, OnInit, 
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['width'] || changes['height']) {
-      console.log('Value changed:');
       this.setSize();
       this.updateSize();
+      this.generateWaveStyle();
+    }
+    if (changes['colors']) {
       this.generateWaveStyle();
     }
   }

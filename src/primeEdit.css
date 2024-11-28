@@ -5,6 +5,7 @@
 .p-password-panel {
   background-color: var(--black);
   border: 1px solid var(--yellow);
+  pointer-events: none !important;
 }
 
 .p-password-meter {
@@ -120,6 +121,25 @@
 }
 .confirm-button:not(:disabled):hover span {
   color: var(--green);
+}
+
+.close-button {
+  color: var(--white);
+}
+.close-button span {
+  color: var(--white);
+}
+.close-button:not(:disabled):hover {
+  background: rgba(255, 255, 255, 0.19);
+  color: #ffffff;
+  border-color: var(--red);
+}
+.close-button:not(:disabled):hover span {
+  color: var(--white);
+}
+
+.p-password-panel {
+  pointer-events: none !important;
 }
 
 tr.p-element {

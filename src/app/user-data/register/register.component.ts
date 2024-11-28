@@ -3,34 +3,47 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { ButtonComponent } from '../../shared/button/button.component';
 import { InputTextModule } from "primeng/inputtext";
 import { PasswordModule } from "primeng/password";
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import { RegisterService } from '../../services/register.service';
 import { RegisterPayload, RegisterResponse } from '../../models/register.model';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { ToastService } from '../../services/toast.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [
+    CommonModule,
     ButtonComponent,
     InputTextModule,
     PasswordModule,
     RouterLink,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ToastModule
   ],
+  providers: [MessageService],
   templateUrl: './register.component.html',
   styleUrls: ['../user-data.component.scss']
 })
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private registerService: RegisterService) {}
+  constructor(
+    private fb: FormBuilder,
+    private registerService: RegisterService,
+    private messageService: MessageService,
+    private toastService: ToastService, // Inject ToastService
+    private router: Router // Injetar Router
+  ) {}
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
       fullName: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', Validators.required] // Keep this for validation
+      confirmPassword: ['', Validators.required]
     }, {
       validators: this.passwordMatchValidator
     });
@@ -39,7 +52,19 @@ export class RegisterComponent implements OnInit {
   passwordMatchValidator(formGroup: FormGroup) {
     const password = formGroup.get('password')?.value;
     const confirmPassword = formGroup.get('confirmPassword')?.value;
-    return password === confirmPassword ? null : { mismatch: true };
+
+    if (!confirmPassword) {
+      // If confirmPassword is empty, mark it as required
+      formGroup.get('confirmPassword')?.setErrors({ required: true });
+    } else if (password && confirmPassword && password !== confirmPassword) {
+      // If passwords don't match, mark as invalid
+      formGroup.get('confirmPassword')?.setErrors({ mismatch: true });
+    } else {
+      // If passwords match, remove any errors (if any)
+      formGroup.get('confirmPassword')?.setErrors(null);
+    }
+
+    return null;
   }
 
   onSubmit() {
@@ -49,28 +74,33 @@ export class RegisterComponent implements OnInit {
         email: this.registerForm.value.email,
         password: this.registerForm.value.password,
         active_plan: true,
-        user_type: 'auto_trainer',
+        user_type: 'AUTO_TRAINER',
         gender: 'male',
-        weight: 70.5,
-        height: 175.0
+        weight: 70.50,
+        height: 175.00
       };
 
-      // Call the register service to send the payload
       this.registerService.registerUser(payload).subscribe({
         next: (response: RegisterResponse) => {
-          console.log('Registration successful', response);
           const token = response.data.token;
-          localStorage.setItem('authToken', token); // Save the token
-          console.log('Token saved to localStorage');
-          // You can also navigate the user or show a success message here
+          localStorage.setItem('authToken', token);
+
+          // Show success toast message
+          this.toastService.showSuccess('Você foi registrado com sucesso!');
+
+          // Navigate to the home page (or any other page)
+          this.router.navigate(['/user/login']);
         },
         error: (error) => {
-          console.error('Registration failed', error);
-          // Handle the error appropriately (e.g., show a message to the user)
+          console.error('Falha no registro', error);
+
+          // Show error toast message
+          this.toastService.showError('Ocorreu um erro durante o registro. Por favor, tente novamente.');
         }
       });
     } else {
-      console.log('Form is invalid');
+      this.toastService.showError('Formulário inválido! Por favor, preencha todos os campos corretamente.');
+      console.log('Formulário inválido');
     }
   }
 }

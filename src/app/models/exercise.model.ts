@@ -1,6 +1,7 @@
 export interface Exercise {
-  id: number;
-  name: string;
-  series: number;
-  repetitions: number;
+  id: string,
+  name: string,
+  muscles: Array<string>,
+  thumbnail: string,
+  time: number,
 }

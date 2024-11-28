@@ -2,17 +2,17 @@
   background-size: cover;
 }
 
-* {
-  cursor: pointer;
-}
-
 .svg-wave {
   width: auto;
   height: auto;
 }
 
-.svg-wave:hover .button-container {
-  background-color: rgba(0, 0, 0, 0.26);
+.svg-wave:hover .button-container:not(.disabled) {
+  background-color: rgba(0, 0, 0, 0.21);
+}
+
+.button-container.disabled {
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
 .button-container {

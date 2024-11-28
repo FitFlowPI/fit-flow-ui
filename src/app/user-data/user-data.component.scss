@@ -21,18 +21,18 @@
   text-align: center;
   position: relative;
   padding: 0 10px;
+}
 
-  .return-button {
-    text-decoration: none;
-    color: var(--yellow);
-    width: 20px;
-    font-size: 0.7em;
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    transition: text-shadow 0.5s ease-out;
-  }
+.return-button {
+  text-decoration: none;
+  color: var(--yellow);
+  width: 20px;
+  font-size: 0.7em;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: text-shadow 0.5s ease-out;
 }
 
 .header {
@@ -98,6 +98,21 @@
   }
 }
 
+/* Styles for Invalid Fields */
+input.ng-invalid.ng-touched {
+  border-color: red !important;  /* Red border for invalid fields */
+}
+
+input.ng-valid.ng-touched {
+  border-color: green !important; /* Optional: Green border for valid fields */
+}
+
+.error-message {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
 // responsiveness
 
 
@@ -106,7 +121,7 @@
 
   .form-card {
     max-width: 450px;
-    max-height: 600px;
+    max-height: 750px;
 
     &.compact {
       padding-bottom: 40px !important;

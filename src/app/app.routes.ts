@@ -1,10 +1,11 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from "./home/home.component";
 import { UserDataComponent } from "./user-data/user-data.component";
-import { GymChartSelectComponent } from "./chart-managing/gym-chart-select/gym-chart-select.component";
 import { authGuard } from './auth.guard'; // Import the guard
 import { LogoutComponent } from './user-data/logout/logout.component';
-import {ChartManagingComponent} from "./chart-managing/chart-managing.component";
+import {TrainingComponent} from "./training/training.component";
+import { TrainingDayStartComponent } from './training/training-day-start/training-day-start.component';
+import { TrainingDayCreateComponent } from './training/training-day-create/training-day-create.component';
 
 export const routes: Routes = [
   {
@@ -21,13 +22,33 @@ export const routes: Routes = [
     component: UserDataComponent,
   },
   {
-    path: 'chart/:chartSection',
-    component: ChartManagingComponent,
+    path: 'training/:trainingSection',
+    component: TrainingComponent,
     // canActivate: [authGuard], // Protect this route
+  },
+  {
+    path: 'training/start/:trainingDayId',
+    component: TrainingDayStartComponent,
+    // canActivate: [authGuard],
+  },
+  {
+    path: 'training/training-day-create/:trainingDayId',  // Handle edit case with trainingDayId
+    component: TrainingDayCreateComponent,
+    // canActivate: [authGuard],  // Your component for both create and edit
+  },
+  {
+    path: 'training/training-day-create/:trainingDayId',  // Handle create case without trainingDayId
+    component: TrainingDayCreateComponent,
+    // canActivate: [authGuard],
   },
   {
     path: 'home',
     component: HomeComponent,
-    canActivate: [authGuard], // Protect this route
-  }
+    // canActivate: [authGuard], // Protect this route
+  },
+  {
+    path: '**', // Wildcard route
+    redirectTo: 'user/login', // Redirects to login
+    pathMatch: 'full',
+  },
 ];

@@ -7,17 +7,21 @@ import { Router } from "@angular/router";
 import { LoginService } from '../../services/login.service';
 import { LoginPayload, LoginResponse } from '../../models/login.model';
 import { RouterLink } from '@angular/router';
+import { ToastService } from '../../services/toast.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
+    CommonModule,
     InputTextModule,
     PasswordModule,
     ButtonComponent,
     ReactiveFormsModule,
     RouterLink
   ],
+  providers: [ToastService], // Provide ToastService
   templateUrl: './login.component.html',
   styleUrls: ['../user-data.component.scss']
 })
@@ -27,7 +31,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private loginService: LoginService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService // Inject ToastService
   ) {}
 
   ngOnInit(): void {
@@ -48,15 +53,23 @@ export class LoginComponent implements OnInit {
         next: (response: LoginResponse) => {
           console.log('Login successful', response);
           localStorage.setItem('authToken', response.data.token); // Store token
-          this.router.navigate(['/home']); // Redirect on success
+
+          // Show success toast message
+          this.toastService.showSuccess('Login realizado com sucesso!');
+
+          // Redirect on success
+          this.router.navigate(['/home']);
         },
         error: (error) => {
           console.error('Login failed', error);
-          // Handle the error here, e.g., show an error message
+
+          // Show error toast message
+          this.toastService.showError('Erro ao fazer login. Verifique suas credenciais e tente novamente.');
         }
       });
     } else {
-      console.log('Form is invalid');
+      this.toastService.showError('Formulário inválido! Por favor, preencha todos os campos corretamente.');
+      console.log('Formulário inválido');
     }
   }
 }

@@ -1,0 +1,343 @@
+<div class="create-chart-container">
+
+<!--  TODO botao excluir que vira cancelar quando edita -->
+  <div class="training-name">
+    <a *ngIf="!isEditingName" [routerLink]="['/training', 'training-day-select']" class="return-button"> ◀ </a>
+    <app-button
+      *ngIf="isEditingName"
+      padding="5px"
+      borderRadius="50%"
+      borderWidth="1px"
+      [colors]="['#ff0000', '#af001a']"
+      id="b-cancel-training-name"
+      [wrapContent]="true"
+      width="2rem"
+      aspectRatio="1/1"
+      (click)="cancelNewTrainingDayName()">
+      <fa-icon [icon]="faCancel"></fa-icon>
+    </app-button>
+    <h2 *ngIf="!isEditingName" class="title"> {{trainingDayName}}</h2>
+    <input #trainingDayNameInput *ngIf="isEditingName" id="training-day-name" [(ngModel)]="trainingDayName">
+      <div class="buttons">
+        <app-button
+          *ngIf="!isEditingName"
+          padding="5px"
+          borderRadius="50%"
+          borderWidth="1px"
+          [colors]="['#ffae00', '#b96523']"
+          id="b-edit-training-name"
+          [wrapContent]="true"
+          width="2rem"
+          aspectRatio="1/1"
+          (click)="editTrainingDayName()">
+          <fa-icon [icon]="faPencil"></fa-icon>
+        </app-button>
+        <app-button
+          *ngIf="isEditingName"
+          padding="5px"
+          borderRadius="50%"
+          borderWidth="1px"
+          [colors]="['#30ff00', '#00a161']"
+          id="b-confirm-training-name"
+          [wrapContent]="true"
+          width="2rem"
+          aspectRatio="1/1"
+          (click)="confirmNewTrainingDayName()">
+          <fa-icon [icon]="faCheck"></fa-icon>
+        </app-button>
+      </div>
+  </div>
+
+
+  <p-table #table [value]="exercises" dataKey="id" editMode="row">
+    <ng-template pTemplate="header">
+      <tr>
+        <th *ngIf="showId" style="width:10%; text-align:center">ID</th>
+        <th style="width:50%; text-align: center">Exercício</th>
+        <th style="width:10%; text-align:center">Séries</th>
+        <th style="text-align:center; padding: 0">Repetições</th>
+        <th></th>
+      </tr>
+      <tr *ngIf="!isMobile" class="table-input">
+        <th *ngIf="showId" style="font-weight: 600; color: white; text-align:center">
+          {{ exercises.length + 1}}
+        </th>
+        <th>
+          <input
+            pInputText
+            type="text"
+            [(ngModel)]="newExercise.name"
+            name="name"
+            placeholder="Nome"
+            class="input-contrast"
+            style="width: 100%; max-width: 100%; min-width: 8rem"
+            #nameInput="ngModel"
+          />
+<!--          <app-exercise [exercise]="{id: '0', name: 'batata', muscles: ['peito', 'braço', 'ombro', 'nomelongoparateste'], time: 20}"></app-exercise>-->
+        </th>
+        <th>
+          <div style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%;">
+            <p-inputNumber
+              type="number"
+              [inputStyle]="{'width': '3rem', 'text-align':'center'}"
+              [(ngModel)]="newExercise.series"
+              [showButtons]="true"
+              [buttonLayout]="numberInputLayout"
+              inputId="series"
+              [min]="0"
+              [max]="10"
+              [step]="1"
+              decrementButtonClass="p-button-contrast"
+              incrementButtonClass="p-button-contrast"
+              incrementButtonIcon="pi pi-plus"
+              decrementButtonIcon="pi pi-minus"
+              name="series"
+              placeholder="Séries"
+              class="input-contrast"
+              #seriesInput="ngModel"
+            />
+          </div>
+        </th>
+        <th>
+          <div style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%;">
+            <p-inputNumber
+              type="number"
+              [inputStyle]="{'width': '3rem', 'text-align':'center'}"
+              [(ngModel)]="newExercise.repetitions"
+              [showButtons]="true"
+              [buttonLayout]="numberInputLayout"
+              inputId="repetitions"
+              [min]="0"
+              [max]="10"
+              [step]="1"
+              decrementButtonClass="p-button-contrast"
+              incrementButtonClass="p-button-contrast"
+              incrementButtonIcon="pi pi-plus"
+              decrementButtonIcon="pi pi-minus"
+              placeholder="Repetições"
+              class="input-contrast"
+              #repetitionsInput="ngModel"
+            />
+          </div>
+        </th>
+        <th style="padding: 0">
+          <button
+            pButton
+            pRipple
+            style="align-self: center"
+            type="button"
+            icon="pi pi-plus"
+            class="p-button-rounded p-button-text add-button"
+            (click)="addNewExercise()"
+            [disabled]="nameInput.invalid || seriesInput.invalid || repetitionsInput.invalid"
+          >
+          </button>
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-exercise let-editing="editing" let-ri="rowIndex">
+      <tr [pEditableRow]="exercise">
+        <td *ngIf="showId" style="text-align:center;">
+          {{ exercise.id }}
+        </td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input
+                pInputText type="text"
+                style="width: 100%; max-width: 100%;"
+                [(ngModel)]="exercise.name" />
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{exercise.name}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td style="text-align:center;">
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-inputNumber
+                type="number"
+                [inputStyle]="{'width': '3rem', 'text-align':
+                'center'}"
+                [style]="{'align-self': 'center'}"
+                [(ngModel)]="exercise.series"
+                [showButtons]="true"
+                [buttonLayout]="numberInputLayout"
+                inputId="series-edit"
+                [min]="0"
+                [max]="10"
+                [step]="1"
+                decrementButtonClass="p-button-contrast"
+                incrementButtonClass="p-button-contrast"
+                incrementButtonIcon="pi pi-plus"
+                decrementButtonIcon="pi pi-minus"
+                class="input-contrast"
+              />
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{exercise.series}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td style="text-align:center;">
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-inputNumber
+                type="number"
+                [inputStyle]="{'width': '3rem', 'text-align':'center'}"
+                [style]="{'align-self': 'center'}"
+                [(ngModel)]="exercise.repetitions"
+                [showButtons]="true"
+                [buttonLayout]="numberInputLayout"
+                inputId="repetitions-edit"
+                [min]="0"
+                [max]="10"
+                [step]="1"
+                decrementButtonClass="p-button-contrast"
+                incrementButtonClass="p-button-contrast"
+                incrementButtonIcon="pi pi-plus"
+                decrementButtonIcon="pi pi-minus"
+              />
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{exercise.repetitions}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td style="padding: 0">
+          <div class="flex align-items-center justify-content-center gap-2">
+            <button
+              *ngIf="!editing"
+              pButton
+              pRipple
+              type="button"
+              pInitEditableRow
+              icon="pi pi-pencil"
+              (click)="isMobile ? showCard(exercise) : onRowEditInit(exercise)"
+              class="p-button-rounded p-button-text edit-button">
+            </button>
+            <button
+              *ngIf="editing"
+              pButton
+              pRipple
+              type="button"
+              pSaveEditableRow
+              icon="pi pi-check"
+              (click)="onRowEditSave(exercise)"
+              class="p-button-rounded p-button-text p-button-success confirm-button mr-2">
+            </button>
+            <button
+              *ngIf="editing"
+              pButton pRipple
+              type="button"
+              pCancelEditableRow
+              icon="pi pi-times"
+              (click)="onRowEditCancel(exercise, ri)"
+              class="p-button-rounded p-button-text p-button-danger cancel-button">
+            </button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <div class="submit-button-container">
+    <app-button
+      *ngIf="exercises.length > 0"
+      [colors]="['#278000', '#01b081']"
+      style="align-self: end"
+      id="b-chart-submit"
+      (click)="submit()"
+    >
+      Enviar
+    </app-button>
+  </div>
+
+  <app-button
+    *ngIf="isMobile"
+    class="floating-button"
+    (click)="showCard()"
+    padding="10px"
+    aspectRatio="1/1"
+    [colors]="['#0331af', '#9e01a2']"
+    id="b-floating-add-exercise"
+  >
+    <fa-icon [icon]="faPlus" size="2x"></fa-icon>
+  </app-button>
+  <app-floating-card title="Adicionar Exercício" *ngIf="isShowingCard" (close)="cancelEditExercise()">
+    <div class="form">
+      <div class="input-container exercise-name">
+        <label for="exercise-name">Nome do Exercício</label>
+        <input
+          pInputText
+          id="exercise-name"
+          aria-describedby="exercise-name-help"
+          [(ngModel)]="newExercise.name"
+        />
+      </div>
+      <div class="numbers">
+        <div class="input-container">
+          <label for="series">Séries</label>
+          <p-inputNumber
+            type="number"
+            [inputStyle]="{'text-align':'center', 'width':'100%', 'min-width': '3rem'}"
+            [(ngModel)]="newExercise.series"
+            [showButtons]="true"
+            [buttonLayout]="'horizontal'"
+            id="series"
+            inputId="series"
+            [min]="0"
+            [max]="10"
+            [step]="1"
+            decrementButtonClass="p-button-contrast"
+            incrementButtonClass="p-button-contrast"
+            incrementButtonIcon="pi pi-plus"
+            decrementButtonIcon="pi pi-minus"
+            name="series"
+            placeholder="Séries"
+            class="input-contrast"
+          />
+        </div>
+        <div class="input-container">
+          <label for="repetitions">Repetições</label>
+          <p-inputNumber
+            type="number"
+            [inputStyle]="{'text-align':'center', 'width':'100%', 'min-width': '3rem'}"
+            [(ngModel)]="newExercise.repetitions"
+            [showButtons]="true"
+            [buttonLayout]="'horizontal'"
+            id="repetitions"
+            inputId="repetitions"
+            [min]="0"
+            [max]="10"
+            [step]="1"
+            decrementButtonClass="p-button-contrast"
+            incrementButtonClass="p-button-contrast"
+            incrementButtonIcon="pi pi-plus"
+            decrementButtonIcon="pi pi-minus"
+            name="series"
+            placeholder="Séries"
+            class="input-contrast"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="button-container">
+      <app-button
+        (click)="addNewExercise()"
+        [colors]="['#1de2ff', '#d200ff']"
+        [wrapContent]="false"
+        [isEnabled]="isFieldsValid()"
+        width="100%"
+        maxWidth="20rem"
+        padding="15px 15px"
+        gap="10px"
+        id="b-mobile-add-exercise"
+      >
+        Adicionar
+        <fa-icon [icon]="faAdd"></fa-icon>
+      </app-button>
+    </div>
+  </app-floating-card>
+</div>
