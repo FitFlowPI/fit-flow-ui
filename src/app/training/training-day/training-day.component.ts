@@ -52,7 +52,7 @@ export class TrainingDayComponent {
 
 
   // TODO: change so the ID is automatic
-  onClick(event: MouseEvent, chartId: string) {
+  onClick(event: MouseEvent, trainingDayId: string) {
     if (!this.isHolding) {
       this.toggleActive();
     }
@@ -60,7 +60,7 @@ export class TrainingDayComponent {
     buttonRipple('series-card', event, this.renderer, this.summary!.nativeElement);
 
     // Pass the dynamic chart ID when clicked
-    console.log('Clicked chart ID:', chartId);
+    console.log('Clicked trainingDay ID:', trainingDayId);
   }
 
   onHoldStart() {
@@ -78,18 +78,18 @@ export class TrainingDayComponent {
     this.isExerciseListActive = !this.isExerciseListActive;
   }
 
-  onDeleteChart(chartId: string) {
-    this.trainingSheetService.deleteChart(chartId);
+  onDeleteChart(trainingDayId: string) {
+    this.trainingSheetService.deleteChart(trainingDayId);
   }
 
-  onEditChart(chartId: string) {
-    // Navigate to the edit page with the chartId as a route parameter
-    this.router.navigate([`/training/training-day-create/${chartId}`]);
+  onEditChart(trainingDayId: string) {
+    // Navigate to the edit page with the trainingDayId as a route parameter
+    this.router.navigate([`/training/training-day-create/${trainingDayId}`]);
   }
 
 
-  onPlay(chartId: string) {
-    this.router.navigate([`/training/start/${chartId}`]);
+  onPlay(trainingDayId: string) {
+    this.router.navigate([`/training/start/${trainingDayId}`]);
   }
 
   protected readonly faPlay = faPlay;

@@ -24,26 +24,26 @@ export const routes: Routes = [
   {
     path: 'training/:trainingSection',
     component: TrainingComponent,
-    canActivate: [authGuard], // Protect this route
+    // canActivate: [authGuard], // Protect this route
   },
   {
-    path: 'training/start/:chartId',
+    path: 'training/start/:trainingDayId',
     component: TrainingDayStartComponent,
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
   },
   {
-    path: 'training/training-day-create/:chartId',  // Handle edit case with chartId
+    path: 'training/training-day-create/:trainingDayId',  // Handle edit case with trainingDayId
     component: TrainingDayCreateComponent,
-    canActivate: [authGuard],  // Your component for both create and edit
+    // canActivate: [authGuard],  // Your component for both create and edit
   },
   {
-    path: 'training/training-day-create',  // Handle create case without chartId
+    path: 'training/training-day-create/:trainingDayId',  // Handle create case without trainingDayId
     component: TrainingDayCreateComponent,
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
   },
   {
     path: 'home',
     component: HomeComponent,
-    canActivate: [authGuard], // Protect this route
+    // canActivate: [authGuard], // Protect this route
   }
 ];

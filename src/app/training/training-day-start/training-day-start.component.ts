@@ -27,7 +27,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
   ]
 })
 export class TrainingDayStartComponent implements OnInit, OnDestroy {
-  chartId: string | null = null;
+  trainingDayId: string | null = null;
   trainingDay: TrainingDay | undefined;
   timer: number = 0;  // Total time in seconds
   interval: any;
@@ -41,17 +41,17 @@ export class TrainingDayStartComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    const chartId = this.route.snapshot.paramMap.get('chartId');
-    console.log('Chart ID:', chartId);
+    const trainingDayId = this.route.snapshot.paramMap.get('trainingDayId');
+    console.log('trainingDay ID:', trainingDayId);
 
-    if (chartId) {
+    if (trainingDayId) {
       const allTrainingDays = this.trainingSheetService.getTrainingDays();
       console.log('All Training Days:', allTrainingDays);
 
-      this.trainingDay = allTrainingDays.find(chart => chart.id.toString() === chartId);
+      this.trainingDay = allTrainingDays.find(chart => chart.id.toString() === trainingDayId);
       console.log('Training Day:', this.trainingDay);
     } else {
-      console.error("Chart ID not found in route.");
+      console.error("trainingDay ID not found in route.");
     }
 
     this.startTimer();
@@ -102,7 +102,7 @@ export class TrainingDayStartComponent implements OnInit, OnDestroy {
       this.currentExerciseIndex--;
     }
   }
-  
+
   goToNextExercise() {
     if (this.trainingDay && this.trainingDay.exercises) {
       const nextIndex = this.currentExerciseIndex + 1;
@@ -124,16 +124,16 @@ export class TrainingDayStartComponent implements OnInit, OnDestroy {
         exercise.doneCount = 0;
         exercise.isDone = false;
       });
-  
+
       // Create a payload with the training day and time data
       const payload = {
         trainingDay: this.trainingDay,
         timeSpent: this.timer,  // Total time spent during the training session
       };
-  
+
       // Send the payload to the TrainingSheetService to save to local storage
       this.trainingSheetService.completeTraining(payload);
-  
+
       // Navigate to the next page after completion
       this.router.navigate(['/training/training-day-select']);
     }

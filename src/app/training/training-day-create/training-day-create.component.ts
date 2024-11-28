@@ -5,7 +5,6 @@ import { PaginatorModule } from "primeng/paginator";
 import { NgIf, NgStyle } from "@angular/common";
 import { ButtonDirective } from "primeng/button";
 import { Ripple } from "primeng/ripple";
-import { ExerciseRepsAndSets } from "../../models/exercise-reps-and-sets.model";
 import { InputGroupModule } from "primeng/inputgroup";
 import { Router, RouterLink } from '@angular/router';
 import { TrainingSheetService } from '../../services/training-sheet.service'; // Import your service
@@ -18,6 +17,7 @@ import {faX} from "@fortawesome/free-solid-svg-icons/faX";
 import {FloatingCardComponent} from "../../shared/floating-card/floating-card.component";
 import {ExerciseComponent} from "../../shared/exercise/exercise.component";
 import {TrainingDay} from "../../models/training-day.model";
+import {ExerciseRepsAndSets} from "../../models/exercise-reps-and-sets.model";
 
 @Component({
   selector: 'app-training-day-create',
@@ -69,11 +69,11 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
   ngOnInit() {
     this.checkViewportWidth();
     this.checkResponsiveness();
-    const chartId = this.route.snapshot.paramMap.get('chartId');
-    console.log("chartId from route:", chartId); // Log the chartId from the route
-    if (chartId) {
+    const trainingDayId = this.route.snapshot.paramMap.get('trainingDayId');
+    console.log("trainingDayId from route:", trainingDayId); // Log the trainingDayId from the route
+    if (trainingDayId) {
       this.isEditing = true; // Set `isEditing` to true when editing an existing chart
-      this.loadTrainingDay(chartId);
+      this.loadTrainingDay(trainingDayId);
     }
   }
 
@@ -176,8 +176,8 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
     return remValue * rootFontSize;
   }
 
-  loadTrainingDay(chartId: string) {
-    console.log("Loading training day with chartId:", chartId); // Log the chartId used for loading
+  loadTrainingDay(trainingDayId: string) {
+    console.log("Loading training day with trainingDayId:", trainingDayId); // Log the trainingDayId used for loading
 
     // Ensure storedCharts is typed as an array of TrainingDay objects
     const storedChartsRaw = localStorage.getItem('charts');
@@ -187,7 +187,7 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
     console.log("Parsed stored charts:", storedCharts); // Log all stored charts in localStorage
 
     // Find the TrainingDay object with the matching ID
-    const trainingDay = storedCharts.find((chart: TrainingDay) => chart.id.toString() === chartId);
+    const trainingDay = storedCharts.find((trainingDay: TrainingDay) => trainingDay.id.toString() === trainingDayId);
     console.log("Found training day:", trainingDay); // Log the found training day
 
     if (trainingDay) {
@@ -196,7 +196,7 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
       this.exercises = trainingDay.exercises;
       console.log("Loaded exercises:", this.exercises); // Log the exercises loaded
     } else {
-      console.log("No training day found with the provided chartId.");
+      console.log("No training day found with the provided trainingDayId.");
     }
   }
 
@@ -210,18 +210,18 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
 
     // Define the new chart with its name and exercises
     const newChart: TrainingDay = {
-      id: this.isEditing ? this.route.snapshot.paramMap.get('chartId')! : Date.now().toString(), // Unique ID
+      id: this.isEditing ? this.route.snapshot.paramMap.get('trainingDayId')! : Date.now().toString(), // Unique ID
       name: nextSeriesName,
       exercises: this.exercises,
       kcal: 0,
       timeInMinutes: 0
     };
 
-    const chartId = this.route.snapshot.paramMap.get('chartId');
+    const trainingDayId = this.route.snapshot.paramMap.get('trainingDayId');
 
-    if (chartId) {
+    if (trainingDayId) {
       // Edit existing chart
-      const index = storedCharts.findIndex((chart: TrainingDay) => chart.id.toString() === chartId); // Ensure IDs match as strings
+      const index = storedCharts.findIndex((chart: TrainingDay) => chart.id.toString() === trainingDayId); // Ensure IDs match as strings
 
       if (index !== -1) {
         // Replace the chart at the found index with the new one

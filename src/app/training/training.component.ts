@@ -7,6 +7,9 @@ import {PageSliderComponent} from "../shared/page-slider/page-slider.component";
 import {TrainingDaySelectComponent} from "./training-day-select/training-day-select.component";
 import {TrainingDayCreateComponent} from "./training-day-create/training-day-create.component";
 import {TrainingDay} from "../models/training-day.model";
+import {
+  TrainingDayExerciseSelectComponent
+} from "./training-day-exercise-select/training-day-exercise-select.component";
 
 @Component({
   selector: 'app-training',
@@ -18,7 +21,8 @@ import {TrainingDay} from "../models/training-day.model";
     SvgGeneratorComponent,
     PageSliderComponent,
     TrainingDaySelectComponent,
-    TrainingDayCreateComponent
+    TrainingDayCreateComponent,
+    TrainingDayExerciseSelectComponent
   ],
   templateUrl: './training.component.html',
   styleUrls: ['./training.component.css', '../shared/page-slider/slider-children.css']
