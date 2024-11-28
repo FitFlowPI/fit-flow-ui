@@ -3,7 +3,7 @@ export interface RegisterPayload {
   email: string;
   password: string;
   active_plan?: boolean;
-  user_type?: string;
+  user_type: 'STUDENT' | 'PERSONAL_TRAINER' | 'AUTO_TRAINER';
   gender?: string;
   weight?: number;
   height?: number;

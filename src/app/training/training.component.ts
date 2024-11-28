@@ -10,6 +10,7 @@ import {TrainingDay} from "../models/training-day.model";
 import {
   TrainingDayExerciseSelectComponent
 } from "./training-day-exercise-select/training-day-exercise-select.component";
+import {ExerciseStartComponent} from "./exercise-start/exercise-start.component";
 
 @Component({
   selector: 'app-training',
@@ -22,7 +23,8 @@ import {
     PageSliderComponent,
     TrainingDaySelectComponent,
     TrainingDayCreateComponent,
-    TrainingDayExerciseSelectComponent
+    TrainingDayExerciseSelectComponent,
+    ExerciseStartComponent
   ],
   templateUrl: './training.component.html',
   styleUrls: ['./training.component.css', '../shared/page-slider/slider-children.css']
@@ -30,7 +32,7 @@ import {
 export class TrainingComponent implements OnInit {
   refreshCharts: boolean = false;
 
-  charts?: Array<TrainingDay>;
+  trainingDays?: Array<TrainingDay>;
 
   ngOnInit() {
 

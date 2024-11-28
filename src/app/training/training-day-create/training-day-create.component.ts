@@ -221,7 +221,7 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
 
     if (trainingDayId) {
       // Edit existing chart
-      const index = storedCharts.findIndex((chart: TrainingDay) => chart.id.toString() === trainingDayId); // Ensure IDs match as strings
+      const index = storedCharts.findIndex((trainingDay: TrainingDay) => trainingDay.id.toString() === trainingDayId); // Ensure IDs match as strings
 
       if (index !== -1) {
         // Replace the chart at the found index with the new one

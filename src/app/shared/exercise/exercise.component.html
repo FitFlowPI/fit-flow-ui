@@ -1,0 +1,15 @@
+<img class="thumbnail" alt=" " [ngSrc]="exercise.thumbnail || 'AAAA'" width="60" height="60">
+<div class="exercise-container">
+  <div class="header">
+    <h4>{{ exercise.name }}</h4>
+    <span> {{ exercise.time }} <fa-icon [icon]="faClock"></fa-icon> </span>
+  </div>
+
+  <div class="muscles-details">
+    <h6> Músculos: </h6>
+    <div class="muscles-grid">
+<!--      TODO: Limitar o numero de musculos/membros que pode mostrar -->
+      <span *ngFor="let muscle of exercise.muscles; let last = last"> {{ muscle }}{{ last ? '.' : ',' }} </span>
+    </div>
+  </div>
+</div>

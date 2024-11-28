@@ -51,7 +51,7 @@
       id="b-start-training"
       borderRadius="20px"
       aspectRatio="1/1"
-      (click)="onPlay(chartData.id)"
+      [routerLink]="['/training', 'exercise-select']"
     >
       <fa-icon [icon]="faPlay"></fa-icon>
     </app-button>

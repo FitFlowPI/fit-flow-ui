@@ -28,9 +28,9 @@ export class TrainingDaySelectComponent implements OnInit {
   trainingDayData: Array<TrainingDay> = [];
 
   ngOnInit() {
-    // Subscribe to charts$ to get updates
-    this.trainingSheetService.charts$.subscribe(charts => {
-      this.trainingDayData = charts;
+    // Subscribe to trainingDays$ to get updates
+    this.trainingSheetService.trainingDays$.subscribe(trainingDays => {
+      this.trainingDayData = trainingDays;
       this.refreshCharts(); // Call your refresh logic here
     });
   }
@@ -53,7 +53,7 @@ export class TrainingDaySelectComponent implements OnInit {
     this.trainingSheetService.updateTrainingDayList(this.trainingDayData); // Update the service
   }
 
-  // Refresh charts logic
+  // Refresh trainingDays logic
   refreshCharts() {
     console.log('trainingDayData has changed:', this.trainingDayData);
     // Additional logic to refresh the display

@@ -52,7 +52,7 @@ export class RegisterComponent implements OnInit {
   passwordMatchValidator(formGroup: FormGroup) {
     const password = formGroup.get('password')?.value;
     const confirmPassword = formGroup.get('confirmPassword')?.value;
-  
+
     if (!confirmPassword) {
       // If confirmPassword is empty, mark it as required
       formGroup.get('confirmPassword')?.setErrors({ required: true });
@@ -63,7 +63,7 @@ export class RegisterComponent implements OnInit {
       // If passwords match, remove any errors (if any)
       formGroup.get('confirmPassword')?.setErrors(null);
     }
-  
+
     return null;
   }
 
@@ -74,10 +74,10 @@ export class RegisterComponent implements OnInit {
         email: this.registerForm.value.email,
         password: this.registerForm.value.password,
         active_plan: true,
-        user_type: 'auto_trainer',
+        user_type: 'AUTO_TRAINER',
         gender: 'male',
-        weight: 70.5,
-        height: 175.0
+        weight: 70.50,
+        height: 175.00
       };
 
       this.registerService.registerUser(payload).subscribe({

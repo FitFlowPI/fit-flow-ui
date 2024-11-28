@@ -138,6 +138,10 @@
   color: var(--white);
 }
 
+.p-password-panel {
+  pointer-events: none !important;
+}
+
 tr.p-element {
   color: var(--white);
 }

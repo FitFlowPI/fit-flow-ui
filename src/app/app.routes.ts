@@ -45,5 +45,10 @@ export const routes: Routes = [
     path: 'home',
     component: HomeComponent,
     // canActivate: [authGuard], // Protect this route
-  }
+  },
+  {
+    path: '**', // Wildcard route
+    redirectTo: 'user/login', // Redirects to login
+    pathMatch: 'full',
+  },
 ];

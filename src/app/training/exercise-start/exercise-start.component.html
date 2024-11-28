@@ -1,0 +1,90 @@
+<div class="exercise-execution-info-container">
+  <div class="expandable-media-card">
+    <div class="info">
+      <img *ngIf="false" src="'AA'" alt=" ">
+      <div class="name"><span> Nome </span></div>
+      <fa-icon [icon]="faAngleDown"></fa-icon>
+    </div>
+    <div class="expand">
+      <div class="video"></div>
+
+    </div>
+
+  </div>
+
+  <div class="progress-bar">
+    <div class="details">
+      <span> 13 <fa-icon [icon]="faDumbbell"></fa-icon> </span>
+      <span> 01:05 <fa-icon [icon]="faClock"></fa-icon> </span>
+      <span> 20 <span class="kg">Kg</span> </span>
+    </div>
+    <div class="vertical-line">
+      <div class="progress-line"></div>
+      <div class="ball one"> 1 </div>
+      <div class="ball two"> 2 </div>
+      <div class="ball three"> 3 </div>
+    </div>
+  </div>
+
+  <div class="button-container">
+    <app-button
+      id="b-exercise-back"
+      [colors]="['#f10a0a', '#ff77cf']"
+      [wrapContent]="false"
+      width="100%"
+      [routerLink]="['/training', 'exercise-select']"
+    >
+      Voltar
+    </app-button>
+    <app-button
+      id="b-exercise-proceed"
+      [colors]="['#0a30f1', '#00ffe1']"
+      [wrapContent]="false"
+      width="100%"
+      (click)="isShowingTimer = true"
+    >
+      Prosseguir
+    </app-button>
+  </div>
+</div>
+<div *ngIf="isShowingTimer" class="timer-screen">
+  <div class="timer-container">
+    <div class="numbers">
+      <span *ngIf="isStopped" class="number"> 13 Rep <fa-icon size="sm" [icon]="faPencil"></fa-icon> </span>
+      <span class="number out"> 01:05 </span>
+      <span *ngIf="isStopped" class="number"> 20 Kg <fa-icon size="sm" [icon]="faPencil"></fa-icon> </span>
+    </div>
+    <div class="buttons">
+      <app-button
+        *ngIf="!isStopped"
+        id="b-exercise-numbers-stop"
+        [colors]="['#f10a0a', '#ff77cf']"
+        [wrapContent]="false"
+        width="100%"
+        (click)="isStopped = true"
+      >
+        Parar
+      </app-button>
+      <app-button
+        *ngIf="isStopped"
+        id="b-exercise-numbers-cancell"
+        [colors]="['#f10a0a', '#ff77cf']"
+        [wrapContent]="false"
+        width="100%"
+        (click)="isShowingTimer = false"
+      >
+        Cancel
+      </app-button>
+      <app-button
+        *ngIf="isStopped"
+        id="b-exercise-numbers-confirm"
+        [colors]="['#44f10a', '#77ffd6']"
+        [wrapContent]="false"
+        width="100%"
+        (click)="isShowingTimer = false"
+      >
+        Confirm
+      </app-button>
+    </div>
+  </div>
+</div>

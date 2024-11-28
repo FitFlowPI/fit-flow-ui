@@ -10,32 +10,32 @@ export class TrainingSheetService {
   constructor(private http: HttpClient) {
   }
 
-  private chartsSubject = new BehaviorSubject<Array<TrainingDay>>(this.loadStoredCharts());
-  charts$ = this.chartsSubject.asObservable();
+  private trainingDaySubject = new BehaviorSubject<Array<TrainingDay>>(this.loadStoredTrainingDays());
+  trainingDays$ = this.trainingDaySubject.asObservable();
 
-  private loadStoredCharts(): Array<TrainingDay> {
-    return JSON.parse(localStorage.getItem('charts') || '[]');
+  private loadStoredTrainingDays(): Array<TrainingDay> {
+    return JSON.parse(localStorage.getItem('trainingDays') || '[]');
   }
 
   getTrainingDays(): Array<TrainingDay> {
-    return this.loadStoredCharts();
+    return this.loadStoredTrainingDays();
   }
 
   updateTrainingDayList(trainingDays: Array<TrainingDay>) {
-    this.chartsSubject.next(trainingDays);
+    this.trainingDaySubject.next(trainingDays);
     localStorage.setItem('charts', JSON.stringify(trainingDays));
   }
 
   // Delete a chart by its ID, ensuring type safety
   deleteChart(trainingDayId: string) {
-    const trainingDays = this.loadStoredCharts();
+    const trainingDays = this.loadStoredTrainingDays();
     const updatedCharts = trainingDays.filter(trainingDay => trainingDay.id !== trainingDayId); // Now comparing numbers
     this.updateTrainingDayList(updatedCharts); // Update BehaviorSubject and localStorage
   }
 
   // Update an existing chart
   updateTrainingDay(updatedTrainingDay: TrainingDay) {
-    const trainingDays = this.loadStoredCharts();
+    const trainingDays = this.loadStoredTrainingDays();
     const index = trainingDays.findIndex(trainingDay => trainingDay.id === updatedTrainingDay.id); // Ensure matching by id (number)
     if (index !== -1) {
       trainingDays[index] = updatedTrainingDay;
@@ -44,7 +44,7 @@ export class TrainingSheetService {
   }
 
   completeTraining(payload: { trainingDay: TrainingDay, timeSpent: number }) {
-    const trainingDays = this.loadStoredCharts();
+    const trainingDays = this.loadStoredTrainingDays();
     const index = trainingDays.findIndex(trainingDay => trainingDay.id === payload.trainingDay.id);
 
     if (index !== -1) {
