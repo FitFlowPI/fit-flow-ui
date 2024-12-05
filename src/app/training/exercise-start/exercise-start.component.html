@@ -1,50 +1,50 @@
 <div class="exercise-execution-info-container">
-  <div class="expandable-media-card">
-    <div class="info">
-      <img *ngIf="false" src="'AA'" alt=" ">
-      <div class="name"><span> Nome </span></div>
-      <fa-icon [icon]="faAngleDown"></fa-icon>
-    </div>
+  <div class="media-container">
     <div class="expand">
       <div class="video"></div>
-
     </div>
-
-  </div>
-
-  <div class="progress-bar">
-    <div class="details">
-      <span> 13 <fa-icon [icon]="faDumbbell"></fa-icon> </span>
-      <span> 01:05 <fa-icon [icon]="faClock"></fa-icon> </span>
-      <span> 20 <span class="kg">Kg</span> </span>
-    </div>
-    <div class="vertical-line">
-      <div class="progress-line"></div>
-      <div class="ball one"> 1 </div>
-      <div class="ball two"> 2 </div>
-      <div class="ball three"> 3 </div>
+    <div class="info">
+      <img *ngIf="false" src="'AA'" alt=" ">
+      <div class="name"><h4> {{ exercise.name }} </h4></div>
     </div>
   </div>
+
+  <app-exercise-progress-bar [numberOfSeries]="exercise.series" padding="30px 35px"></app-exercise-progress-bar>
 
   <div class="button-container">
-    <app-button
-      id="b-exercise-back"
-      [colors]="['#f10a0a', '#ff77cf']"
-      [wrapContent]="false"
-      width="100%"
-      [routerLink]="['/training', 'exercise-select']"
-    >
-      Voltar
-    </app-button>
-    <app-button
-      id="b-exercise-proceed"
-      [colors]="['#0a30f1', '#00ffe1']"
-      [wrapContent]="false"
-      width="100%"
-      (click)="isShowingTimer = true"
-    >
-      Prosseguir
-    </app-button>
+    <div class="previous button"> <fa-icon [icon]="faBackwardStep"></fa-icon>  </div>
+    <div class="drawer-container button">
+      <div class="hamburger"> <fa-icon [icon]="faBars"></fa-icon> </div>
+      <div class="next">
+        <span> próximo: </span>
+        <div class="next-exercise">
+          <!--        TODO: Colocar o nome do próximo exercício no <h5>      -->
+          <!--        TODO: tirar a quebra de texto a adicionar deslizamento do texto no overflow -->
+          <h5 class="next-name"> Nome do Próximo </h5>
+        </div>
+      </div>
+
+    </div>
+    <div class="play button" (click)="startExercise()"> <fa-icon [icon]="faPlay"></fa-icon> </div>
+    <div class="next button"> <fa-icon [icon]="faForwardStep"></fa-icon> </div>
+<!--    <app-button-->
+<!--      id="b-exercise-back"-->
+<!--      [colors]="['#f10a0a', '#ff77cf']"-->
+<!--      [wrapContent]="false"-->
+<!--      width="100%"-->
+<!--      [routerLink]="['/training', 'exercise-select']"-->
+<!--    >-->
+<!--      Voltar-->
+<!--    </app-button>-->
+<!--    <app-button-->
+<!--      id="b-exercise-proceed"-->
+<!--      [colors]="['#0a30f1', '#00ffe1']"-->
+<!--      [wrapContent]="false"-->
+<!--      width="100%"-->
+<!--      (click)="isShowingTimer = true"-->
+<!--    >-->
+<!--      Prosseguir-->
+<!--    </app-button>-->
   </div>
 </div>
 <div *ngIf="isShowingTimer" class="timer-screen">

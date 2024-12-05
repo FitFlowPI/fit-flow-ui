@@ -1,8 +1,8 @@
-import {Component, ElementRef, HostListener, Input, Renderer2} from '@angular/core';
+import {Component, ElementRef, HostListener, Input, Renderer2, ViewChild} from '@angular/core';
 import {Exercise} from "../../models/exercise.model";
 import {faClock} from "@fortawesome/free-solid-svg-icons/faClock";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {NgForOf, NgOptimizedImage} from "@angular/common";
+import {NgForOf, NgIf, NgOptimizedImage, NgStyle} from "@angular/common";
 import {buttonRipple} from "../button/buttonEffects";
 
 @Component({
@@ -11,22 +11,28 @@ import {buttonRipple} from "../button/buttonEffects";
   imports: [
     FaIconComponent,
     NgForOf,
-    NgOptimizedImage
+    NgOptimizedImage,
+    NgStyle,
+    NgIf
   ],
   templateUrl: './exercise.component.html',
   styleUrl: './exercise.component.css'
 })
 export class ExerciseComponent {
 
-  constructor(private renderer: Renderer2, private el: ElementRef) {
+  @ViewChild('exerciseContainer') exerciseContainer!: ElementRef<HTMLElement>;
+
+  constructor(private renderer: Renderer2) {
   }
 
   @Input({required: true}) exercise!: Exercise;
+  @Input() showBorder: boolean = true;
+  @Input() nameSize: string = '1rem'
+  @Input() showMuscles: boolean = true;
+  @Input() clickable: boolean = true;
 
-
-  @HostListener('click', ['$event'])
   OnClick(event: MouseEvent) {
-    buttonRipple('exercise', event, this.renderer, this.el.nativeElement);
+    if (this.exerciseContainer) buttonRipple('exercise', event, this.renderer, this.exerciseContainer.nativeElement);
   }
 
   protected readonly faClock = faClock;

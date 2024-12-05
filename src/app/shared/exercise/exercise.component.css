@@ -1,4 +1,9 @@
 :host {
+  display: inline-block;
+  width: 100%;
+}
+
+.exercise-container {
   display: inline-flex;
   flex-direction: row;
   border-radius: 15px;
@@ -22,7 +27,7 @@
     outline: none;
   }
 
-  .exercise-container {
+  .exercise-info {
     display: flex;
     flex-direction: column;
     flex-grow: 1;

@@ -1,7 +1,7 @@
 @mixin wave-background-absolute($position) {
 
   $verticalDisplacement: -20%;
-  $horizontalDisplacement: -25%;
+  $horizontalDisplacement: -20%;
 
   position: fixed !important;
   transform: rotateZ(-20deg);

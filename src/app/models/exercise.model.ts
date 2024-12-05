@@ -3,5 +3,5 @@ export interface Exercise {
   name: string,
   muscles: Array<string>,
   thumbnail: string,
-  time: number,
+  time: number
 }

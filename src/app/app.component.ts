@@ -22,12 +22,12 @@ export class AppComponent implements AfterViewInit{
   count: number = 20;
   thickness: number = 15;
   blur: number = 15;
-  speed: number = 5;
+  speed: number = 0.5;
   opacity: number = 0.1;
   width: string | number = '120%';
-  height: string | number = '25%';
+  height: string | number = '40%';
   rotatedHeight: string | number = '60%';
-  displacement: 'fasterTop' | 'fasterBottom' | 'fixed' = 'fasterTop';
+  displacement: 'fasterTop' | 'fasterBottom' | 'fixed' = 'fixed';
 
   // ----------------------------------------------------
 

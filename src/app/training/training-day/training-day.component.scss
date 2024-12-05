@@ -32,7 +32,7 @@
       color: var(--yellow);
     }
 
-    .play-button {
+    .play {
       z-index: 1;
     }
 
@@ -40,7 +40,7 @@
       background: rgba(255, 255, 255, 0.06);
     }
 
-    &:active:not(:has(.play-button:hover)) {
+    &:active:not(:has(.play:hover)) {
       background: rgba(255, 255, 255, 0.18);
     }
 

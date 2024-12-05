@@ -29,13 +29,13 @@
 .chart-container .summary h3 {
   color: var(--yellow);
 }
-.chart-container .summary .play-button {
+.chart-container .summary .play {
   z-index: 1;
 }
 .chart-container .summary:hover {
   background: rgba(255, 255, 255, 0.06);
 }
-.chart-container .summary:active:not(:has(.play-button:hover)) {
+.chart-container .summary:active:not(:has(.play:hover)) {
   background: rgba(255, 255, 255, 0.18);
 }
 .chart-container .summary .chart-options {

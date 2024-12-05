@@ -4,7 +4,7 @@
   overflow: visible !important;
   z-index: -1;
   bottom: -20%;
-  right: -25%;
+  right: -20%;
 }
 :host .wave-background-top {
   position: fixed !important;
@@ -12,7 +12,7 @@
   overflow: visible !important;
   z-index: -1;
   top: -20%;
-  left: -25%;
+  left: -20%;
 }
 
 @media only screen and (min-width: 600px) {

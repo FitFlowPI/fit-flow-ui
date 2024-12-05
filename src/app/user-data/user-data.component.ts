@@ -9,6 +9,7 @@ import {PasswordRecoveryComponent} from "./password-recovery/password-recovery.c
 import {UpdatePasswordComponent} from "./update-password/update-password.component";
 import {GenderSelectComponent} from "./user-details/gender-select/gender-select.component";
 import {PageSliderComponent} from "../shared/page-slider/page-slider.component";
+import {PerformanceComponent} from "./performance/performance.component";
 
 @Component({
   selector: 'app-user-data',
@@ -22,7 +23,8 @@ import {PageSliderComponent} from "../shared/page-slider/page-slider.component";
     PasswordRecoveryComponent,
     UpdatePasswordComponent,
     GenderSelectComponent,
-    PageSliderComponent
+    PageSliderComponent,
+    PerformanceComponent
   ],
   templateUrl: './user-data.component.html',
   styleUrls: ['./user-data.component.scss', '../shared/page-slider/slider-children.css'],

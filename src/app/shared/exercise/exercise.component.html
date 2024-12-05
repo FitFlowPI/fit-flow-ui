@@ -1,15 +1,34 @@
-<img class="thumbnail" alt=" " [ngSrc]="exercise.thumbnail || 'AAAA'" width="60" height="60">
-<div class="exercise-container">
-  <div class="header">
-    <h4>{{ exercise.name }}</h4>
-    <span> {{ exercise.time }} <fa-icon [icon]="faClock"></fa-icon> </span>
-  </div>
+<div
+  #exerciseContainer
+  class="exercise-container"
+  (click)="clickable && OnClick($event)"
+  [ngStyle]=
+    "{
+      'border': showBorder ? '1px solid var(--yellow)' : 'none',
+      'pointer-events': clickable ? 'auto' : 'none'
+    }"
+>
+  <img class="thumbnail" alt=" " [ngSrc]="exercise.thumbnail || 'AAAA'" width="60" height="60">
+  <div class="exercise-info">
+    <div
+      [ngStyle]=
+        "{
+          'font-size': nameSize,
+          'flex-direction': showMuscles ? 'row' : 'column',
+          'justify-content': showMuscles ? 'space-between' : 'start'
+        }"
+      class="header">
+      <h4>{{ exercise.name }}</h4>
+      <span> {{ exercise.time }} <fa-icon [icon]="faClock"></fa-icon> </span>
+    </div>
 
-  <div class="muscles-details">
-    <h6> Músculos: </h6>
-    <div class="muscles-grid">
-<!--      TODO: Limitar o numero de musculos/membros que pode mostrar -->
-      <span *ngFor="let muscle of exercise.muscles; let last = last"> {{ muscle }}{{ last ? '.' : ',' }} </span>
+    <div class="muscles-details" *ngIf="showMuscles">
+      <h6> Músculos: </h6>
+      <div class="muscles-grid">
+        <!--      TODO: Limitar o numero de musculos/membros que pode mostrar -->
+        <span *ngFor="let muscle of exercise.muscles; let last = last"> {{ muscle }}{{ last ? '.' : ',' }} </span>
+      </div>
     </div>
   </div>
+
 </div>
