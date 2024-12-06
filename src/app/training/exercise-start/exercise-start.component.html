@@ -5,7 +5,13 @@
     </div>
     <div class="info">
       <img *ngIf="false" src="'AA'" alt=" ">
-      <div class="name"><h4> {{ exercise.name }} </h4></div>
+      <div class="name">
+        <h4> {{ exercise.name }} </h4>
+        <div class="exercise-info">
+          <h4> {{exercise.series}} <fa-icon [icon]="faDumbbell"></fa-icon> </h4>
+          <h4> {{exercise.repetitions}} <fa-icon [icon]="faRepeat"></fa-icon> </h4>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -41,50 +47,104 @@
 <!--      [colors]="['#0a30f1', '#00ffe1']"-->
 <!--      [wrapContent]="false"-->
 <!--      width="100%"-->
-<!--      (click)="isShowingTimer = true"-->
+<!--      (click)="isShowingTimers = true"-->
 <!--    >-->
 <!--      Prosseguir-->
 <!--    </app-button>-->
   </div>
 </div>
-<div *ngIf="isShowingTimer" class="timer-screen">
-  <div class="timer-container">
+<div *ngIf="isShowingTimers" class="timer-screen">
+  <div class="exercise-numbers-container">
     <div class="numbers">
       <span *ngIf="isStopped" class="number"> 13 Rep <fa-icon size="sm" [icon]="faPencil"></fa-icon> </span>
-      <span class="number out"> 01:05 </span>
+      <div class="timer-container">
+        <app-timer
+          *ngIf="exerciseTimerState === 'stopped' && exerciseTimer > 0"
+          [initialTimerValue]="0"
+          [isMilliseconds]="false"
+          [fontSize]="isShowingBreakTimer() ? 4 : 2"
+          [timerState]="breakTimerState"
+          [showSnoozeIcon]="true"
+          (timerValueChange)="onExerciseTimerValueChange($event)"
+        ></app-timer>
+        <app-timer
+          [initialTimerValue]="initialTime"
+          [isMilliseconds]="true"
+          [fontSize]="isShowingBreakTimer() ? 2 : 4"
+          [timerState]="exerciseTimerState"
+          [icon]="faStopwatch"
+          (timerValueChange)="onExerciseTimerValueChange($event)"
+        ></app-timer>
+      </div>
       <span *ngIf="isStopped" class="number"> 20 Kg <fa-icon size="sm" [icon]="faPencil"></fa-icon> </span>
     </div>
+
     <div class="buttons">
       <app-button
-        *ngIf="!isStopped"
-        id="b-exercise-numbers-stop"
-        [colors]="['#f10a0a', '#ff77cf']"
-        [wrapContent]="false"
-        width="100%"
-        (click)="isStopped = true"
+        *ngIf="exerciseTimerState === 'stopped' || exerciseTimerState === 'paused' || exerciseTimerState === 'reset'"
+        id="b-play-timer"
+        [colors]="['#34f10a', '#00ff94']"
+        [wrapContent]="true"
+        width="5em"
+        borderRadius="50%"
+        aspectRatio="1/1"
+        (click)="playTimer()"
+        padding="0"
       >
-        Parar
+        <fa-icon size="2x" [icon]="faPlay"></fa-icon>
       </app-button>
       <app-button
-        *ngIf="isStopped"
-        id="b-exercise-numbers-cancell"
-        [colors]="['#f10a0a', '#ff77cf']"
-        [wrapContent]="false"
-        width="100%"
-        (click)="isShowingTimer = false"
+        *ngIf="exerciseTimerState === 'playing'"
+        id="b-pause-timer"
+        [colors]="['#003bff', '#00c4ff', ]"
+        [wrapContent]="true"
+        width="5em"
+        borderRadius="50%"
+        aspectRatio="1/1"
+        (click)="pauseTimer()"
+        padding="0"
       >
-        Cancel
+        <fa-icon size="2x" [icon]="faPause"></fa-icon>
       </app-button>
       <app-button
-        *ngIf="isStopped"
-        id="b-exercise-numbers-confirm"
-        [colors]="['#44f10a', '#77ffd6']"
-        [wrapContent]="false"
-        width="100%"
-        (click)="isShowingTimer = false"
+        *ngIf="exerciseTimerState !== 'playing'"
+        id="b-cancell-timer"
+        [colors]="['#f10a0a', '#ff77cf']"
+        [wrapContent]="true"
+        width="5em"
+        borderRadius="50%"
+        aspectRatio="1/1"
+        (click)="cancelTimer()"
+        padding="0"
       >
-        Confirm
+        <fa-icon size="2x" [icon]="faCancel"></fa-icon>
       </app-button>
+      <app-button
+        *ngIf="(exerciseTimerState === 'playing' || exerciseTimerState === 'paused') && exerciseTimer > 0"
+        id="b-stop-timer"
+        [colors]="['#f10a0a', '#ff77cf']"
+        [wrapContent]="true"
+        width="5em"
+        borderRadius="50%"
+        aspectRatio="1/1"
+        (click)="stopTimer()"
+        padding="0"
+      >
+        <fa-icon size="2x" [icon]="faStop"></fa-icon>
+      </app-button>
+<!--      <app-button-->
+<!--        *ngIf="(timerState === 'stopped' || timerState === 'paused') && timer != initialTime"-->
+<!--        id="b-reset-timer"-->
+<!--        [colors]="['#0028ff', '#ff00a4', '#ffcc00']"-->
+<!--        [wrapContent]="true"-->
+<!--        width="5em"-->
+<!--        borderRadius="50%"-->
+<!--        aspectRatio="1/1"-->
+<!--        (click)="resetTimer()"-->
+<!--        padding="0"-->
+<!--      >-->
+<!--        <fa-icon size="2x" [icon]="faRotateLeft"></fa-icon>-->
+<!--      </app-button>-->
     </div>
   </div>
 </div>

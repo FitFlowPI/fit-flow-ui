@@ -4,6 +4,7 @@ import {faClock} from "@fortawesome/free-solid-svg-icons/faClock";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {NgClass, NgForOf, NgStyle} from "@angular/common";
 import {Series} from "../../models/series";
+import {FormatTimePipe} from "../pipes/format-time.pipe";
 
 @Component({
   selector: 'app-exercise-progress-bar',
@@ -12,7 +13,8 @@ import {Series} from "../../models/series";
     FaIconComponent,
     NgForOf,
     NgClass,
-    NgStyle
+    NgStyle,
+    FormatTimePipe
   ],
   templateUrl: './exercise-progress-bar.component.html',
   styleUrl: './exercise-progress-bar.component.css'
@@ -33,22 +35,6 @@ export class ExerciseProgressBarComponent implements OnInit{
   private initializeExerciseExecution(): void {
     this.exerciseExecution = Array.from({ length: this.numberOfSeries }, () => ({} as Series));
     console.log('exercise exercution: ', this.exerciseExecution);
-  }
-
-  formatTime(seconds?: number): string {
-
-    if (!seconds || isNaN(seconds) || seconds < 0) {
-      return '--:--';
-    }
-
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-
-    // Pad minutes and seconds with leading zeros if necessary
-    const formattedMinutes = minutes.toString().padStart(2, '0');
-    const formattedSeconds = remainingSeconds.toString().padStart(2, '0');
-
-    return `${formattedMinutes}:${formattedSeconds}`;
   }
 
   calculateProgressLineHeight(): string {

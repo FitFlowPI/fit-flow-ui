@@ -54,7 +54,18 @@
       }
 
       .name {
+        display: inline-flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
         flex-grow: 1;
+
+        .exercise-info {
+          display: inline-flex;
+          flex-direction: row;
+          gap: 0.5em;
+        }
+
         h4 {
           margin: 0;
         }
@@ -143,15 +154,9 @@
           font-size: 0.5em;
         }
       }
-
-
     }
-
   }
-
 }
-
-
 
 .timer-screen {
   background-color: rgba(0, 0, 0, 0.26);
@@ -166,7 +171,7 @@
   align-items: center;
   justify-content: center;
 
-  .timer-container {
+  .exercise-numbers-container {
 
     display: flex;
     width: 100%;
@@ -183,6 +188,19 @@
       flex-direction: column;
       align-items: center;
       justify-content: space-evenly;
+
+      .timer-container {
+
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+
+        .exercise-timer {
+          display: inline-flex;
+          flex-direction: row;
+          align-items: center;
+        }
+      }
 
       .ball {
         display: flex;
@@ -207,6 +225,7 @@
 
     .buttons {
       display: inline-flex;
+      flex-wrap: wrap;
       width: 100%;
       justify-content: space-evenly;
       gap: 20px;
