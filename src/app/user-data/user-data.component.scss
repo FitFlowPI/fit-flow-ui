@@ -1,71 +1,3 @@
-@mixin wave-background-absolute($position) {
-
-  $verticalDisplacement: -20%;
-  $horizontalDisplacement: -25%;
-
-  position: fixed !important;
-  transform: rotateZ(-20deg);
-  height: 25%;
-  width: 120%;
-  z-index: -1;
-
-  @if ($position == 'top') {
-    top: $verticalDisplacement;
-    left: $horizontalDisplacement
-  }
-  @if ($position == 'bottom') {
-    bottom: $verticalDisplacement;
-    right: $horizontalDisplacement
-  }
-}
-
-:host {
-
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-
-  .data-form {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &.visible:not(.disabled-animation) {
-      animation: right-to-center 0.5s ease-in-out forwards;
-    }
-    &.visible.disabled-animation {
-      animation: none !important;
-      transform: translateX(0);
-    }
-    &.hidden:not(.disabled-animation) {
-      animation: center-to-left 0.5s ease-in-out forwards;
-    }
-    &.hidden.disabled-animation {
-      animation: none !important;;
-      transform: translateX(-100%);
-    }
-
-  }
-
-
-  .wave-background-bottom {
-    @include wave-background-absolute('bottom');
-  }
-  .wave-background-top {
-    @include wave-background-absolute('top');
-  }
-
-}
-
 .form-card {
   display: flex;
   flex-direction: column;
@@ -89,21 +21,21 @@
   text-align: center;
   position: relative;
   padding: 0 10px;
-
-  .return-button {
-    text-decoration: none;
-    color: var(--yellow);
-    width: 20px;
-    font-size: 0.7em;
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    transition: text-shadow 0.5s ease-out;
-  }
 }
 
-.welcome {
+.return-button {
+  text-decoration: none;
+  color: var(--yellow);
+  width: 20px;
+  font-size: 0.7em;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: text-shadow 0.5s ease-out;
+}
+
+.header {
   flex-shrink: 0;
   color: var(--white);
   text-align: center;
@@ -114,7 +46,7 @@
 
   span {
     font-weight: 200;
-    font-size: 0.8em;
+    font-size: 0.8rem;
   }
 }
 
@@ -158,64 +90,57 @@
   flex-shrink: 0;
   justify-content: center;
 
-  &.privacy-terms {
+  a {
+    font-size: 0.7rem;
   }
-
   &.to-register, &.to-login {
     margin-bottom: 0;
   }
 }
 
-@keyframes right-to-center {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
-  }
+/* Styles for Invalid Fields */
+input.ng-invalid.ng-touched {
+  border-color: red !important;  /* Red border for invalid fields */
 }
 
-@keyframes center-to-left {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-100%);
-  }
+input.ng-valid.ng-touched {
+  border-color: green !important; /* Optional: Green border for valid fields */
 }
+
+.error-message {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+:host ::ng-deep .dialog .p-dialog-header {
+  background-color: rgb(17, 17, 17);
+  color: white;
+}
+
+:host ::ng-deep .dialog .p-dialog-content {
+  background-color: rgb(17, 17, 17);
+  color: white;
+}
+
 
 // responsiveness
 
+
+// "mobile"
 @media only screen and (min-width: 600px) {
 
   .form-card {
     max-width: 450px;
-    max-height: 600px;
+    max-height: 750px;
 
     &.compact {
       padding-bottom: 40px !important;
     }
   }
-
-  :host {
-    .wave-background-top {
-      transform: rotateZ(0) translateX(-10%) translateY(-50%);
-      top: 0;
-      left: 0;
-      height: 60%;
-      width: 120%;
-    }
-    .wave-background-bottom {
-      transform: rotateZ(0) translateX(-10%) translateY(50%);
-      bottom: 0;
-      left: 0;
-      height: 60%;
-      width: 120%;
-    }
-  }
 }
 @media only screen and (max-height: 500px) {
-  .welcome {
+  .header {
     span {
       display: none;
     }
@@ -224,8 +149,24 @@
     padding-bottom: 40px !important;
   }
 }
+
+@media only screen and (max-width: 250px) {
+  .header {
+    span {
+      display: none;
+    }
+    h2 {
+      font-size: 1rem;
+    }
+
+  }
+  .form-card.compact {
+    padding-bottom: 40px !important;
+  }
+}
+
 @media only screen and (max-height: 350px) {
-  .welcome {
+  .header {
     display: none;
   }
 }

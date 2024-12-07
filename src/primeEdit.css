@@ -1,10 +1,11 @@
 .p-inputtext {
-  padding: 0.30rem 0.75rem;
+  padding: 0.3rem 0.75rem;
 }
 
 .p-password-panel {
   background-color: var(--black);
   border: 1px solid var(--yellow);
+  pointer-events: none !important;
 }
 
 .p-password-meter {
@@ -16,12 +17,133 @@
 }
 
 .input-contrast {
-  border-radius: 15px !important;
+  border-radius: 5px !important;
   background-color: var(--black) !important;
   border-color: var(--yellow) !important;
   color: var(--white) !important;
 }
 
-.input-contrast:focus {
+.input-contrast.rounded {
+  border-radius: 15px !important;
+}
+
+.input-contrast:enabled:focus {
   box-shadow: 0 0 5px 1px var(--yellow) !important;
 }
+
+.p-inputtext {
+  background-color: var(--black);
+  border-color: var(--yellow);
+  color: var(--white);
+  border-radius: 5px;
+  padding: 0.5rem 0.75rem;
+}
+
+.p-inputtext.rounded {
+  border-radius: 15px;
+}
+
+.p-inputtext.p-inputnumber-input {
+  border-radius: 0;
+}
+
+.p-inputtext:enabled:focus {
+  box-shadow: 0 0 5px 1px var(--yellow);
+}
+
+.p-button-contrast {
+  background-color: var(--black);
+  border: 1px solid var(--yellow);
+}
+
+.p-button-contrast:hover {
+  box-shadow: 0 0 5px 1px var(--yellow);
+}
+
+.p-datatable .p-datatable-tbody > tr {
+  background: transparent;
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+  border-bottom: none;
+}
+
+.p-datatable .p-datatable-thead > tr > th {
+  background: transparent;
+  color: var(--yellow);
+  border: none;
+}
+
+.p-datatable .p-datatable-thead > tr:not(.table-input) > th {
+  border-bottom: 1px solid var(--yellow);
+}
+
+.edit-button, .add-button {
+  color: var(--cyan);
+}
+.edit-button span, .add-button span {
+  color: var(--cyan);
+}
+.edit-button:not(:disabled):hover, .add-button:not(:disabled):hover {
+  background: rgba(37, 99, 235, 0.19);
+  color: #ffffff;
+  border-color: #2563eb;
+}
+.edit-button:not(:disabled):hover span, .add-button:not(:disabled):hover span {
+  color: var(--white);
+}
+
+.cancel-button {
+  color: var(--red);
+}
+.cancel-button span {
+  color: var(--red);
+}
+.cancel-button:not(:disabled):hover {
+  background: rgba(235, 37, 37, 0.19);
+  color: #ffffff;
+  border-color: #eb2525;
+}
+.cancel-button:not(:disabled):hover span {
+  color: var(--red);
+}
+
+.confirm-button {
+  color: var(--green);
+}
+.confirm-button span {
+  color: var(--green);
+}
+.confirm-button:not(:disabled):hover {
+  background: rgba(57, 235, 37, 0.19);
+  color: #ffffff;
+  border-color: #3feb25;
+}
+.confirm-button:not(:disabled):hover span {
+  color: var(--green);
+}
+
+.close-button {
+  color: var(--white);
+}
+.close-button span {
+  color: var(--white);
+}
+.close-button:not(:disabled):hover {
+  background: rgba(255, 255, 255, 0.19);
+  color: #ffffff;
+  border-color: var(--red);
+}
+.close-button:not(:disabled):hover span {
+  color: var(--white);
+}
+
+.p-password-panel {
+  pointer-events: none !important;
+}
+
+tr.p-element {
+  color: var(--white);
+}
+
+/*# sourceMappingURL=primeEdit.css.map */

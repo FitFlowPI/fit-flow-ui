@@ -1,14 +1,52 @@
-import { Component } from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, HostListener} from '@angular/core';
 import { HomeComponent } from "./home/home.component";
 import {RouterLink, RouterOutlet} from "@angular/router";
+import {SvgGeneratorComponent} from "./shared/svg-generator/svg-generator.component";
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [HomeComponent, RouterLink, RouterOutlet],
+  imports: [HomeComponent, RouterLink, RouterOutlet, SvgGeneratorComponent, ToastModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit{
+
+  constructor(private cdRef: ChangeDetectorRef) {}
+
   title = 'fit-flow-ui';
+
+  // background wave svg properties
+  waveHeight: number = 200;
+  count: number = 20;
+  thickness: number = 15;
+  blur: number = 15;
+  speed: number = 0.5;
+  opacity: number = 0.1;
+  width: string | number = '120%';
+  height: string | number = '40%';
+  rotatedHeight: string | number = '60%';
+  displacement: 'fasterTop' | 'fasterBottom' | 'fixed' = 'fixed';
+
+  // ----------------------------------------------------
+
+  isMobile: boolean | null = null;
+  heightValue: string | number = '';
+
+  ngAfterViewInit(): void {
+    this.isMobile = window.innerWidth >= 600;
+    this.updateHeightValue();
+  }
+
+  @HostListener('window:resize')
+  onResize(): void {
+    this.isMobile = window.innerWidth >= 600;
+    this.updateHeightValue();
+  }
+
+  updateHeightValue(): void {
+    this.heightValue = this.isMobile ? this.rotatedHeight : this.height;
+    this.cdRef.detectChanges();  // Aciona a detecção de mudanças manualmente
+  }
 }

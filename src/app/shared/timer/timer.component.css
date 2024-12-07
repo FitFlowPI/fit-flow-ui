@@ -1,0 +1,22 @@
+.timer {
+  display: inline-flex;
+  align-items: baseline;
+  font-family: "Roboto Mono", monospace !important;
+  font-optical-sizing: auto;
+  p {
+    margin: 0;
+    transition: font-size 0.25s ease;
+  }
+
+  fa-icon {
+    align-self: center;
+    margin-right: 0.4em;
+    transition: font-size 0.25s ease;
+  }
+
+  svg {
+    path {
+      align-self: center;
+    }
+  }
+}

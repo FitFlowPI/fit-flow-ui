@@ -1,0 +1,236 @@
+:host {
+  position: relative;
+}
+
+.exercise-execution-info-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 425px;
+  max-height: 640px;
+
+  .media-container {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    padding: 5px 5px 10px 5px;
+
+    img:after, .video:after {
+      content: '';
+      display: flex;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 384 512'%3E%3Cpath fill='%23ffffff' d='M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80L0 432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z'/%3E%3C/svg%3E%0A");
+    }
+
+    .info {
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      width: 100%;
+      padding: 0 5px;
+      gap: 10px;
+
+      img {
+        border-radius: 5px;
+        flex-grow: 0;
+        aspect-ratio: 16/9;
+        width: 60px;
+        position: relative;
+        background-color: rgba(255, 255, 255, 0.18);
+      }
+
+      img:after {
+        background-size: 10px;
+      }
+
+      .name {
+        display: inline-flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        flex-grow: 1;
+
+        .exercise-info {
+          display: inline-flex;
+          flex-direction: row;
+          gap: 0.5em;
+        }
+
+        h4 {
+          margin: 0;
+        }
+      }
+
+      fa-icon {
+        color: var(--white);
+        width: 20px;
+      }
+    }
+    .expand {
+      .video {
+        border-radius: 5px;
+        aspect-ratio: 16/9;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.18);
+        position: relative;
+      }
+      .video:after {
+        background-size: 50px;
+      }
+    }
+
+    .bar {
+      padding: 30px;
+      width: 100%;
+      height: 100%;
+    }
+
+  }
+
+  .button-container {
+    display: inline-flex;
+    width: 100%;
+    border-top: 1px solid var(--yellow);
+    background-color: var(--black);
+    align-items: center;
+    /*justify-content: space-evenly;*/
+    /*gap: 20px;*/
+
+    .previous,
+    .next,
+    .play,
+    .hamburger {
+      display: flex;
+      height: 100%;
+      width: 2.5rem;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      font-size: 1.5em;
+    }
+
+    .button {
+      background-color: var(--black);
+      transition: background-color 0.5s ease;
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.18);
+      }
+    }
+
+    .drawer-container {
+      display: flex;
+      height: 100%;
+      padding: 15px;
+      flex-direction: row;
+      gap: 10px;
+      flex-grow: 1;
+
+      .next {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        width: 100%;
+        height: 100%;
+
+        span {
+          font-size: 0.6rem;
+          color: var(--yellow);
+        }
+        .next-name {
+          margin: 0;
+          color: var(--white);
+          font-size: 0.5em;
+        }
+      }
+    }
+  }
+}
+
+.timer-screen {
+  background-color: rgba(0, 0, 0, 0.26);
+  backdrop-filter: blur(2px);
+  z-index: 3;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .exercise-numbers-container {
+
+    display: flex;
+    width: 100%;
+    height: 100%;
+    max-width: 425px;
+    max-height: 640px;
+    flex-direction: column;
+    padding: 20px;
+
+    .numbers {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-evenly;
+
+      .timer-container {
+
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+
+        .exercise-timer {
+          display: inline-flex;
+          flex-direction: row;
+          align-items: center;
+        }
+      }
+
+      .ball {
+        display: flex;
+        gap: 5px;
+        font-size: 3rem;
+        align-items: center;
+        fa-icon {
+          font-size: 2rem;
+        }
+
+        &.out {
+          font-size: 4rem;
+          align-items: center;
+          font-weight: 800;
+          fa-icon {
+            font-size: 3rem;
+          }
+        }
+      }
+
+    }
+
+    .buttons {
+      display: inline-flex;
+      flex-wrap: wrap;
+      width: 100%;
+      justify-content: space-evenly;
+      gap: 20px;
+    }
+  }
+
+
+}

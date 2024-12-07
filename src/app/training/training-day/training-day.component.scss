@@ -1,0 +1,155 @@
+
+
+.chart-container {
+  /* maybe change to grid */
+  display: inline-flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: var(--black);
+  border: 1px solid var(--yellow);
+  border-radius: 15px;
+  overflow: hidden;
+
+  .summary {
+    border-radius: 15px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    height: 100%;
+    width: 100%;
+    gap: 10px;
+    position: relative;
+    transition:  background 0.5s ease;
+    background: transparent;
+    user-select: none;
+
+    h3 {
+      color: var(--yellow);
+    }
+
+    .play {
+      z-index: 1;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    &:active:not(:has(.play:hover)) {
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .chart-options {
+      position: absolute;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+      align-items: center;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 2;
+      color: var(--white);
+      background: var(--black);
+
+
+      // mask
+      transition: mask 0.5s ease;
+      mask-image:
+        radial-gradient(circle, black 50%, transparent 51%);
+      mask-position: center;
+      mask-repeat: no-repeat;
+      mask-composite: exclude;
+      mask-size: 0 0;
+
+      &.show {
+        mask-size: 150vw 150vw;
+        pointer-events: auto;
+      }
+
+    }
+
+    .info-container {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      h3 {
+        text-align: start;
+        margin-top: 0;
+      }
+      .series-info {
+        display: grid;
+        grid-template-columns:
+          repeat(auto-fit, minmax(4.375rem, 1fr));
+        width: 100%;
+        column-gap: 10px;
+        justify-content: start;
+
+        div {
+          margin: 2px 0;
+          white-space: nowrap;
+          font-size: 0.7rem;
+          color: var(--white);
+        }
+      }
+    }
+    app-button {
+      fa-icon {
+        font-size: 1.7rem;
+      }
+    }
+  }
+  .exercise-list {
+    display: inline-flex;
+    flex-direction: column;
+    width: 100%;
+    background: var(--black);
+    font-size: 0.8rem;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    transition: max-height 0.5s ease;
+
+    max-height: 0;
+    overflow: hidden;
+
+    &.show {
+      max-height: 20rem;
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      height: 1px;
+      background: var(--yellow);
+    }
+
+    table {
+      padding: 15px 20px;
+      width: 100%;
+      color: var(--white);
+      text-align: left;
+      border-spacing: 10px 5px;
+
+      th {
+        color: var(--yellow);
+        font-weight: 600;
+      }
+
+      .table-center {
+        text-align: center;
+      }
+    }
+  }
+}

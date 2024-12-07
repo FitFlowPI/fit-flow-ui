@@ -1,55 +1,3 @@
-:host {
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-:host .data-form {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-:host .data-form.visible:not(.disabled-animation) {
-  animation: right-to-center 0.5s ease-in-out forwards;
-}
-:host .data-form.visible.disabled-animation {
-  animation: none !important;
-  transform: translateX(0);
-}
-:host .data-form.hidden:not(.disabled-animation) {
-  animation: center-to-left 0.5s ease-in-out forwards;
-}
-:host .data-form.hidden.disabled-animation {
-  animation: none !important;
-  transform: translateX(-100%);
-}
-:host .wave-background-bottom {
-  position: fixed !important;
-  transform: rotateZ(-20deg);
-  height: 25%;
-  width: 120%;
-  z-index: -1;
-  bottom: -20%;
-  right: -25%;
-}
-:host .wave-background-top {
-  position: fixed !important;
-  transform: rotateZ(-20deg);
-  height: 25%;
-  width: 120%;
-  z-index: -1;
-  top: -20%;
-  left: -25%;
-}
-
 .form-card {
   display: flex;
   flex-direction: column;
@@ -73,7 +21,8 @@
   position: relative;
   padding: 0 10px;
 }
-.title .return-button {
+
+.return-button {
   text-decoration: none;
   color: var(--yellow);
   width: 20px;
@@ -85,17 +34,17 @@
   transition: text-shadow 0.5s ease-out;
 }
 
-.welcome {
+.header {
   flex-shrink: 0;
   color: var(--white);
   text-align: center;
 }
-.welcome h2 {
+.header h2 {
   font-weight: 500;
 }
-.welcome span {
+.header span {
   font-weight: 200;
-  font-size: 0.8em;
+  font-size: 0.8rem;
 }
 
 .form-container {
@@ -132,59 +81,58 @@
   flex-shrink: 0;
   justify-content: center;
 }
+.text-link a {
+  font-size: 0.7rem;
+}
 .text-link.to-register, .text-link.to-login {
   margin-bottom: 0;
 }
 
-@keyframes right-to-center {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
-  }
+/* Styles for Invalid Fields */
+input.ng-invalid.ng-touched {
+  border-color: red !important; /* Red border for invalid fields */
 }
-@keyframes center-to-left {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-100%);
-  }
+
+input.ng-valid.ng-touched {
+  border-color: green !important; /* Optional: Green border for valid fields */
 }
+
+.error-message {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
 @media only screen and (min-width: 600px) {
   .form-card {
     max-width: 450px;
-    max-height: 600px;
+    max-height: 750px;
   }
   .form-card.compact {
     padding-bottom: 40px !important;
   }
-  :host .wave-background-top {
-    transform: rotateZ(0) translateX(-10%) translateY(-50%);
-    top: 0;
-    left: 0;
-    height: 60%;
-    width: 120%;
-  }
-  :host .wave-background-bottom {
-    transform: rotateZ(0) translateX(-10%) translateY(50%);
-    bottom: 0;
-    left: 0;
-    height: 60%;
-    width: 120%;
-  }
 }
 @media only screen and (max-height: 500px) {
-  .welcome span {
+  .header span {
     display: none;
   }
   .form-card.compact {
     padding-bottom: 40px !important;
   }
 }
+@media only screen and (max-width: 250px) {
+  .header span {
+    display: none;
+  }
+  .header h2 {
+    font-size: 1rem;
+  }
+  .form-card.compact {
+    padding-bottom: 40px !important;
+  }
+}
 @media only screen and (max-height: 350px) {
-  .welcome {
+  .header {
     display: none;
   }
 }

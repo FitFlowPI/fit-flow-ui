@@ -1,0 +1,91 @@
+:host {
+  display: inline-block;
+  width: 100%;
+}
+
+.exercise-container {
+  display: inline-flex;
+  flex-direction: row;
+  border-radius: 15px;
+  padding: 8px;
+  width: 100%;
+  gap: 10px;
+  background-color: var(--black);
+  border: 1px solid var(--yellow);
+  transition: background-color 0.3s ease-in-out;
+  align-items: center;
+
+  &:hover {
+    background-color: #252525;
+    cursor: pointer;
+  }
+
+  .thumbnail {
+    border-style: none;
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.13);
+    outline: none;
+  }
+
+  .exercise-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: space-between;
+    gap: 5px;
+
+    .header {
+      display: inline-flex;
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      gap: 5px;
+
+      h4 {
+        margin: 0;
+        color: var(--yellow);
+      }
+
+      span {
+        font-size: 0.7rem;
+        color: var(--white-weak);
+        text-wrap: nowrap;
+      }
+    }
+
+    .muscles-details {
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 100%;
+
+      h6 {
+        margin: 0;
+        color: var(--white);
+      }
+
+      .muscles-grid {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        width: 100%;
+        column-gap: 5px;
+        justify-content: start;
+
+        span {
+          margin: 2px 0;
+          white-space: nowrap;
+          font-size: 0.6rem;
+          color: var(--white-weak);
+        }
+      }
+    }
+
+
+
+  }
+
+}
+
+
