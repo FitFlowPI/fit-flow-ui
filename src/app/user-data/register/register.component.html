@@ -82,9 +82,9 @@
   <p class="text-link text-center privacy-terms">
     <span>
       Ao continuar, você concorda com nossos
-      <a class="hyperlink" href="terms-of-use" title="termos de uso">Termos de Uso</a> 
+      <a class="hyperlink" (click)="showTerms()" title="termos de uso">Termos de Uso</a> 
       e 
-      <a class="hyperlink" href="privacy-policy" title="politicas de privacidade">Políticas de Privacidade</a>
+      <a class="hyperlink" (click)="showPrivacy()" title="politicas de privacidade">Políticas de Privacidade</a>
     </span>
   </p>
 
@@ -94,3 +94,129 @@
 </div>
 
 <p-toast></p-toast>
+
+<p-dialog 
+    header="Termos de Uso" 
+    [modal]="true"
+    [(visible)]="termsVisible" 
+    [style]="{  width: '50vw' }" 
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+    styleClass="dialog">
+    
+    <h2>Termos de Uso do FitFlow</h2>
+    <p class="last-update">Última atualização: 7 de dezembro de 2024</p>
+
+    <div class="section">
+        <h3>1. Licença de Uso</h3>
+        <p>O FitFlow concede a você uma licença limitada, não exclusiva e intransferível para usar o Aplicativo em seu dispositivo pessoal, exclusivamente para fins pessoais e não comerciais.</p>
+    </div>
+
+    <div class="section">
+        <h3>2. Conta do Usuário</h3>
+        <p>Para usar o Aplicativo, você precisará criar uma conta. Ao criar sua conta, você concorda em fornecer informações precisas e atualizadas. Você é responsável por manter a confidencialidade das informações da sua conta e por todas as atividades realizadas sob ela.</p>
+    </div>
+
+    <div class="section">
+        <h3>3. Uso do Aplicativo</h3>
+        <p>Você concorda em usar o Aplicativo de maneira legal e responsável, conforme as leis locais e os seguintes termos:</p>
+        <ul>
+            <li>Não usar o Aplicativo para fins fraudulentos ou ilegais.</li>
+            <li>Não violar a propriedade intelectual do FitFlow ou de terceiros.</li>
+            <li>Não tentar obter acesso não autorizado ao sistema do Aplicativo.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h3>4. Propriedade Intelectual</h3>
+        <p>Todos os direitos de propriedade intelectual sobre o Aplicativo, incluindo designs, códigos e conteúdo, são de propriedade exclusiva do FitFlow. Você não está autorizado a copiar, modificar, distribuir ou explorar qualquer parte do Aplicativo sem permissão expressa.</p>
+    </div>
+
+    <div class="section">
+        <h3>5. Suspensão ou Encerramento da Conta</h3>
+        <p>O FitFlow se reserva o direito de suspender ou encerrar sua conta a qualquer momento, se determinar que você violou os Termos de Uso ou qualquer outra política do Aplicativo.</p>
+    </div>
+
+    <div class="section">
+        <h3>6. Isenção de Responsabilidade</h3>
+        <p>O FitFlow não se responsabiliza por quaisquer danos diretos, indiretos, incidentais ou consequenciais decorrentes do uso ou da incapacidade de usar o Aplicativo. O uso do Aplicativo é por sua conta e risco.</p>
+    </div>
+
+    <div class="section">
+        <h3>7. Alterações nos Termos</h3>
+        <p>O FitFlow pode alterar estes Termos a qualquer momento. Alterações serão publicadas no Aplicativo, e você será notificado sempre que houver mudanças significativas.</p>
+    </div>
+
+    <div class="section">
+        <h3>8. Legislação Aplicável</h3>
+        <p>Estes Termos são regidos pelas leis do Brasil, sem considerar seus conflitos de princípios legais.</p>
+    </div>
+
+    <div class="section">
+        <h3>9. Contato</h3>
+        <p>Se você tiver dúvidas sobre estes Termos de Uso, entre em contato conosco pelo e-mail <a href="mailto:suporte@fitflow.com">suporte&#64;fitflow.com</a>.</p>
+    </div>
+</p-dialog>
+
+
+<p-dialog 
+    header="Política de Privacidade" 
+    [modal]="true"
+    [(visible)]="privacyVisible" 
+    [style]="{ width: '50rem' }" 
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+    styleClass="dialog">
+    
+    <h2>Política de Privacidade do FitFlow</h2>
+    <p class="last-update">Última atualização: 7 de dezembro de 2024</p>
+
+    <div class="section">
+        <h3>1. Informações Coletadas</h3>
+        <p>O FitFlow coleta as seguintes informações:</p>
+        <ul>
+            <li><strong>Informações Pessoais:</strong> Como nome, e-mail e dados de login, fornecidos por você ao criar uma conta.</li>
+            <li><strong>Informações de Atividade:</strong> Informações sobre os treinos realizados, como tipo de exercício, duração, intensidade e desempenho.</li>
+            <li><strong>Informações de Dispositivo:</strong> Detalhes sobre o dispositivo que você usa, como modelo, sistema operacional e endereço IP.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h3>2. Uso das Informações</h3>
+        <p>As informações coletadas são usadas para:</p>
+        <ul>
+            <li>Personalizar sua experiência e fornecer treinos recomendados.</li>
+            <li>Armazenar seu histórico de atividades e progresso.</li>
+            <li>Enviar notificações sobre treinos, promoções e atualizações do aplicativo.</li>
+            <li>Melhorar o desempenho e a funcionalidade do FitFlow.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h3>3. Compartilhamento de Informações</h3>
+        <p>Não compartilhamos suas informações pessoais com terceiros, exceto nas seguintes situações:</p>
+        <ul>
+            <li>Quando necessário para cumprir com a legislação vigente.</li>
+            <li>Para fins de serviços contratados (por exemplo, provedores de e-mail ou serviços de análise), que estão sujeitos a restrições de privacidade.</li>
+            <li>Se você autorizar explicitamente o compartilhamento de informações com parceiros.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h3>4. Segurança</h3>
+        <p>Tomamos medidas de segurança para proteger suas informações pessoais, mas lembre-se de que nenhuma transmissão de dados pela internet é 100% segura. Utilizamos criptografia para proteger informações sensíveis durante a transmissão.</p>
+    </div>
+
+    <div class="section">
+        <h3>5. Seus Direitos</h3>
+        <p>Você tem o direito de acessar, corrigir ou excluir suas informações pessoais. Caso queira exercer esses direitos, entre em contato conosco por meio dos canais disponíveis no aplicativo.</p>
+    </div>
+
+    <div class="section">
+        <h3>6. Alterações nesta Política</h3>
+        <p>O FitFlow pode atualizar esta Política de Privacidade periodicamente. Quaisquer alterações serão informadas por meio de uma notificação no aplicativo ou por e-mail.</p>
+    </div>
+
+    <div class="section">
+        <h3>7. Contato</h3>
+        <p>Se você tiver dúvidas sobre esta Política de Privacidade, entre em contato conosco pelo e-mail <a href="mailto:suporte@fitflow.com">suporte&#64;fitflow.com</a>.</p>
+    </div>
+</p-dialog>

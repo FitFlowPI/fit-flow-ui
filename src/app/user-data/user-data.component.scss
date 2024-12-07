@@ -113,6 +113,17 @@ input.ng-valid.ng-touched {
   margin-top: 0.25rem;
 }
 
+:host ::ng-deep .dialog .p-dialog-header {
+  background-color: rgb(17, 17, 17);
+  color: white;
+}
+
+:host ::ng-deep .dialog .p-dialog-content {
+  background-color: rgb(17, 17, 17);
+  color: white;
+}
+
+
 // responsiveness
 
 

@@ -1,15 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { ButtonComponent } from '../../shared/button/button.component';
-import { InputTextModule } from "primeng/inputtext";
-import { PasswordModule } from "primeng/password";
-import { Router, RouterLink } from "@angular/router";
+import { InputTextModule } from 'primeng/inputtext';
+import { PasswordModule } from 'primeng/password';
+import { Router, RouterLink } from '@angular/router';
 import { RegisterService } from '../../services/register.service';
 import { RegisterPayload, RegisterResponse } from '../../models/register.model';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { ToastService } from '../../services/toast.service';
 import { CommonModule } from '@angular/common';
+import { passwordValidator } from '../../validators/password.validator';
+import { DialogModule } from 'primeng/dialog';
 
 @Component({
   selector: 'app-register',
@@ -21,13 +28,16 @@ import { CommonModule } from '@angular/common';
     PasswordModule,
     RouterLink,
     ReactiveFormsModule,
-    ToastModule
+    ToastModule,
+    DialogModule,
   ],
   providers: [MessageService],
   templateUrl: './register.component.html',
-  styleUrls: ['../user-data.component.scss']
+  styleUrls: ['../user-data.component.scss'],
 })
 export class RegisterComponent implements OnInit {
+  termsVisible: boolean = false;
+  privacyVisible: boolean = false;
   registerForm!: FormGroup;
 
   constructor(
@@ -39,32 +49,55 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.registerForm = this.fb.group({
-      fullName: ['', [Validators.required, Validators.minLength(3)]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', Validators.required]
-    }, {
-      validators: this.passwordMatchValidator
-    });
+    this.registerForm = this.fb.group(
+      {
+        fullName: ['', [Validators.required, Validators.minLength(3)]],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ['', Validators.required],
+      },
+      {
+        validators: this.passwordMatchValidator,
+      }
+    );
   }
 
   passwordMatchValidator(formGroup: FormGroup) {
     const password = formGroup.get('password')?.value;
     const confirmPassword = formGroup.get('confirmPassword')?.value;
 
+    // Regular expressions for password validation
+    const minLengthRegex = /.{8,}/; // At least 8 characters
+    const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/; // At least one special character
+    const upperCaseRegex = /[A-Z]/; // At least one uppercase letter
+
+    // Validate password rules
+    if (password) {
+      if (!minLengthRegex.test(password)) {
+        formGroup.get('password')?.setErrors({ minLength: true });
+      } else if (!specialCharRegex.test(password)) {
+        formGroup.get('password')?.setErrors({ specialChar: true });
+      } else if (!upperCaseRegex.test(password)) {
+        formGroup.get('password')?.setErrors({ upperCase: true });
+      } else {
+        formGroup.get('password')?.setErrors(null); // Clear errors if valid
+      }
+    }
+
+    // If confirmPassword is empty, mark it as required
     if (!confirmPassword) {
-      // If confirmPassword is empty, mark it as required
       formGroup.get('confirmPassword')?.setErrors({ required: true });
-    } else if (password && confirmPassword && password !== confirmPassword) {
-      // If passwords don't match, mark as invalid
+    }
+    // If passwords don't match, mark it as invalid (mismatch error)
+    else if (password && confirmPassword && password !== confirmPassword) {
       formGroup.get('confirmPassword')?.setErrors({ mismatch: true });
-    } else {
-      // If passwords match, remove any errors (if any)
+    }
+    // If passwords match, clear any previous errors
+    else {
       formGroup.get('confirmPassword')?.setErrors(null);
     }
 
-    return null;
+    return null; // Return null to continue with the form validation process
   }
 
   onSubmit() {
@@ -73,11 +106,6 @@ export class RegisterComponent implements OnInit {
         username: this.registerForm.value.fullName,
         email: this.registerForm.value.email,
         password: this.registerForm.value.password,
-        active_plan: true,
-        user_type: 'AUTO_TRAINER',
-        gender: 'male',
-        weight: 70.50,
-        height: 175.00
       };
 
       this.registerService.registerUser(payload).subscribe({
@@ -95,12 +123,25 @@ export class RegisterComponent implements OnInit {
           console.error('Falha no registro', error);
 
           // Show error toast message
-          this.toastService.showError('Ocorreu um erro durante o registro. Por favor, tente novamente.');
-        }
+          this.toastService.showError(
+            'Ocorreu um erro durante o registro. Por favor, tente novamente.'
+          );
+        },
       });
     } else {
-      this.toastService.showError('Formulário inválido! Por favor, preencha todos os campos corretamente.');
+      this.toastService.showError(
+        'Formulário inválido! Por favor, preencha todos os campos corretamente.'
+      );
       console.log('Formulário inválido');
     }
+  }
+
+  showTerms() {
+    this.termsVisible = true;
+    console.log("clicked terms")
+  }
+
+  showPrivacy() {
+    this.privacyVisible = true;
   }
 }
