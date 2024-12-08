@@ -16,23 +16,14 @@ export class ExerciseService {
   // Fetch all exercises for the authenticated user
   getAllDefaultExercises(): Observable<any> {
     const token = this.getAuthToken(); // Retrieve the token
-    console.log('Token being sent:', token); // Log the token for debugging
-  
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`); // Add the token to headers
-    console.log('Headers being sent:', headers); // Log the headers for debugging
-  
-    // Update the URL to target the specific endpoint
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const url = `${this.apiUrl}/default`; 
-    console.log('URL being called:', url); // Log the URL for debugging
-  
-    // Make the GET request
     return this.http.get<any>(url, { headers });
   }
 
   // Helper to fetch the auth token
   private getAuthToken(): string {
     const token = localStorage.getItem('authToken') || '';
-    console.log('Token fetched from localStorage:', token); // Log the fetched token
     return token;
   }
 

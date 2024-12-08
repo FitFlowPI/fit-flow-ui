@@ -20,8 +20,11 @@ export class LoginService {
     return this.authenticate(payload).pipe(
       tap(response => {
         const token = response.data.token; // Adjust this according to your response structure
-        localStorage.setItem('authToken', token); // Save token to local storage
+        const userId = response.data.userId;
+        localStorage.setItem('authToken', token);
+        localStorage.setItem('userId', userId); // Save token to local storage
       })
+      
     );
   }
 

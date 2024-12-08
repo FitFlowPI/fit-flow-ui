@@ -1,8 +1,13 @@
 <div class="create-chart-container">
-
-<!--  TODO botao excluir que vira cancelar quando edita -->
+  <!--  TODO botao excluir que vira cancelar quando edita -->
   <div class="training-name">
-    <a *ngIf="!isEditingName" [routerLink]="['/training', 'training-day-select']" class="return-button"> ◀ </a>
+    <a
+      *ngIf="!isEditingName"
+      [routerLink]="['/training', 'training-day-select']"
+      class="return-button"
+    >
+      ◀
+    </a>
     <app-button
       *ngIf="isEditingName"
       padding="5px"
@@ -13,54 +18,64 @@
       [wrapContent]="true"
       width="2rem"
       aspectRatio="1/1"
-      (click)="cancelNewTrainingDayName()">
+      (click)="cancelNewTrainingDayName()"
+    >
       <fa-icon [icon]="faCancel"></fa-icon>
     </app-button>
-    <h2 *ngIf="!isEditingName" class="title"> {{trainingDayName}}</h2>
-    <input #trainingDayNameInput *ngIf="isEditingName" id="training-day-name" [(ngModel)]="trainingDayName">
-      <div class="buttons">
-        <app-button
-          *ngIf="!isEditingName"
-          padding="5px"
-          borderRadius="50%"
-          borderWidth="1px"
-          [colors]="['#ffae00', '#b96523']"
-          id="b-edit-training-name"
-          [wrapContent]="true"
-          width="2rem"
-          aspectRatio="1/1"
-          (click)="editTrainingDayName()">
-          <fa-icon [icon]="faPencil"></fa-icon>
-        </app-button>
-        <app-button
-          *ngIf="isEditingName"
-          padding="5px"
-          borderRadius="50%"
-          borderWidth="1px"
-          [colors]="['#30ff00', '#00a161']"
-          id="b-confirm-training-name"
-          [wrapContent]="true"
-          width="2rem"
-          aspectRatio="1/1"
-          (click)="confirmNewTrainingDayName()">
-          <fa-icon [icon]="faCheck"></fa-icon>
-        </app-button>
-      </div>
+    <h2 *ngIf="!isEditingName" class="title">{{ trainingDayName }}</h2>
+    <input
+      #trainingDayNameInput
+      *ngIf="isEditingName"
+      id="training-day-name"
+      [(ngModel)]="trainingDayName"
+    />
+    <div class="buttons">
+      <app-button
+        *ngIf="!isEditingName"
+        padding="5px"
+        borderRadius="50%"
+        borderWidth="1px"
+        [colors]="['#ffae00', '#b96523']"
+        id="b-edit-training-name"
+        [wrapContent]="true"
+        width="2rem"
+        aspectRatio="1/1"
+        (click)="editTrainingDayName()"
+      >
+        <fa-icon [icon]="faPencil"></fa-icon>
+      </app-button>
+      <app-button
+        *ngIf="isEditingName"
+        padding="5px"
+        borderRadius="50%"
+        borderWidth="1px"
+        [colors]="['#30ff00', '#00a161']"
+        id="b-confirm-training-name"
+        [wrapContent]="true"
+        width="2rem"
+        aspectRatio="1/1"
+        (click)="confirmNewTrainingDayName()"
+      >
+        <fa-icon [icon]="faCheck"></fa-icon>
+      </app-button>
+    </div>
   </div>
-
 
   <p-table #table [value]="exercises" dataKey="id" editMode="row">
     <ng-template pTemplate="header">
       <tr>
-        <th *ngIf="showId" style="width:10%; text-align:center">ID</th>
-        <th style="width:50%; text-align: center">Exercício</th>
-        <th style="width:10%; text-align:center">Séries</th>
-        <th style="text-align:center; padding: 0">Repetições</th>
+        <th *ngIf="showId" style="width: 10%; text-align: center">ID</th>
+        <th style="width: 50%; text-align: center">Exercício</th>
+        <th style="width: 10%; text-align: center">Séries</th>
+        <th style="text-align: center; padding: 0">Repetições</th>
         <th></th>
       </tr>
       <tr *ngIf="!isMobile" class="table-input">
-        <th *ngIf="showId" style="font-weight: 600; color: white; text-align:center">
-          {{ exercises.length + 1}}
+        <th
+          *ngIf="showId"
+          style="font-weight: 600; color: white; text-align: center"
+        >
+          {{ exercises.length + 1 }}
         </th>
         <th>
           <!-- <input
@@ -73,21 +88,42 @@
             style="width: 100%; max-width: 100%; min-width: 8rem"
             #nameInput="ngModel"
           /> -->
-          <p-cascadeSelect 
-          [(ngModel)]="selectedExercise" 
-          [options]="groupedExercises" 
-          optionLabel="name" 
-          optionGroupLabel="category" 
-          [optionGroupChildren]="['exercises']" 
-          placeholder="Select an Exercise"
-          [style]="{minWidth: '14rem'}">
-      </p-cascadeSelect>
+          <p-dropdown
+            [options]="groupedExercises"
+            [editable]="true"
+            appendTo="body"
+            [(ngModel)]="selectedExercise"
+            placeholder="Select an Exercise"
+            [group]="true"
+          >
+            <!-- Group template to display categories -->
+            <ng-template let-group pTemplate="group">
+              <div class="flex align-items-center">
+                <span>{{ group.label }}</span>
+              </div>
+            </ng-template>
+
+            <!-- Item template to display exercises within each group -->
+            <ng-template let-option pTemplate="item">
+              <div class="flex align-items-center">
+                <span>{{ option.label }}</span>
+              </div>
+            </ng-template>
+          </p-dropdown>
         </th>
         <th>
-          <div style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%;">
+          <div
+            style="
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 100%;
+              height: 100%;
+            "
+          >
             <p-inputNumber
               type="number"
-              [inputStyle]="{'width': '3rem', 'text-align':'center'}"
+              [inputStyle]="{ width: '3rem', 'text-align': 'center' }"
               [(ngModel)]="newExercise.series"
               [showButtons]="true"
               [buttonLayout]="numberInputLayout"
@@ -107,10 +143,18 @@
           </div>
         </th>
         <th>
-          <div style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%;">
+          <div
+            style="
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 100%;
+              height: 100%;
+            "
+          >
             <p-inputNumber
               type="number"
-              [inputStyle]="{'width': '3rem', 'text-align':'center'}"
+              [inputStyle]="{ width: '3rem', 'text-align': 'center' }"
               [(ngModel)]="newExercise.repetitions"
               [showButtons]="true"
               [buttonLayout]="numberInputLayout"
@@ -137,39 +181,48 @@
             icon="pi pi-plus"
             class="p-button-rounded p-button-text add-button"
             (click)="addNewExercise()"
-            [disabled]="!selectedExercise || seriesInput.invalid || repetitionsInput.invalid"
-          >
-          </button>
+            [disabled]="
+              !selectedExercise ||
+              seriesInput.invalid ||
+              repetitionsInput.invalid
+            "
+          ></button>
         </th>
       </tr>
     </ng-template>
 
-    <ng-template pTemplate="body" let-exercise let-editing="editing" let-ri="rowIndex">
+    <ng-template
+      pTemplate="body"
+      let-exercise
+      let-editing="editing"
+      let-ri="rowIndex"
+    >
       <tr [pEditableRow]="exercise">
-        <td *ngIf="showId" style="text-align:center;">
+        <td *ngIf="showId" style="text-align: center">
           {{ exercise.id }}
         </td>
         <td>
           <p-cellEditor>
             <ng-template pTemplate="input">
               <input
-                pInputText type="text"
-                style="width: 100%; max-width: 100%;"
-                [(ngModel)]="exercise.name" />
+                pInputText
+                type="text"
+                style="width: 100%; max-width: 100%"
+                [(ngModel)]="exercise.name"
+              />
             </ng-template>
             <ng-template pTemplate="output">
-              {{exercise.name}}
+              {{ exercise.name }}
             </ng-template>
           </p-cellEditor>
         </td>
-        <td style="text-align:center;">
+        <td style="text-align: center">
           <p-cellEditor>
             <ng-template pTemplate="input">
               <p-inputNumber
                 type="number"
-                [inputStyle]="{'width': '3rem', 'text-align':
-                'center'}"
-                [style]="{'align-self': 'center'}"
+                [inputStyle]="{ width: '3rem', 'text-align': 'center' }"
+                [style]="{ 'align-self': 'center' }"
                 [(ngModel)]="exercise.series"
                 [showButtons]="true"
                 [buttonLayout]="numberInputLayout"
@@ -185,17 +238,17 @@
               />
             </ng-template>
             <ng-template pTemplate="output">
-              {{exercise.series}}
+              {{ exercise.series }}
             </ng-template>
           </p-cellEditor>
         </td>
-        <td style="text-align:center;">
+        <td style="text-align: center">
           <p-cellEditor>
             <ng-template pTemplate="input">
               <p-inputNumber
                 type="number"
-                [inputStyle]="{'width': '3rem', 'text-align':'center'}"
-                [style]="{'align-self': 'center'}"
+                [inputStyle]="{ width: '3rem', 'text-align': 'center' }"
+                [style]="{ 'align-self': 'center' }"
                 [(ngModel)]="exercise.repetitions"
                 [showButtons]="true"
                 [buttonLayout]="numberInputLayout"
@@ -210,7 +263,7 @@
               />
             </ng-template>
             <ng-template pTemplate="output">
-              {{exercise.repetitions}}
+              {{ exercise.repetitions }}
             </ng-template>
           </p-cellEditor>
         </td>
@@ -224,8 +277,8 @@
               pInitEditableRow
               icon="pi pi-pencil"
               (click)="isMobile ? showCard(exercise) : onRowEditInit(exercise)"
-              class="p-button-rounded p-button-text edit-button">
-            </button>
+              class="p-button-rounded p-button-text edit-button"
+            ></button>
             <button
               *ngIf="editing"
               pButton
@@ -234,17 +287,18 @@
               pSaveEditableRow
               icon="pi pi-check"
               (click)="onRowEditSave(exercise)"
-              class="p-button-rounded p-button-text p-button-success confirm-button mr-2">
-            </button>
+              class="p-button-rounded p-button-text p-button-success confirm-button mr-2"
+            ></button>
             <button
               *ngIf="editing"
-              pButton pRipple
+              pButton
+              pRipple
               type="button"
               pCancelEditableRow
               icon="pi pi-times"
               (click)="onRowEditCancel(exercise, ri)"
-              class="p-button-rounded p-button-text p-button-danger cancel-button">
-            </button>
+              class="p-button-rounded p-button-text p-button-danger cancel-button"
+            ></button>
           </div>
         </td>
       </tr>
@@ -273,7 +327,11 @@
   >
     <fa-icon [icon]="faPlus" size="2x"></fa-icon>
   </app-button>
-  <app-floating-card title="Adicionar Exercício" *ngIf="isShowingCard" (close)="cancelEditExercise()">
+  <app-floating-card
+    title="Adicionar Exercício"
+    *ngIf="isShowingCard"
+    (close)="cancelEditExercise()"
+  >
     <div class="form">
       <div class="input-container exercise-name">
         <label for="exercise-name">Nome do Exercício</label>
@@ -289,7 +347,11 @@
           <label for="series">Séries</label>
           <p-inputNumber
             type="number"
-            [inputStyle]="{'text-align':'center', 'width':'100%', 'min-width': '3rem'}"
+            [inputStyle]="{
+              'text-align': 'center',
+              width: '100%',
+              'min-width': '3rem'
+            }"
             [(ngModel)]="newExercise.series"
             [showButtons]="true"
             [buttonLayout]="'horizontal'"
@@ -311,7 +373,11 @@
           <label for="repetitions">Repetições</label>
           <p-inputNumber
             type="number"
-            [inputStyle]="{'text-align':'center', 'width':'100%', 'min-width': '3rem'}"
+            [inputStyle]="{
+              'text-align': 'center',
+              width: '100%',
+              'min-width': '3rem'
+            }"
             [(ngModel)]="newExercise.repetitions"
             [showButtons]="true"
             [buttonLayout]="'horizontal'"

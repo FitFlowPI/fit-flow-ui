@@ -18,7 +18,7 @@ import {FloatingCardComponent} from "../../shared/floating-card/floating-card.co
 import {ExerciseComponent} from "../../shared/exercise/exercise.component";
 import {TrainingDay} from "../../models/training-day.model";
 import {ExerciseRepsAndSets} from "../../models/exercise-reps-and-sets.model";
-import { CascadeSelectModule } from 'primeng/cascadeselect';
+import { DropdownModule } from 'primeng/dropdown';
 import { ExerciseService } from '../../services/exercise.service';
 
 @Component({
@@ -38,7 +38,7 @@ import { ExerciseService } from '../../services/exercise.service';
     RouterLink,
     FloatingCardComponent,
     ExerciseComponent,
-    CascadeSelectModule
+    DropdownModule
   ],
   templateUrl: './training-day-create.component.html',
   styleUrls: ['./training-day-create.component.scss', '../training-screens.css']
@@ -64,7 +64,6 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
   isEditingName: boolean = false;
   isShowingCard: boolean = false;
 
-  cascadeSelectData: any[] = [];
   groupedExercises: any[] = [];
   selectedExercise: any;
 
@@ -79,7 +78,6 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
     this.checkViewportWidth();
     this.checkResponsiveness();
     const trainingDayId = this.route.snapshot.paramMap.get('trainingDayId');
-    console.log("trainingDayId from route:", trainingDayId); // Log the trainingDayId from the route
     if (trainingDayId) {
       this.isEditing = true; // Set `isEditing` to true when editing an existing chart
       this.loadTrainingDay(trainingDayId);
@@ -100,43 +98,60 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
   }
 
   loadExercises() {
+    console.log('Loading exercises...');
     this.exerciseService.getAllDefaultExercises().subscribe(
-      (exercises: ExerciseRepsAndSets[]) => {
-        // Group exercises by category
+      (response) => {
+        console.log('API Response:', response); // Log the response to inspect it
+        
+        // Extract exercises array from response.data
+        const exercises = response.data;
+        
+        // Call the method to group exercises by category
         const groupedExercises = this.groupExercisesByCategory(exercises);
-        this.cascadeSelectData = groupedExercises;
-        console.log('Grouped Exercises:', groupedExercises); // Log grouped data for debugging
+  
+        // Bind grouped exercises
+        this.groupedExercises = groupedExercises;
+        console.log('Grouped Exercises:', this.groupedExercises); // Log grouped exercises
       },
       (error) => {
-        console.error('Error loading default exercises:', error); // Log errors for debugging
+        console.error('Error loading exercises:', error);
       }
     );
   }
-
+  
   // Helper method to group exercises by category
-  groupExercisesByCategory(exercises: ExerciseRepsAndSets[]) {
+  groupExercisesByCategory(exercises: any[]): any[] {
+    if (!Array.isArray(exercises)) {
+      console.error('Exercises is not an array:', exercises);
+      return [];
+    }
+  
     const grouped: any[] = [];
-
-    exercises.forEach(exercise => {
-      const category = grouped.find(group => group.label === exercise.category);
-
+  
+    exercises.forEach((exercise: any) => {
+      const category = grouped.find((group: any) => group.label === exercise.category);
+  
       if (category) {
-        category.children.push({
+        // Push exercise into the items array under the existing category
+        category.items.push({
           label: exercise.name,
-          value: exercise.id
+          value: exercise.name,
         });
       } else {
+        // Create a new category and push the exercise into its items array
         grouped.push({
           label: exercise.category,
-          value: exercise.category,
-          children: [{
-            label: exercise.name,
-            value: exercise.id
-          }]
+          value: exercise.category, // Assuming category as value, adjust as needed
+          items: [
+            {
+              label: exercise.name,
+              value: exercise.name,
+            },
+          ],
         });
       }
     });
-
+  
     return grouped;
   }
 
@@ -227,33 +242,26 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
   }
 
   loadTrainingDay(trainingDayId: string) {
-    console.log("Loading training day with trainingDayId:", trainingDayId); // Log the trainingDayId used for loading
 
     // Ensure storedCharts is typed as an array of TrainingDay objects
     const storedChartsRaw = localStorage.getItem('charts');
-    console.log("Raw stored charts from localStorage:", storedChartsRaw); // Log raw data from localStorage
 
     const storedCharts: TrainingDay[] = storedChartsRaw ? JSON.parse(storedChartsRaw) : [];
-    console.log("Parsed stored charts:", storedCharts); // Log all stored charts in localStorage
 
     // Find the TrainingDay object with the matching ID
     const trainingDay = storedCharts.find((trainingDay: TrainingDay) => trainingDay.id.toString() === trainingDayId);
-    console.log("Found training day:", trainingDay); // Log the found training day
 
     if (trainingDay) {
       // Assign the name and exercises from the found trainingDay
       this.trainingDayName = trainingDay.name;
       this.exercises = trainingDay.exercises;
-      console.log("Loaded exercises:", this.exercises); // Log the exercises loaded
     } else {
-      console.log("No training day found with the provided trainingDayId.");
     }
   }
 
   submit() {
 
     const storedCharts = JSON.parse(localStorage.getItem('trainingDays') || '[]');
-    console.log("Stored charts before submit:", storedCharts); // Log the charts before submitting
 
     // Determine the series name based on the input or generate a default name
     const nextSeriesName = this.trainingDayName || `Série ${String.fromCharCode(65 + storedCharts.length)}`;
@@ -277,7 +285,6 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
         // Replace the chart at the found index with the new one
         storedCharts[index] = newChart;
       } else {
-        console.error("Training day not found to edit.");
       }
     } else {
       // Create a new chart

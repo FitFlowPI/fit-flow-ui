@@ -52,7 +52,8 @@ export class LoginComponent implements OnInit {
       this.loginService.authenticate(payload).subscribe({
         next: (response: LoginResponse) => {
           console.log('Login successful', response);
-          localStorage.setItem('authToken', response.data.token); // Store token
+          localStorage.setItem('authToken', response.data.token);
+          localStorage.setItem('userId', response.data.userId);
 
           // Show success toast message
           this.toastService.showSuccess('Login realizado com sucesso!');
