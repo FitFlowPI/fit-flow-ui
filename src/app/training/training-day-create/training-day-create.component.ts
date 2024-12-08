@@ -18,6 +18,8 @@ import {FloatingCardComponent} from "../../shared/floating-card/floating-card.co
 import {ExerciseComponent} from "../../shared/exercise/exercise.component";
 import {TrainingDay} from "../../models/training-day.model";
 import {ExerciseRepsAndSets} from "../../models/exercise-reps-and-sets.model";
+import { CascadeSelectModule } from 'primeng/cascadeselect';
+import { ExerciseService } from '../../services/exercise.service';
 
 @Component({
   selector: 'app-training-day-create',
@@ -36,6 +38,7 @@ import {ExerciseRepsAndSets} from "../../models/exercise-reps-and-sets.model";
     RouterLink,
     FloatingCardComponent,
     ExerciseComponent,
+    CascadeSelectModule
   ],
   templateUrl: './training-day-create.component.html',
   styleUrls: ['./training-day-create.component.scss', '../training-screens.css']
@@ -48,6 +51,7 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
   constructor(
     private router: Router,
     private trainingSheetService: TrainingSheetService,
+    private exerciseService: ExerciseService,
     private route: ActivatedRoute
   ) { }
 
@@ -60,6 +64,10 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
   isEditingName: boolean = false;
   isShowingCard: boolean = false;
 
+  cascadeSelectData: any[] = [];
+  groupedExercises: any[] = [];
+  selectedExercise: any;
+
   numberInputLayout: 'vertical' | 'horizontal' = 'horizontal';
   showId: boolean = true;
 
@@ -67,6 +75,7 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
   isEditing: boolean = false;
 
   ngOnInit() {
+    this.loadExercises();
     this.checkViewportWidth();
     this.checkResponsiveness();
     const trainingDayId = this.route.snapshot.paramMap.get('trainingDayId');
@@ -88,6 +97,47 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
         { preventScroll: true, focusVisible: true } as any
       );
     }
+  }
+
+  loadExercises() {
+    this.exerciseService.getAllDefaultExercises().subscribe(
+      (exercises: ExerciseRepsAndSets[]) => {
+        // Group exercises by category
+        const groupedExercises = this.groupExercisesByCategory(exercises);
+        this.cascadeSelectData = groupedExercises;
+        console.log('Grouped Exercises:', groupedExercises); // Log grouped data for debugging
+      },
+      (error) => {
+        console.error('Error loading default exercises:', error); // Log errors for debugging
+      }
+    );
+  }
+
+  // Helper method to group exercises by category
+  groupExercisesByCategory(exercises: ExerciseRepsAndSets[]) {
+    const grouped: any[] = [];
+
+    exercises.forEach(exercise => {
+      const category = grouped.find(group => group.label === exercise.category);
+
+      if (category) {
+        category.children.push({
+          label: exercise.name,
+          value: exercise.id
+        });
+      } else {
+        grouped.push({
+          label: exercise.category,
+          value: exercise.category,
+          children: [{
+            label: exercise.name,
+            value: exercise.id
+          }]
+        });
+      }
+    });
+
+    return grouped;
   }
 
   @HostListener('window:resize', ['$event'])

@@ -63,7 +63,7 @@
           {{ exercises.length + 1}}
         </th>
         <th>
-          <input
+          <!-- <input
             pInputText
             type="text"
             [(ngModel)]="newExercise.name"
@@ -72,8 +72,16 @@
             class="input-contrast"
             style="width: 100%; max-width: 100%; min-width: 8rem"
             #nameInput="ngModel"
-          />
-<!--          <app-exercise [exercise]="{id: '0', name: 'batata', muscles: ['peito', 'braço', 'ombro', 'nomelongoparateste'], time: 20}"></app-exercise>-->
+          /> -->
+          <p-cascadeSelect 
+          [(ngModel)]="selectedExercise" 
+          [options]="groupedExercises" 
+          optionLabel="name" 
+          optionGroupLabel="category" 
+          [optionGroupChildren]="['exercises']" 
+          placeholder="Select an Exercise"
+          [style]="{minWidth: '14rem'}">
+      </p-cascadeSelect>
         </th>
         <th>
           <div style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%;">
@@ -129,7 +137,7 @@
             icon="pi pi-plus"
             class="p-button-rounded p-button-text add-button"
             (click)="addNewExercise()"
-            [disabled]="nameInput.invalid || seriesInput.invalid || repetitionsInput.invalid"
+            [disabled]="!selectedExercise || seriesInput.invalid || repetitionsInput.invalid"
           >
           </button>
         </th>

@@ -3,4 +3,5 @@ export interface ExerciseRepsAndSets {
   name: string;
   series: number;
   repetitions: number;
+  category?: string;
 }
