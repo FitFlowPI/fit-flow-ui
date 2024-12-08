@@ -2,7 +2,7 @@ import { AfterViewChecked, AfterViewInit, Component, ElementRef, HostListener, O
 import { TableModule } from "primeng/table";
 import { ChipsModule } from "primeng/chips";
 import { PaginatorModule } from "primeng/paginator";
-import { NgIf, NgStyle } from "@angular/common";
+import { NgIf } from "@angular/common";
 import { ButtonDirective } from "primeng/button";
 import { Ripple } from "primeng/ripple";
 import { InputGroupModule } from "primeng/inputgroup";
@@ -15,11 +15,12 @@ import {faAdd, faCancel, faCheck, faPencil, faPlus} from "@fortawesome/free-soli
 import {faEdit} from "@fortawesome/free-solid-svg-icons/faEdit";
 import {faX} from "@fortawesome/free-solid-svg-icons/faX";
 import {FloatingCardComponent} from "../../shared/floating-card/floating-card.component";
-import {ExerciseComponent} from "../../shared/exercise/exercise.component";
 import {TrainingDay} from "../../models/training-day.model";
 import {ExerciseRepsAndSets} from "../../models/exercise-reps-and-sets.model";
 import { DropdownModule } from 'primeng/dropdown';
 import { ExerciseService } from '../../services/exercise.service';
+import { TrainingDayService } from '../../services/training-day.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-training-day-create',
@@ -33,11 +34,9 @@ import { ExerciseService } from '../../services/exercise.service';
     ButtonDirective,
     Ripple,
     InputGroupModule,
-    NgStyle,
     FaIconComponent,
     RouterLink,
     FloatingCardComponent,
-    ExerciseComponent,
     DropdownModule
   ],
   templateUrl: './training-day-create.component.html',
@@ -52,7 +51,9 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
     private router: Router,
     private trainingSheetService: TrainingSheetService,
     private exerciseService: ExerciseService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private trainingDayService: TrainingDayService,
+    private toastService: ToastService
   ) { }
 
   trainingDayName?: string = "Treino A";
@@ -66,6 +67,7 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
 
   groupedExercises: any[] = [];
   selectedExercise: any;
+  editExercise: any;
 
   numberInputLayout: 'vertical' | 'horizontal' = 'horizontal';
   showId: boolean = true;
@@ -136,6 +138,7 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
         category.items.push({
           label: exercise.name,
           value: exercise.name,
+          exerciseId: exercise.id, // Add the exercise ID here
         });
       } else {
         // Create a new category and push the exercise into its items array
@@ -146,6 +149,7 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
             {
               label: exercise.name,
               value: exercise.name,
+              exerciseId: exercise.id, // Add the exercise ID here
             },
           ],
         });
@@ -195,12 +199,27 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
 
   onRowEditInit(exercise: ExerciseRepsAndSets) {
     this.clonedExercises[exercise.id] = { ...exercise };
+    this.editExercise = { ...exercise };
   }
 
-  onRowEditSave(exercise: ExerciseRepsAndSets) {
-    // Save logic for editing an exercise (implement validation if necessary)
-    delete this.clonedExercises[exercise.id];
+  onRowEditSave(editExercise: ExerciseRepsAndSets) {
+    // Find the exercise in the exercises array by its ID
+    const updatedExercise = this.exercises.find(e => e.id === editExercise.id);
+  
+    if (updatedExercise) {
+      
+      // Update the exercise with the new values from editExercise
+      updatedExercise.name = editExercise.name; // Should be properly updated now
+      updatedExercise.series = editExercise.series;
+      updatedExercise.repetitions = editExercise.repetitions;
+      updatedExercise.exerciseId = editExercise.exerciseId;
+      console.log('Updated exercise:', editExercise); // Log to check the updated values
+    }
+  
+    // After saving, remove the cloned exercise (no longer needed)
+    delete this.clonedExercises[editExercise.id];
   }
+  
 
   onRowEditCancel(exercise: ExerciseRepsAndSets, index: number) {
     this.exercises[index] = this.clonedExercises[exercise.id];
@@ -210,20 +229,56 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
   newExercise: ExerciseRepsAndSets = { id: 0, name: '', series: 0, repetitions: 0 };
 
   addNewExercise() {
-    if (this.newExercise.name && this.newExercise.series && this.newExercise.repetitions) {
+    if (this.selectedExercise && this.newExercise.series > 0 && this.newExercise.repetitions > 0) {
+      const exerciseName = typeof this.selectedExercise === 'string' ? this.selectedExercise : this.selectedExercise?.value;
+  
+      if (!exerciseName) {
+        console.error('Exercise name is invalid or not selected.');
+        return;
+      }
+  
+      console.log('Adding new exercise:', exerciseName);
+  
+      // Define the type of `item` in `group.items` if not already done
+      let exerciseId: string | undefined; // Make exerciseId a string to match the expected type
+  
+      for (const group of this.groupedExercises) {
+        const foundExercise = group.items.find((item: { label: string; exerciseId: string }) => item.label === exerciseName);  // Explicit type for `item`
+        if (foundExercise) {
+          exerciseId = foundExercise.exerciseId; // Correct exercise ID from grouped data (string type)
+          break;
+        }
+      }
+  
+      if (exerciseId === undefined) {
+        console.error('Could not find exercise ID for selected exercise.');
+        return;
+      }
+  
+      // Create the new exercise object with a temporary ID for table display (local ID)
       const newExercise: ExerciseRepsAndSets = {
-        ...this.newExercise,
-        id: this.exercises.length + 1
+        id: this.exercises.length + 1,  // Use sequential ID for display purposes in the table
+        name: exerciseName,             // Use the selected exercise name
+        series: this.newExercise.series,
+        repetitions: this.newExercise.repetitions,
+        exerciseId: exerciseId,         // Store the correct ID (as string) for backend submission
       };
-
+  
+      // Add the new exercise to the exercises array
       this.exercises.push(newExercise);
-
-      // Reset the inputs
+  
+      // Reset the inputs and selected exercise
       this.newExercise = { id: 0, name: '', series: 0, repetitions: 0 };
+      this.selectedExercise = null; // Clear the dropdown selection
       this.isShowingCard = false;
+    } else {
+      console.error('Invalid input. Ensure the dropdown is selected and all fields are filled.', {
+        selectedExercise: this.selectedExercise,
+        newExercise: this.newExercise,
+      });
     }
   }
-
+  
   cancelEditExercise() {
     this.newExercise = { id: 0, name: '', series: 0, repetitions: 0 };
     this.isShowingCard = false;
@@ -260,50 +315,67 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
   }
 
   submit() {
-
-    const storedCharts = JSON.parse(localStorage.getItem('trainingDays') || '[]');
-
-    // Determine the series name based on the input or generate a default name
-    const nextSeriesName = this.trainingDayName || `Série ${String.fromCharCode(65 + storedCharts.length)}`;
-
-    // Define the new chart with its name and exercises
-    const newChart: TrainingDay = {
-      id: this.isEditing ? this.route.snapshot.paramMap.get('trainingDayId')! : Date.now().toString(), // Unique ID
-      name: nextSeriesName,
-      exercises: this.exercises,
-      kcal: 0,
-      timeInMinutes: 0
+    console.log('Submit button clicked.');
+  
+    // Determine the next series name
+    const nextSeriesName = this.trainingDayName || `Série ${String.fromCharCode(65 + (this.exercises.length + 1))}`;
+    console.log('Next series name:', nextSeriesName);
+  
+    // Build the payload for the backend
+    const trainingDay = {
+      id: this.isEditing ? Number(this.route.snapshot.paramMap.get('trainingDayId')!) : undefined, // Ensure ID is a number
+      name: nextSeriesName, // Training day name
+      creationDate: new Date(), // Add the creation date
+      exercises: this.exercises.map((exercise) => ({
+        exerciseId: exercise.id, // Pass the exercise ID
+        series: exercise.series, // Pass the series value
+        repetitions: exercise.repetitions, // Pass the repetitions value
+        // Do not send weight and restInterval as per the requirement
+      })),
     };
-
-    const trainingDayId = this.route.snapshot.paramMap.get('trainingDayId');
-
-    if (trainingDayId) {
-      // Edit existing chart
-      const index = storedCharts.findIndex((trainingDay: TrainingDay) => trainingDay.id.toString() === trainingDayId); // Ensure IDs match as strings
-
-      if (index !== -1) {
-        // Replace the chart at the found index with the new one
-        storedCharts[index] = newChart;
+  
+    console.log('Built training day object:', trainingDay);
+  
+    // Check if we're editing or creating
+    if (this.isEditing) {
+      console.log('Editing mode is active.');
+      const trainingDayId = this.route.snapshot.paramMap.get('trainingDayId');
+      console.log('Training day ID retrieved from route:', trainingDayId);
+  
+      if (trainingDayId) {
+        console.log('Calling updateTrainingDay with:', trainingDayId, trainingDay);
+        this.trainingDayService.updateTrainingDay(trainingDayId, trainingDay).subscribe({
+          next: () => {
+            console.log('Training day successfully updated.');
+            this.toastService.showSuccess('Training day updated successfully.');
+          },
+          error: (err) => {
+            console.error('Error updating training day:', err);
+            this.toastService.showError('Failed to update the training day.');
+          },
+        });
       } else {
+        console.warn('No training day ID found in route for editing.');
       }
     } else {
-      // Create a new chart
-      storedCharts.push(newChart);
+      console.log('Creating a new training day.');
+      console.log('Calling createTrainingDay with:', trainingDay);
+      this.trainingDayService.createTrainingDay(trainingDay).subscribe({
+        next: (response) => {
+          console.log('Training day successfully created. Response:', response);
+          this.toastService.showSuccess('Training day created successfully.');
+        },
+        error: (err) => {
+          console.error('Error creating training day:', err);
+          this.toastService.showError('Failed to create the training day.');
+        },
+      });
     }
-
-    // Save the updated charts
-    localStorage.setItem('charts', JSON.stringify(storedCharts));  // Directly update localStorage
-
-    // Notify the service to update the charts observable
-    this.trainingSheetService.updateTrainingDayList(storedCharts);
-
-    // Reset the inputs
-    this.trainingDayName = ''; // Clear trainingDayName input field
-    this.exercises = [];  // Clear exercises array
-
-    // Navigate to the chart selection page
-    this.router.navigate(['/training/training-day-select']);
   }
+  
+  
+  
+  
 
   protected readonly faAdd = faAdd;
   protected readonly faEdit = faEdit;

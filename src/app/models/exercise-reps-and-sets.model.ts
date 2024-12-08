@@ -4,4 +4,5 @@ export interface ExerciseRepsAndSets {
   series: number;
   repetitions: number;
   category?: string;
+  exerciseId?: string;
 }

@@ -93,7 +93,7 @@
             [editable]="true"
             appendTo="body"
             [(ngModel)]="selectedExercise"
-            placeholder="Select an Exercise"
+            placeholder="Selecione um exercício"
             [group]="true"
           >
             <!-- Group template to display categories -->
@@ -204,12 +204,28 @@
         <td>
           <p-cellEditor>
             <ng-template pTemplate="input">
-              <input
-                pInputText
-                type="text"
-                style="width: 100%; max-width: 100%"
-                [(ngModel)]="exercise.name"
-              />
+              <p-dropdown
+            [options]="groupedExercises"
+            [editable]="true"
+            appendTo="body"
+            [(ngModel)]="editExercise"
+            placeholder="Selecione um exercício"
+            [group]="true"
+          >
+            <!-- Group template to display categories -->
+            <ng-template let-group pTemplate="group">
+              <div class="flex align-items-center">
+                <span>{{ group.label }}</span>
+              </div>
+            </ng-template>
+
+            <!-- Item template to display exercises within each group -->
+            <ng-template let-option pTemplate="item">
+              <div class="flex align-items-center">
+                <span>{{ option.label }}</span>
+              </div>
+            </ng-template>
+          </p-dropdown>
             </ng-template>
             <ng-template pTemplate="output">
               {{ exercise.name }}
@@ -227,7 +243,7 @@
                 [showButtons]="true"
                 [buttonLayout]="numberInputLayout"
                 inputId="series-edit"
-                [min]="0"
+                [min]="1"
                 [max]="10"
                 [step]="1"
                 decrementButtonClass="p-button-contrast"
@@ -253,8 +269,8 @@
                 [showButtons]="true"
                 [buttonLayout]="numberInputLayout"
                 inputId="repetitions-edit"
-                [min]="0"
-                [max]="10"
+                [min]="1"
+                [max]="100"
                 [step]="1"
                 decrementButtonClass="p-button-contrast"
                 incrementButtonClass="p-button-contrast"
