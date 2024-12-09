@@ -61,7 +61,8 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
   trainingDayName?: string = "Treino A";
   copiedTrainingDayName?: string;
   exercises: ExerciseRepsAndSets[] = [];
-  clonedExercises: { [s: string]: ExerciseRepsAndSets } = {};
+  clonedExercises: { [key: number]: ExerciseRepsAndSets } = {};  // Keep a copy of exercises for canceling edits
+
   mobileWidth: number = 600;
   isMobile: boolean = false;
   isEditingName: boolean = false;
@@ -69,6 +70,7 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
 
   groupedExercises: any[] = [];
   selectedExercise: any;
+  selectedExercise2: any;
   editExercise: any;
 
   numberInputLayout: 'vertical' | 'horizontal' = 'horizontal';
@@ -221,6 +223,8 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
     // Log para verificar os dados do exercício original
     console.log('Iniciando edição para o exercício:', exercise);
 
+    this.clonedExercises[exercise.id] = { ...exercise };
+
     // Cria uma cópia isolada do exercício para edição
     this.editExercise = { ...exercise };
 
@@ -237,26 +241,33 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
   onRowEditSave(editExercise: ExerciseRepsAndSets) {
     // Verificando o exercício que está sendo editado
     console.log('Exercício editado:', editExercise);
-
+  
     // Verificando o exercício selecionado no dropdown
-    console.log('Exercício selecionado no dropdown:', this.selectedExercise);
-
-    // Atualizando o exercício editado com os dados do exercício selecionado no dropdown
-    editExercise.id = this.selectedExercise.id;
-    editExercise.name = this.selectedExercise.name;
-    editExercise.exerciseId = this.selectedExercise.id; // Garantir que o exerciseId também seja atualizado
-    console.log('Exercício editado após atualização:', editExercise);
-
-    // Encontrando o índice do exercício na lista
-    const index = this.exercises.findIndex((ex) => ex?.id === editExercise?.id);
-    console.log('Índice do exercício na lista:', index);
-
-    // Se o exercício for encontrado, atualiza a lista
-    if (index !== -1) {
-      this.exercises[index] = { ...editExercise };  // Atualiza com os novos dados
-      console.log('Lista de exercícios após a atualização:', this.exercises);
+    console.log('Exercício selecionado no dropdown:', this.selectedExercise2);
+  
+    // Garantir que o id do frontend permaneça o mesmo
+    const currentExercise = this.exercises.find((ex) => ex.id === editExercise.id);
+    if (currentExercise) {
+      // Atualizando o exercício com os dados selecionados do dropdown
+      editExercise.exerciseId = this.selectedExercise2.id; // Atualizando o exerciseId (backend ID)
+      editExercise.name = this.selectedExercise2.name; // Atualizando o nome do exercício, por exemplo
+  
+      // Agora o editExercise tem o id correto e o exerciseId atualizado
+      console.log('Exercício editado após atualização:', editExercise);
+  
+      // Encontrando o índice do exercício na lista
+      const index = this.exercises.findIndex((ex) => ex.id === editExercise.id);
+      console.log('Índice do exercício na lista:', index);
+  
+      // Se o exercício for encontrado, atualiza a lista
+      if (index !== -1) {
+        this.exercises[index] = { ...currentExercise, ...editExercise };  // Mantém o id original e atualiza o exerciseId
+        console.log('Lista de exercícios após a atualização:', this.exercises);
+      } else {
+        console.error('Exercício não encontrado para atualização.');
+      }
     } else {
-      console.error('Exercício não encontrado para atualização.');
+      console.error('Exercício não encontrado na lista.');
     }
   }
 
@@ -270,8 +281,14 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
 
 
   onRowEditCancel(exercise: ExerciseRepsAndSets, index: number) {
-    this.exercises[index] = this.clonedExercises[exercise.id];
+    console.log('Cancelling row edit for exercise:', exercise);
+
+    // Restore the exercise details from the cloned exercises
+    this.exercises[index] = { ...this.clonedExercises[exercise.id] };
     delete this.clonedExercises[exercise.id];
+
+    // Reset the second dropdown to the original value if needed
+    this.selectedExercise2 = this.exercises[index];
   }
 
   newExercise: ExerciseRepsAndSets = { id: 0, name: '', series: 0, repetitions: 0 };
@@ -357,7 +374,7 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
       name: nextSeriesName, // Training day name
       creationDate: new Date(), // Add the creation date
       exercises: this.exercises.map((exercise) => ({
-        exerciseId: exercise.id, // Pass the exercise ID
+        exerciseId: exercise.exerciseId, // Pass the exercise ID
         series: exercise.series, // Pass the series value
         repetitions: exercise.repetitions, // Pass the repetitions value
         // Do not send weight and restInterval as per the requirement

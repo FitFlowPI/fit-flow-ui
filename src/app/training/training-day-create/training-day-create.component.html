@@ -205,14 +205,11 @@
           <p-cellEditor>
             <ng-template pTemplate="input">
               <p-dropdown
-            [options]="groupedExercises"
-            [editable]="true"
-            appendTo="body"
-            [(ngModel)]="editExercise"
-            optionLabel="name"
-            optionValue="id"
-            placeholder="Selecione um exercício"
-            [group]="true"
+              [options]="groupedExercises"
+              [editable]="true"
+              appendTo="body"
+              [(ngModel)]="selectedExercise2"
+              [group]="true"
             (onChange)="logSelectedExercise()"
           >
             <!-- Group template to display categories -->
