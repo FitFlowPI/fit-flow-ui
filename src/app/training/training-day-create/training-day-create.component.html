@@ -209,8 +209,11 @@
             [editable]="true"
             appendTo="body"
             [(ngModel)]="editExercise"
+            optionLabel="name"
+            optionValue="id"
             placeholder="Selecione um exercício"
             [group]="true"
+            (onChange)="logSelectedExercise()"
           >
             <!-- Group template to display categories -->
             <ng-template let-group pTemplate="group">

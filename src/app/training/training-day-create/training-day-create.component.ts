@@ -7,7 +7,8 @@ import { ButtonDirective } from "primeng/button";
 import { Ripple } from "primeng/ripple";
 import { InputGroupModule } from "primeng/inputgroup";
 import { Router, RouterLink } from '@angular/router';
-import { TrainingSheetService } from '../../services/training-sheet.service'; // Import your service
+import { TrainingSheetService } from '../../services/training-sheet.service';// Import your service
+import { ChangeDetectorRef } from '@angular/core';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { ActivatedRoute } from '@angular/router'; // Import ActivatedRoute
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
@@ -53,7 +54,8 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
     private exerciseService: ExerciseService,
     private route: ActivatedRoute,
     private trainingDayService: TrainingDayService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   trainingDayName?: string = "Treino A";
@@ -99,18 +101,21 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
     }
   }
 
+// Adicionando uma variável para armazenar os exercícios originais
+  originalExercises: any[] = [];
+
   loadExercises() {
     console.log('Loading exercises...');
     this.exerciseService.getAllDefaultExercises().subscribe(
       (response) => {
         console.log('API Response:', response); // Log the response to inspect it
-        
-        // Extract exercises array from response.data
-        const exercises = response.data;
-        
-        // Call the method to group exercises by category
-        const groupedExercises = this.groupExercisesByCategory(exercises);
-  
+
+        // Salva a lista original de exercícios
+        this.originalExercises = response.data;
+
+        // Agora, em vez de usar a lista filtrada diretamente, você pode usar a lista original para popular o dropdown
+        const groupedExercises = this.groupExercisesByCategory(this.originalExercises);
+
         // Bind grouped exercises
         this.groupedExercises = groupedExercises;
         console.log('Grouped Exercises:', this.groupedExercises); // Log grouped exercises
@@ -120,44 +125,59 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
       }
     );
   }
-  
+
+
   // Helper method to group exercises by category
   groupExercisesByCategory(exercises: any[]): any[] {
     if (!Array.isArray(exercises)) {
       console.error('Exercises is not an array:', exercises);
       return [];
     }
-  
+
     const grouped: any[] = [];
-  
+
     exercises.forEach((exercise: any) => {
       const category = grouped.find((group: any) => group.label === exercise.category);
-  
+
       if (category) {
-        // Push exercise into the items array under the existing category
+        // Adicionando o objeto completo ao invés de apenas o nome
         category.items.push({
           label: exercise.name,
-          value: exercise.name,
-          exerciseId: exercise.id, // Add the exercise ID here
+          value: exercise,  // Agora o valor é o objeto completo do exercício
+          exerciseId: exercise.id,
         });
       } else {
-        // Create a new category and push the exercise into its items array
+        // Criando uma nova categoria e adicionando o objeto completo
         grouped.push({
           label: exercise.category,
-          value: exercise.category, // Assuming category as value, adjust as needed
+          value: exercise.category,  // Mantendo o nome da categoria como label
           items: [
             {
               label: exercise.name,
-              value: exercise.name,
-              exerciseId: exercise.id, // Add the exercise ID here
+              value: exercise,  // Agora o valor é o objeto completo
+              exerciseId: exercise.id,
             },
           ],
         });
       }
     });
-  
+
     return grouped;
   }
+
+
+  // Aplicar filtro apenas na exibição (exemplo)
+  getFilteredExercises() {
+    // Supondo que você tenha um filtro baseado em categoria, por exemplo
+    const filteredExercises = this.originalExercises.filter(exercise => {
+      return exercise.category === 'Peito'; // Exemplo de filtro
+    });
+
+    // Depois, agrupe os exercícios filtrados para exibição
+    return this.groupExercisesByCategory(filteredExercises);
+  }
+
+
 
   @HostListener('window:resize', ['$event'])
   onResize() {
@@ -198,28 +218,56 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
   }
 
   onRowEditInit(exercise: ExerciseRepsAndSets) {
-    this.clonedExercises[exercise.id] = { ...exercise };
+    // Log para verificar os dados do exercício original
+    console.log('Iniciando edição para o exercício:', exercise);
+
+    // Cria uma cópia isolada do exercício para edição
     this.editExercise = { ...exercise };
+
+    // Log para verificar se a cópia foi realizada corretamente
+    console.log('Cópia do exercício para edição:', this.editExercise);
+
+    // Também loga a lista de exercícios para garantir que ela não foi alterada
+    console.log('Lista de exercícios antes da edição:', this.exercises);
   }
 
+
+
+
   onRowEditSave(editExercise: ExerciseRepsAndSets) {
-    // Find the exercise in the exercises array by its ID
-    const updatedExercise = this.exercises.find(e => e.id === editExercise.id);
-  
-    if (updatedExercise) {
-      
-      // Update the exercise with the new values from editExercise
-      updatedExercise.name = editExercise.name; // Should be properly updated now
-      updatedExercise.series = editExercise.series;
-      updatedExercise.repetitions = editExercise.repetitions;
-      updatedExercise.exerciseId = editExercise.exerciseId;
-      console.log('Updated exercise:', editExercise); // Log to check the updated values
+    // Verificando o exercício que está sendo editado
+    console.log('Exercício editado:', editExercise);
+
+    // Verificando o exercício selecionado no dropdown
+    console.log('Exercício selecionado no dropdown:', this.selectedExercise);
+
+    // Atualizando o exercício editado com os dados do exercício selecionado no dropdown
+    editExercise.id = this.selectedExercise.id;
+    editExercise.name = this.selectedExercise.name;
+    editExercise.exerciseId = this.selectedExercise.id; // Garantir que o exerciseId também seja atualizado
+    console.log('Exercício editado após atualização:', editExercise);
+
+    // Encontrando o índice do exercício na lista
+    const index = this.exercises.findIndex((ex) => ex?.id === editExercise?.id);
+    console.log('Índice do exercício na lista:', index);
+
+    // Se o exercício for encontrado, atualiza a lista
+    if (index !== -1) {
+      this.exercises[index] = { ...editExercise };  // Atualiza com os novos dados
+      console.log('Lista de exercícios após a atualização:', this.exercises);
+    } else {
+      console.error('Exercício não encontrado para atualização.');
     }
-  
-    // After saving, remove the cloned exercise (no longer needed)
-    delete this.clonedExercises[editExercise.id];
   }
-  
+
+
+
+  logSelectedExercise() {
+    console.log('Exercício selecionado:', this.editExercise);
+    console.log('groupedExercises:', this.groupedExercises);
+  }
+
+
 
   onRowEditCancel(exercise: ExerciseRepsAndSets, index: number) {
     this.exercises[index] = this.clonedExercises[exercise.id];
@@ -230,55 +278,37 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
 
   addNewExercise() {
     if (this.selectedExercise && this.newExercise.series > 0 && this.newExercise.repetitions > 0) {
-      const exerciseName = typeof this.selectedExercise === 'string' ? this.selectedExercise : this.selectedExercise?.value;
-  
-      if (!exerciseName) {
-        console.error('Exercise name is invalid or not selected.');
-        return;
-      }
-  
-      console.log('Adding new exercise:', exerciseName);
-  
-      // Define the type of `item` in `group.items` if not already done
-      let exerciseId: string | undefined; // Make exerciseId a string to match the expected type
-  
-      for (const group of this.groupedExercises) {
-        const foundExercise = group.items.find((item: { label: string; exerciseId: string }) => item.label === exerciseName);  // Explicit type for `item`
-        if (foundExercise) {
-          exerciseId = foundExercise.exerciseId; // Correct exercise ID from grouped data (string type)
-          break;
-        }
-      }
-  
-      if (exerciseId === undefined) {
-        console.error('Could not find exercise ID for selected exercise.');
-        return;
-      }
-  
-      // Create the new exercise object with a temporary ID for table display (local ID)
+      // Obter o exercício completo
+      const exercise = this.selectedExercise;
+
+      // Obter o ID do exercício selecionado
+      const exerciseId = exercise.id;
+
+      // Agora você pode usar o objeto completo do exercício, incluindo o ID
+      console.log('Exercício selecionado:', exercise);
+      console.log('ID do exercício:', exerciseId);
+
+      // Criar o novo exercício com todos os dados
       const newExercise: ExerciseRepsAndSets = {
-        id: this.exercises.length + 1,  // Use sequential ID for display purposes in the table
-        name: exerciseName,             // Use the selected exercise name
+        id: this.exercises.length + 1,  // Usando um ID local para a tabela
+        name: exercise.name,            // Nome do exercício
         series: this.newExercise.series,
         repetitions: this.newExercise.repetitions,
-        exerciseId: exerciseId,         // Store the correct ID (as string) for backend submission
+        exerciseId: exerciseId,         // ID do exercício completo
       };
-  
-      // Add the new exercise to the exercises array
+
+      // Adicionar o exercício à lista
       this.exercises.push(newExercise);
-  
-      // Reset the inputs and selected exercise
+
+      // Resetar os campos e limpar a seleção do dropdown
       this.newExercise = { id: 0, name: '', series: 0, repetitions: 0 };
-      this.selectedExercise = null; // Clear the dropdown selection
+      this.selectedExercise = null; // Limpar a seleção
       this.isShowingCard = false;
     } else {
-      console.error('Invalid input. Ensure the dropdown is selected and all fields are filled.', {
-        selectedExercise: this.selectedExercise,
-        newExercise: this.newExercise,
-      });
+      console.error('Seleção inválida. Verifique os campos.');
     }
   }
-  
+
   cancelEditExercise() {
     this.newExercise = { id: 0, name: '', series: 0, repetitions: 0 };
     this.isShowingCard = false;
@@ -316,11 +346,11 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
 
   submit() {
     console.log('Submit button clicked.');
-  
+
     // Determine the next series name
     const nextSeriesName = this.trainingDayName || `Série ${String.fromCharCode(65 + (this.exercises.length + 1))}`;
     console.log('Next series name:', nextSeriesName);
-  
+
     // Build the payload for the backend
     const trainingDay = {
       id: this.isEditing ? Number(this.route.snapshot.paramMap.get('trainingDayId')!) : undefined, // Ensure ID is a number
@@ -333,15 +363,15 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
         // Do not send weight and restInterval as per the requirement
       })),
     };
-  
+
     console.log('Built training day object:', trainingDay);
-  
+
     // Check if we're editing or creating
     if (this.isEditing) {
       console.log('Editing mode is active.');
       const trainingDayId = this.route.snapshot.paramMap.get('trainingDayId');
       console.log('Training day ID retrieved from route:', trainingDayId);
-  
+
       if (trainingDayId) {
         console.log('Calling updateTrainingDay with:', trainingDayId, trainingDay);
         this.trainingDayService.updateTrainingDay(trainingDayId, trainingDay).subscribe({
@@ -372,10 +402,10 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
       });
     }
   }
-  
-  
-  
-  
+
+
+
+
 
   protected readonly faAdd = faAdd;
   protected readonly faEdit = faEdit;
