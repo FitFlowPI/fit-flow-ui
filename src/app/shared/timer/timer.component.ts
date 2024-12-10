@@ -78,7 +78,7 @@ export class TimerComponent implements OnInit, OnDestroy, OnChanges {
       if (!this.isRunning) return;
 
       const now = performance.now();
-      const currentElapsed = now - this.startTime; // Convert to centiseconds
+      const currentElapsed = now - this.startTime;
 
       if (this.currentTimerValue < 0) {
         // Countdown logic
@@ -108,7 +108,6 @@ export class TimerComponent implements OnInit, OnDestroy, OnChanges {
 
   private stopTimer(): void {
     this.resetTimer();
-    //TODO: emitir algo para sinalizar que acabou
   }
 
   private resetTimer(): void {
