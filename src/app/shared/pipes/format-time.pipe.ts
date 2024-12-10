@@ -8,38 +8,26 @@ export class FormatTimePipe implements PipeTransform {
 
   transform(
     value: number | null | undefined,
-    unit: 'seconds' | 'centiseconds' = 'centiseconds'
-  ): { text: string; isCountdown: boolean } {
+    unit: 'seconds' | 'milliseconds' = 'milliseconds'): string
+  {
     if (value == null) {
-      return { text: '--:--', isCountdown: false };
+      return '--:--';
     }
 
-    const isCountdown = value < 0;
-    const absValue = Math.abs(value);
 
-    // Convert input to centiseconds if it's in seconds
-    const timeInCs = unit === 'seconds' ? absValue * 100 : absValue;
+    // Convert centiseconds to seconds if necessary
+    const totalSeconds = unit === 'milliseconds' ? Math.floor(value / 1000) : value;
 
-    const minutes = Math.floor(timeInCs / 6000); // Minutes
-    const seconds = Math.floor((timeInCs % 6000) / 100); // Seconds
-    const centiseconds = timeInCs % 100; // Remaining centiseconds
+    // Calculate minutes and seconds
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = Math.floor(totalSeconds % 60);
 
-    let formattedSeconds: string;
-    if (unit === 'centiseconds') {
-      formattedSeconds = `${seconds.toString().padStart(2, '0')}.<span class="ms">${centiseconds.toString().padStart(2, '0')}</span>`;
-    } else {
-      formattedSeconds = seconds.toString().padStart(2, '0');
-    }
+    // Format the time as mm:ss
+    const formattedMinutes = String(minutes).padStart(2, '0');
+    const formattedSeconds = String(seconds).padStart(2, '0');
 
-    let text: string;
-    if (minutes === 0) {
-      text = isCountdown ? `-${formattedSeconds}` : formattedSeconds;
-    } else {
-      const formattedMinutes = minutes.toString().padStart(2, '0');
-      text = isCountdown ? `-${formattedMinutes}:${formattedSeconds}` : `${formattedMinutes}:${formattedSeconds}`;
-    }
+    return `${formattedMinutes}:${formattedSeconds}`;
 
-    return { text, isCountdown };
   }
 
 }

@@ -1,4 +1,4 @@
-import {Component, Input, ViewEncapsulation} from '@angular/core';
+import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {NgIf, NgOptimizedImage} from "@angular/common";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {
@@ -26,6 +26,7 @@ import {faStop} from "@fortawesome/free-solid-svg-icons/faStop";
 import {NumberSelectorComponent} from "../../shared/number-selector/number-selector.component";
 import {TimeEditorComponent} from "../../shared/time-editor/time-editor.component";
 import {NumberEditorComponent} from "../../shared/number-editor/number-editor.component";
+import {ExerciseExecutionModel} from "../../models/exercise-execution.model";
 
 
 @Component({
@@ -48,26 +49,37 @@ import {NumberEditorComponent} from "../../shared/number-editor/number-editor.co
   templateUrl: './exercise-start.component.html',
   styleUrl: './exercise-start.component.css'
 })
-export class ExerciseStartComponent {
+export class ExerciseStartComponent implements OnInit {
 
   //TODO: esse exercício tem que ser puxado do banco
   exercise: ExerciseRepsAndSets = {id: 1, series: 4, name: 'Supino inclinado', repetitions: 12};
   isShowingTimers: boolean = false;
-  isStopped: boolean = false;
   exerciseTimerState: 'stopped' | 'paused' | 'playing' | 'reset' = 'paused';
   breakTimerState: 'stopped' | 'paused' | 'playing' | 'reset' = 'stopped';
   initialTime: number = -5000;
-  exerciseTimer: number = this.initialTime;
-  finalTime: number = 0;
 
-  editing: 'timer' | 'weight' | 'repetitions' | 'none' = 'none';
+  exerciseTimer: number = 0;
+  finalExerciseTime: number = 0;
+  breakTimer: number = 0;
+  finalBreakTime: number = 0;
+  currentRepetitions: number = 0;
+  currentWeight: number = 0;
+
+  isExerciseExecutionValid: boolean = false;
+
+
+  exerciseExecution: Array<ExerciseExecutionModel | null> = [];
+
+  ngOnInit() {
+    this.exerciseExecution = Array.from({ length: this.exercise.series }, () => null);
+  }
 
   playTimer(): void {
     this.exerciseTimerState = 'playing';
   }
 
   stopTimer(): void {
-    this.finalTime = this.exerciseTimer;
+    this.finalExerciseTime = this.exerciseTimer;
     console.log(this.exerciseTimer);
     this.exerciseTimerState = 'stopped';
     this.breakTimerState = 'playing';
@@ -91,6 +103,10 @@ export class ExerciseStartComponent {
     // console.log(currentValue);
   }
 
+  onBreakTimerValueChange(currentValue: number): void {
+    this.breakTimer = currentValue;
+  }
+
   startExercise() {
     this.isShowingTimers = true;
   }
@@ -99,8 +115,34 @@ export class ExerciseStartComponent {
     return this.exerciseTimerState === 'stopped' && this.exerciseTimer > 0;
   }
 
-  finalizeSeries() {
+  repetitionOutput(repetitions: number) {
+    this.currentRepetitions = repetitions;
+    this.isExerciseExecutionValid = this.currentRepetitions > 0 && this.currentWeight > 0;
+  }
 
+  weightOutput(weight: number) {
+    this.currentWeight = weight;
+    this.isExerciseExecutionValid = this.currentRepetitions > 0 && this.currentWeight > 0;
+  }
+
+  finalizeSeries() {
+    this.finalBreakTime = this.breakTimer;
+    const currentExecution: ExerciseExecutionModel =
+      {
+        exerciseTime: this.finalExerciseTime,
+        breakTime: this.finalBreakTime,
+        repetitions: this.currentRepetitions,
+        weight: this.currentWeight
+      }
+    const emptyIndex = this.exerciseExecution.findIndex(item => item === null);
+    if (emptyIndex !== -1) {
+      const updatedExecution = [...this.exerciseExecution];
+      updatedExecution[emptyIndex] = currentExecution;
+      this.exerciseExecution = updatedExecution; // Replace the array reference
+    }
+
+
+    console.log('exercise execution: ', this.exerciseExecution);
     this.resetTimer();
     this.isShowingTimers = false;
   }

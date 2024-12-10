@@ -8,13 +8,14 @@
     [icon]="icon">
   </fa-icon>
   <app-number-selector
-    *ngFor="let digit of dividedNumber; let i = index"
+    *ngFor="let digit of numbers; let i = index"
     [index]="i"
     [number]="digit"
     [fontSize]="(isEditing ? editingFontSize : fontSize)"
     [showButtons]="isEditing"
     [padding]="isEditing ? ('0 ' + ((isEditing ? editingFontSize : fontSize) / 1.5) + 'rem') : '0'"
-    (numberOutput)="handleNumberChange($event)"
+    (incrementNumber)="handleIncrement($event)"
+    (decrementNumber)="handleDecrement($event)"
   >
   </app-number-selector>
   <div

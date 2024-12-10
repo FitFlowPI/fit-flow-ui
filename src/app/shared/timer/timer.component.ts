@@ -81,8 +81,6 @@ export class TimerComponent implements OnInit, OnDestroy, OnChanges {
       const currentElapsed = now - this.startTime; // Convert to centiseconds
 
       if (this.currentTimerValue < 0) {
-
-
         // Countdown logic
         this.elapsedTime = this.currentTimerValue + currentElapsed;
         if (this.elapsedTime >= 0) {
@@ -120,6 +118,7 @@ export class TimerComponent implements OnInit, OnDestroy, OnChanges {
     this.startTime = 0;
     this.isRunning = false;
     this.isPaused = false;
+    this.timerState = 'paused';
   }
 
   private updateDisplayValues(timerValue: number): void {
