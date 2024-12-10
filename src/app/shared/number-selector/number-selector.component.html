@@ -1,0 +1,18 @@
+<div
+  class="number-selector-component"
+   [ngStyle]=
+     "{
+      'width': (fontSize / 1.5) + 'rem',
+      'padding': padding
+     }"
+>
+  <div (click)="increment()" *ngIf="showButtons" class="increment-button">
+    <fa-icon [icon]="faAngleUp" [ngStyle]="{'font-size': fontSize + 'rem', 'color': color}"></fa-icon>
+  </div>
+  <p class="number" [ngStyle]="{'font-size': fontSize + 'rem', 'color': color}">
+    {{ number }}
+  </p>
+  <div (click)="decrement()" *ngIf="showButtons" class="decrement-button">
+    <fa-icon [icon]="faAngleDown" [ngStyle]="{'font-size': fontSize + 'rem', 'color': color}"></fa-icon>
+  </div>
+</div>

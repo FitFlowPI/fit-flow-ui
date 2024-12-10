@@ -8,7 +8,7 @@
       <div class="name">
         <h4> {{ exercise.name }} </h4>
         <div class="exercise-info">
-          <h4> {{exercise.series}} <fa-icon [icon]="faDumbbell"></fa-icon> </h4>
+          <h4> {{exercise.series}} Series </h4>
           <h4> {{exercise.repetitions}} <fa-icon [icon]="faRepeat"></fa-icon> </h4>
         </div>
       </div>
@@ -33,41 +33,33 @@
     </div>
     <div class="play button" (click)="startExercise()"> <fa-icon [icon]="faPlay"></fa-icon> </div>
     <div class="next button"> <fa-icon [icon]="faForwardStep"></fa-icon> </div>
-<!--    <app-button-->
-<!--      id="b-exercise-back"-->
-<!--      [colors]="['#f10a0a', '#ff77cf']"-->
-<!--      [wrapContent]="false"-->
-<!--      width="100%"-->
-<!--      [routerLink]="['/training', 'exercise-select']"-->
-<!--    >-->
-<!--      Voltar-->
-<!--    </app-button>-->
-<!--    <app-button-->
-<!--      id="b-exercise-proceed"-->
-<!--      [colors]="['#0a30f1', '#00ffe1']"-->
-<!--      [wrapContent]="false"-->
-<!--      width="100%"-->
-<!--      (click)="isShowingTimers = true"-->
-<!--    >-->
-<!--      Prosseguir-->
-<!--    </app-button>-->
   </div>
 </div>
 <div *ngIf="isShowingTimers" class="timer-screen">
   <div class="exercise-numbers-container">
     <div class="numbers">
-      <span *ngIf="isStopped" class="number"> 13 Rep <fa-icon size="sm" [icon]="faPencil"></fa-icon> </span>
+      <div *ngIf="exerciseTimerState === 'stopped'" class="weight-n-rep">
+        <app-number-editor [isEditing]="true" [fontSize]="1.5" [number]="exercise.repetitions" [icon]="faRepeat">
+        </app-number-editor>
+        <app-number-editor [fontSize]="1.5" [number]="0" [icon]="faDumbbell">
+        </app-number-editor>
+      </div>
       <div class="timer-container">
+        <app-time-editor *ngIf="exerciseTimerState === 'stopped'" [fontSize]="1.5" [number]="finalTime">
+        </app-time-editor>
         <app-timer
           *ngIf="exerciseTimerState === 'stopped' && exerciseTimer > 0"
           [initialTimerValue]="0"
           [isMilliseconds]="false"
+          [showMinutes]="true"
           [fontSize]="isShowingBreakTimer() ? 4 : 2"
           [timerState]="breakTimerState"
           [showSnoozeIcon]="true"
+          [color]="'#ffc148'"
           (timerValueChange)="onExerciseTimerValueChange($event)"
         ></app-timer>
         <app-timer
+          *ngIf="exerciseTimerState !== 'stopped'"
           [initialTimerValue]="initialTime"
           [isMilliseconds]="true"
           [fontSize]="isShowingBreakTimer() ? 2 : 4"
@@ -76,12 +68,11 @@
           (timerValueChange)="onExerciseTimerValueChange($event)"
         ></app-timer>
       </div>
-      <span *ngIf="isStopped" class="number"> 20 Kg <fa-icon size="sm" [icon]="faPencil"></fa-icon> </span>
     </div>
 
     <div class="buttons">
       <app-button
-        *ngIf="exerciseTimerState === 'stopped' || exerciseTimerState === 'paused' || exerciseTimerState === 'reset'"
+        *ngIf="exerciseTimerState === 'paused' || exerciseTimerState === 'reset'"
         id="b-play-timer"
         [colors]="['#34f10a', '#00ff94']"
         [wrapContent]="true"
@@ -92,6 +83,19 @@
         padding="0"
       >
         <fa-icon size="2x" [icon]="faPlay"></fa-icon>
+      </app-button>
+      <app-button
+        *ngIf="exerciseTimerState === 'stopped'"
+        id="b-finalize-series"
+        [colors]="['#34f10a', '#00ff94']"
+        [wrapContent]="true"
+        width="5em"
+        borderRadius="50%"
+        aspectRatio="1/1"
+        (click)="finalizeSeries()"
+        padding="0"
+      >
+        <fa-icon size="2x" [icon]="faCheck"></fa-icon>
       </app-button>
       <app-button
         *ngIf="exerciseTimerState === 'playing'"

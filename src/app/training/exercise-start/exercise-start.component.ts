@@ -4,11 +4,11 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {
   faAngleDown,
   faBackwardStep,
-  faBars, faCancel,
+  faBars, faCancel, faCheck,
   faDumbbell,
   faPause,
   faPencil, faRepeat,
-  faRotateLeft, faStopwatch
+  faRotateLeft, faStopwatch, faWeight
 } from "@fortawesome/free-solid-svg-icons";
 import {ButtonComponent} from "../../shared/button/button.component";
 import {faClock} from "@fortawesome/free-solid-svg-icons/faClock";
@@ -23,6 +23,9 @@ import {faArrowLeft} from "@fortawesome/free-solid-svg-icons/faArrowLeft";
 import {FormatTimePipe} from "../../shared/pipes/format-time.pipe";
 import {TimerComponent} from "../../shared/timer/timer.component";
 import {faStop} from "@fortawesome/free-solid-svg-icons/faStop";
+import {NumberSelectorComponent} from "../../shared/number-selector/number-selector.component";
+import {TimeEditorComponent} from "../../shared/time-editor/time-editor.component";
+import {NumberEditorComponent} from "../../shared/number-editor/number-editor.component";
 
 
 @Component({
@@ -38,6 +41,9 @@ import {faStop} from "@fortawesome/free-solid-svg-icons/faStop";
     ExerciseComponent,
     FormatTimePipe,
     TimerComponent,
+    NumberSelectorComponent,
+    TimeEditorComponent,
+    NumberEditorComponent,
   ],
   templateUrl: './exercise-start.component.html',
   styleUrl: './exercise-start.component.css'
@@ -48,16 +54,21 @@ export class ExerciseStartComponent {
   exercise: ExerciseRepsAndSets = {id: 1, series: 4, name: 'Supino inclinado', repetitions: 12};
   isShowingTimers: boolean = false;
   isStopped: boolean = false;
-  exerciseTimerState: 'stopped' | 'paused' | 'playing' | 'reset' = 'stopped';
+  exerciseTimerState: 'stopped' | 'paused' | 'playing' | 'reset' = 'paused';
   breakTimerState: 'stopped' | 'paused' | 'playing' | 'reset' = 'stopped';
   initialTime: number = -5000;
   exerciseTimer: number = this.initialTime;
+  finalTime: number = 0;
+
+  editing: 'timer' | 'weight' | 'repetitions' | 'none' = 'none';
 
   playTimer(): void {
     this.exerciseTimerState = 'playing';
   }
 
   stopTimer(): void {
+    this.finalTime = this.exerciseTimer;
+    console.log(this.exerciseTimer);
     this.exerciseTimerState = 'stopped';
     this.breakTimerState = 'playing';
   }
@@ -80,7 +91,6 @@ export class ExerciseStartComponent {
     // console.log(currentValue);
   }
 
-
   startExercise() {
     this.isShowingTimers = true;
   }
@@ -89,6 +99,11 @@ export class ExerciseStartComponent {
     return this.exerciseTimerState === 'stopped' && this.exerciseTimer > 0;
   }
 
+  finalizeSeries() {
+
+    this.resetTimer();
+    this.isShowingTimers = false;
+  }
 
   protected readonly faPencil = faPencil;
   protected readonly faForwardStep = faForwardStep;
@@ -104,4 +119,6 @@ export class ExerciseStartComponent {
   protected readonly faStopwatch = faStopwatch;
   protected readonly faRepeat = faRepeat;
   protected readonly faDumbbell = faDumbbell;
+  protected readonly faWeight = faWeight;
+  protected readonly faCheck = faCheck;
 }

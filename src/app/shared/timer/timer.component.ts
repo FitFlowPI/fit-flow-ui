@@ -3,6 +3,7 @@ import {BehaviorSubject, interval, map, startWith, Subject, Subscription, switch
 import {NgIf, NgStyle} from "@angular/common";
 import {FaIconComponent, IconDefinition} from "@fortawesome/angular-fontawesome";
 import {faStopwatch} from "@fortawesome/free-solid-svg-icons";
+import {NumberSelectorComponent} from "../number-selector/number-selector.component";
 
 @Component({
   selector: 'app-timer',
@@ -10,7 +11,8 @@ import {faStopwatch} from "@fortawesome/free-solid-svg-icons";
   imports: [
     NgStyle,
     NgIf,
-    FaIconComponent
+    FaIconComponent,
+    NumberSelectorComponent
   ],
   templateUrl: './timer.component.html',
   styleUrl: './timer.component.css'
@@ -22,6 +24,8 @@ export class TimerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() showSnoozeIcon: boolean = false;
   @Input() timerState: 'stopped' | 'paused' | 'playing' | 'reset' = 'stopped'; // Timer state
   @Input() icon?: IconDefinition;
+  @Input() showMinutes: boolean = false;
+  @Input() color: string = 'var(--white)';
 
   @Output() timerValueChange = new EventEmitter<number>(); // Emit final value on stop
 
