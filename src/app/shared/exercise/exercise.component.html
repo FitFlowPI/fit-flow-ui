@@ -23,10 +23,10 @@
     </div>
 
     <div class="muscles-details" *ngIf="showMuscles">
-      <h6> Músculos: </h6>
+      <h6> Categoria: </h6>
       <div class="muscles-grid">
         <!--      TODO: Limitar o numero de musculos/membros que pode mostrar -->
-        <span *ngFor="let muscle of exercise.muscles; let last = last"> {{ muscle }}{{ last ? '.' : ',' }} </span>
+        <span>{{ exercise.category }}</span>
       </div>
     </div>
   </div>

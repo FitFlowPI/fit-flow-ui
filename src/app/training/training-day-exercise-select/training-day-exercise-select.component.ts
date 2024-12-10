@@ -20,8 +20,8 @@ export class TrainingDayExerciseSelectComponent implements OnInit{
 
   public exercises: Array<Exercise> =
   [
-    {id: '0', name: 'Rosca Direta', thumbnail: '', muscles: ['biceps'], time: 20},
-    {id: '1', name: 'Remada Cavalinho', thumbnail: '', muscles: ['costas'], time: 30}
+    {id: '0', name: 'Rosca Direta', thumbnail: '', category: 'biceps', time: 20},
+    {id: '1', name: 'Remada Cavalinho', thumbnail: '', category: 'costas', time: 30}
   ];
 
   private id!: string | null;

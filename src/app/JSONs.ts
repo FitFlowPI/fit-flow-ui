@@ -32,35 +32,35 @@ export const demoChartData = {
   ],
 }
 
-export const chartOptions = {
-  maintainAspectRatio: true,
-  aspectRatio: 1.6,
-  plugins: {
-    legend: {
-      labels: {
-        color: documentStyle.getPropertyValue('--white-weak')
-      }
-    }
-  },
-  scales: {
-    x: {
-      ticks: {
-        color: documentStyle.getPropertyValue('--white-weak')
-      },
-      grid: {
-        color: documentStyle.getPropertyValue('--white-weak')
-      }
-    },
-    y: {
-      ticks: {
-        color: documentStyle.getPropertyValue('--white-weak')
-      },
-      grid: {
-        color: documentStyle.getPropertyValue('--white-weak')
-      }
-    }
-  }
-};
+// export const chartOptions = {
+//   maintainAspectRatio: true,
+//   aspectRatio: 1.6,
+//   plugins: {
+//     legend: {
+//       labels: {
+//         color: documentStyle.getPropertyValue('--white-weak')
+//       }
+//     }
+//   },
+//   scales: {
+//     x: {
+//       ticks: {
+//         color: documentStyle.getPropertyValue('--white-weak')
+//       },
+//       grid: {
+//         color: documentStyle.getPropertyValue('--white-weak')
+//       }
+//     },
+//     y: {
+//       ticks: {
+//         color: documentStyle.getPropertyValue('--white-weak')
+//       },
+//       grid: {
+//         color: documentStyle.getPropertyValue('--white-weak')
+//       }
+//     }
+//   }
+// };
 
 export const demoChartData2 = {
   labels: ['', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
