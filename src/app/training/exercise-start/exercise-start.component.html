@@ -1,15 +1,21 @@
 <div class="exercise-execution-info-container">
   <div class="media-container">
     <div class="expand">
-      <div class="video"></div>
+      <div class="video" *ngIf="exercise?.media">
+        <!-- Embed YouTube video if exercise.media exists -->
+        <iframe *ngIf="exercise?.media" [src]="getSafeUrl(exercise?.media)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="video" *ngIf="!exercise?.media">
+        <!-- Show background image when no video is available -->
+      </div>
     </div>
     <div class="info">
       <img *ngIf="false" src="'AA'" alt=" ">
       <div class="name">
-        <h4> {{ exercise.name }} </h4>
+        <h4> {{ exercise?.name }} </h4>
         <div class="exercise-info">
-          <h4> {{exercise.series}} Series </h4>
-          <h4> {{exercise.repetitions}} <fa-icon [icon]="faRepeat"></fa-icon> </h4>
+          <h4> {{exercise?.series}} Series </h4>
+          <h4> {{exercise?.repetitions}} <fa-icon [icon]="faRepeat"></fa-icon> </h4>
         </div>
       </div>
     </div>
@@ -22,7 +28,7 @@
   </app-exercise-progress-bar>
 
   <div class="button-container">
-    <div class="previous button"> <fa-icon [icon]="faBackwardStep"></fa-icon>  </div>
+    <div class="previous button" (click)="previousExercise()"> <fa-icon [icon]="faBackwardStep"></fa-icon>  </div>
     <div class="drawer-container button">
       <div class="hamburger"> <fa-icon [icon]="faBars"></fa-icon> </div>
       <div class="next">
@@ -30,13 +36,13 @@
         <div class="next-exercise">
           <!--        TODO: Colocar o nome do próximo exercício no <h5>      -->
           <!--        TODO: tirar a quebra de texto a adicionar deslizamento do texto no overflow -->
-          <h5 class="next-name"> Nome do Próximo </h5>
+          <h5 class="next-name"> {{ nextExerciseName }} </h5>
         </div>
       </div>
 
     </div>
     <div class="play button" (click)="startExercise()"> <fa-icon [icon]="faPlay"></fa-icon> </div>
-    <div class="next button"> <fa-icon [icon]="faForwardStep"></fa-icon> </div>
+    <div class="next button" (click)="nextExercise()"> <fa-icon [icon]="faForwardStep"></fa-icon> </div>
   </div>
 </div>
 <div *ngIf="isShowingTimers" class="timer-screen">
@@ -46,7 +52,7 @@
         <app-number-editor
           [isEditing]="true"
           [fontSize]="1.5"
-          [number]="currentRepetitions || exercise.repetitions"
+          [number]="currentRepetitions ?? exercise?.repetitions ?? 0"
           [icon]="faRepeat"
           (numberOutput)="repetitionOutput($event)"
         >

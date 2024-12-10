@@ -3,4 +3,5 @@ export interface ExerciseExecutionModel  {
   breakTime?: number;
   weight?: number;
   repetitions?: number;
+  exerciseId?: number;
 }
