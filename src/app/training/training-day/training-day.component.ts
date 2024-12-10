@@ -89,7 +89,8 @@ export class TrainingDayComponent {
 
 
   onPlay(trainingDayId: string) {
-    this.router.navigate([`/training/start/${trainingDayId}`]);
+    console.log('Navigating to: ', `training/exercise-select/${trainingDayId}`);
+    this.router.navigate([`/training/exercise-select/${trainingDayId}`]);
   }
 
   protected readonly faPlay = faPlay;

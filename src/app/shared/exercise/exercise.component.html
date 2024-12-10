@@ -2,13 +2,14 @@
   #exerciseContainer
   class="exercise-container"
   (click)="clickable && OnClick($event)"
+  (click)="onPlay(exercise.id)"
   [ngStyle]=
     "{
       'border': showBorder ? '1px solid var(--yellow)' : 'none',
       'pointer-events': clickable ? 'auto' : 'none'
     }"
 >
-  <img class="thumbnail" alt=" " [ngSrc]="exercise.thumbnail || 'AAAA'" width="60" height="60">
+  <img class="thumbnail" alt=" " [ngSrc]="thumbnailUrl || 'AAAA'" width="60" height="60">
   <div class="exercise-info">
     <div
       [ngStyle]=
@@ -23,11 +24,18 @@
     </div>
 
     <div class="muscles-details" *ngIf="showMuscles">
-      <h6> Músculos: </h6>
-      <div class="muscles-grid">
-        <!--      TODO: Limitar o numero de musculos/membros que pode mostrar -->
-        <span *ngFor="let muscle of exercise.muscles; let last = last"> {{ muscle }}{{ last ? '.' : ',' }} </span>
+      <div class="flex flex-column">
+        <h6> Músculos: </h6>
+        <div class="muscles-grid">
+          <span>{{ exercise.category }}</span>
+        </div>
       </div>
+      <div class="flex flex-column">
+      <h6> Descrição: </h6>
+      <div class="muscles-grid">
+        <span>{{ exercise.description }}</span>
+      </div>
+    </div>
     </div>
   </div>
 

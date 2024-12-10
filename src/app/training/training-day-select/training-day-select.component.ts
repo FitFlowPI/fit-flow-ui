@@ -24,15 +24,23 @@ export class TrainingDaySelectComponent implements OnInit {
 
   constructor(public renderer: Renderer2, private trainingSheetService: TrainingSheetService) {}
 
-  // PLACEHOLDERS
+  // Initialize the training day data
   trainingDayData: Array<TrainingDay> = [];
 
   ngOnInit() {
-    // Subscribe to trainingDays$ to get updates
-    this.trainingSheetService.trainingDays$.subscribe(trainingDays => {
-      this.trainingDayData = trainingDays;
-      this.refreshCharts(); // Call your refresh logic here
-    });
+    const storedData = localStorage.getItem('charts');
+    if (storedData) {
+      this.trainingDayData = JSON.parse(storedData);
+      console.log('Loaded from localStorage:', this.trainingDayData);
+    } else {
+      console.log('No data in localStorage');
+      // Subscribe to trainingDays$ from the service if no data in localStorage
+      this.trainingSheetService.trainingDays$.subscribe(trainingDays => {
+        console.log('Received from service:', trainingDays);  // Debug log
+        this.trainingDayData = trainingDays;
+        this.refreshCharts();  // Call your refresh logic here
+      });
+    }
   }
 
   @ViewChild('addButton') addButton?: ElementRef<HTMLButtonElement>;
@@ -50,12 +58,21 @@ export class TrainingDaySelectComponent implements OnInit {
   // Method to add a new chart
   addNewChart(newChart: TrainingDay) {
     this.trainingDayData.push(newChart);
+    this.updateLocalStorage(); // Update localStorage when data changes
     this.trainingSheetService.updateTrainingDayList(this.trainingDayData); // Update the service
+    console.log('New chart added:', newChart);  // Debug log
+    console.log('Updated trainingDayData:', this.trainingDayData);  // Debug log
   }
 
   // Refresh trainingDays logic
   refreshCharts() {
-    console.log('trainingDayData has changed:', this.trainingDayData);
+    console.log('trainingDayData has changed:', this.trainingDayData);  // Debug log
     // Additional logic to refresh the display
+  }
+
+  // Helper method to update localStorage
+  private updateLocalStorage() {
+    localStorage.setItem('trainingDays', JSON.stringify(this.trainingDayData));
+    console.log('Updated localStorage with trainingDays:', this.trainingDayData);  // Debug log
   }
 }

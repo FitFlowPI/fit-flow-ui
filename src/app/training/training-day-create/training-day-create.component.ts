@@ -18,6 +18,8 @@ import {FloatingCardComponent} from "../../shared/floating-card/floating-card.co
 import {ExerciseComponent} from "../../shared/exercise/exercise.component";
 import {TrainingDay} from "../../models/training-day.model";
 import {ExerciseRepsAndSets} from "../../models/exercise-reps-and-sets.model";
+import { groupedExercises } from './exercises-template';
+import { DropdownModule } from 'primeng/dropdown';
 
 @Component({
   selector: 'app-training-day-create',
@@ -36,6 +38,7 @@ import {ExerciseRepsAndSets} from "../../models/exercise-reps-and-sets.model";
     RouterLink,
     FloatingCardComponent,
     ExerciseComponent,
+    DropdownModule
   ],
   templateUrl: './training-day-create.component.html',
   styleUrls: ['./training-day-create.component.scss', '../training-screens.css']
@@ -50,6 +53,11 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
     private trainingSheetService: TrainingSheetService,
     private route: ActivatedRoute
   ) { }
+
+  groupedExercises = groupedExercises;
+  selectedExercise: any;
+  selectedExercise2: any;
+  editExercise: any;
 
   trainingDayName?: string = "Treino A";
   copiedTrainingDayName?: string;
@@ -129,12 +137,53 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
   }
 
   onRowEditInit(exercise: ExerciseRepsAndSets) {
+    // Log para verificar os dados do exercício original
+    console.log('Iniciando edição para o exercício:', exercise);
+
     this.clonedExercises[exercise.id] = { ...exercise };
+
+    // Cria uma cópia isolada do exercício para edição
+    this.editExercise = { ...exercise };
+
+    // Log para verificar se a cópia foi realizada corretamente
+    console.log('Cópia do exercício para edição:', this.editExercise);
+
+    // Também loga a lista de exercícios para garantir que ela não foi alterada
+    console.log('Lista de exercícios antes da edição:', this.exercises);
   }
 
-  onRowEditSave(exercise: ExerciseRepsAndSets) {
-    // Save logic for editing an exercise (implement validation if necessary)
-    delete this.clonedExercises[exercise.id];
+  onRowEditSave(editExercise: ExerciseRepsAndSets) {
+    console.log('Edited exercise:', editExercise);
+  
+    // Ensure you find the selected exercise from the dropdown
+    const selectedExerciseDetails = this.groupedExercises
+      .flatMap(category => category.items)
+      .find(item => item.value === this.selectedExercise2);
+  
+    if (selectedExerciseDetails) {
+      // Find the parent category for the exercise
+      const selectedCategory = this.groupedExercises.find(category => 
+        category.items.some(item => item.value === this.selectedExercise2)
+      );
+  
+      if (selectedCategory) {
+        // Update the exercise details
+        editExercise.name = selectedExerciseDetails.label;
+        editExercise.description = selectedExerciseDetails.description;
+        editExercise.media = selectedExerciseDetails.media;
+        editExercise.category = selectedCategory.label; // Set the parent category (e.g., "Peito")
+  
+        // Now update the exercise in the list
+        const index = this.exercises.findIndex((ex) => ex.id === editExercise.id);
+        if (index !== -1) {
+          this.exercises[index] = { ...editExercise }; // Replace the edited exercise
+        }
+      } else {
+        console.error('Parent category not found.');
+      }
+    } else {
+      console.error('Selected exercise details not found.');
+    }
   }
 
   onRowEditCancel(exercise: ExerciseRepsAndSets, index: number) {
@@ -145,19 +194,42 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
   newExercise: ExerciseRepsAndSets = { id: 0, name: '', series: 0, repetitions: 0 };
 
   addNewExercise() {
-    if (this.newExercise.name && this.newExercise.series && this.newExercise.repetitions) {
-      const newExercise: ExerciseRepsAndSets = {
-        ...this.newExercise,
-        id: this.exercises.length + 1
-      };
-
-      this.exercises.push(newExercise);
-
-      // Reset the inputs
-      this.newExercise = { id: 0, name: '', series: 0, repetitions: 0 };
-      this.isShowingCard = false;
+    if (this.selectedExercise && this.newExercise.series > 0 && this.newExercise.repetitions > 0) {
+      // Find the corresponding exercise category
+      const selectedCategory = this.groupedExercises.find(category => 
+        category.items.some(item => item.value === this.selectedExercise)
+      );
+    
+      // Find the specific exercise details
+      const exerciseDetails = selectedCategory?.items.find(item => item.value === this.selectedExercise);
+    
+      if (exerciseDetails && selectedCategory) {
+        // Now create the new exercise object with description, media, and parent category
+        const newExercise: ExerciseRepsAndSets = {
+          id: this.exercises.length + 1,
+          name: exerciseDetails.label, // Exercise name (e.g., Supino Reto)
+          series: this.newExercise.series,
+          repetitions: this.newExercise.repetitions,
+          description: exerciseDetails.description, // Add description
+          media: exerciseDetails.media, // Add media
+          category: selectedCategory.label, // Use the parent category label (e.g., "Peito")
+        };
+    
+        // Add the exercise to the list
+        this.exercises.push(newExercise);
+    
+        // Reset the fields
+        this.newExercise = { id: 0, name: '', series: 0, repetitions: 0 };
+        this.selectedExercise = null;
+        this.isShowingCard = false;
+      } else {
+        console.error('Exercise or category not found.');
+      }
+    } else {
+      console.error('Invalid selection. Please check the fields.');
     }
   }
+  
 
   cancelEditExercise() {
     this.newExercise = { id: 0, name: '', series: 0, repetitions: 0 };
@@ -201,13 +273,13 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
   }
 
   submit() {
-
-    const storedCharts = JSON.parse(localStorage.getItem('trainingDays') || '[]');
+    // Retrieve the existing training days from localStorage, or use an empty array if not found
+    const storedCharts = JSON.parse(localStorage.getItem('charts') || '[]');
     console.log("Stored charts before submit:", storedCharts); // Log the charts before submitting
-
+  
     // Determine the series name based on the input or generate a default name
     const nextSeriesName = this.trainingDayName || `Série ${String.fromCharCode(65 + storedCharts.length)}`;
-
+  
     // Define the new chart with its name and exercises
     const newChart: TrainingDay = {
       id: this.isEditing ? this.route.snapshot.paramMap.get('trainingDayId')! : Date.now().toString(), // Unique ID
@@ -216,13 +288,13 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
       kcal: 0,
       timeInMinutes: 0
     };
-
+  
     const trainingDayId = this.route.snapshot.paramMap.get('trainingDayId');
-
+  
     if (trainingDayId) {
       // Edit existing chart
       const index = storedCharts.findIndex((trainingDay: TrainingDay) => trainingDay.id.toString() === trainingDayId); // Ensure IDs match as strings
-
+  
       if (index !== -1) {
         // Replace the chart at the found index with the new one
         storedCharts[index] = newChart;
@@ -233,17 +305,17 @@ export class TrainingDayCreateComponent implements OnInit, AfterViewInit, AfterV
       // Create a new chart
       storedCharts.push(newChart);
     }
-
-    // Save the updated charts
-    localStorage.setItem('charts', JSON.stringify(storedCharts));  // Directly update localStorage
-
+  
+    // Save the updated charts back to localStorage
+    localStorage.setItem('charts', JSON.stringify(storedCharts));  // Update localStorage with the new chart data
+  
     // Notify the service to update the charts observable
     this.trainingSheetService.updateTrainingDayList(storedCharts);
-
+  
     // Reset the inputs
     this.trainingDayName = ''; // Clear trainingDayName input field
     this.exercises = [];  // Clear exercises array
-
+  
     // Navigate to the chart selection page
     this.router.navigate(['/training/training-day-select']);
   }

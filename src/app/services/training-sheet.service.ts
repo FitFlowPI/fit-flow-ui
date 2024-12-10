@@ -6,11 +6,11 @@ import {HttpClient} from "@angular/common/http";
   providedIn: 'root'
 })
 export class TrainingSheetService {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) {
-  }
-
-  private trainingDaySubject = new BehaviorSubject<Array<TrainingDay>>(this.loadStoredTrainingDays());
+  private trainingDaySubject = new BehaviorSubject<Array<TrainingDay>>(
+    this.loadStoredTrainingDays()
+  );
   trainingDays$ = this.trainingDaySubject.asObservable();
 
   private loadStoredTrainingDays(): Array<TrainingDay> {
@@ -19,15 +19,16 @@ export class TrainingSheetService {
 
   updateTrainingDayList(trainingDays: Array<TrainingDay>) {
     this.trainingDaySubject.next(trainingDays);
-    localStorage.setItem('charts', JSON.stringify(trainingDays));
+    // Update localStorage with the correct key 'trainingDays'
+    localStorage.setItem('trainingDays', JSON.stringify(trainingDays));
   }
 
   // Delete a chart by its ID, ensuring type safety
   deleteChart(trainingDayId: string) {
     const trainingDays = this.loadStoredTrainingDays();
-    const updatedCharts = trainingDays.filter(trainingDay => trainingDay.id !== trainingDayId); // Now comparing numbers
+    const updatedCharts = trainingDays.filter(
+      (trainingDay) => trainingDay.id !== trainingDayId
+    ); // Now comparing numbers
     this.updateTrainingDayList(updatedCharts); // Update BehaviorSubject and localStorage
   }
-
-
 }

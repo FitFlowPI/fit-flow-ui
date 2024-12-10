@@ -63,17 +63,28 @@
           {{ exercises.length + 1}}
         </th>
         <th>
-          <input
-            pInputText
-            type="text"
-            [(ngModel)]="newExercise.name"
-            name="name"
-            placeholder="Nome"
-            class="input-contrast"
-            style="width: 100%; max-width: 100%; min-width: 8rem"
-            #nameInput="ngModel"
-          />
-<!--          <app-exercise [exercise]="{id: '0', name: 'batata', muscles: ['peito', 'braço', 'ombro', 'nomelongoparateste'], time: 20}"></app-exercise>-->
+          <p-dropdown
+            [options]="groupedExercises"
+            [editable]="true"
+            appendTo="body"
+            [(ngModel)]="selectedExercise"
+            placeholder="Selecione um exercício"
+            [group]="true"
+            [style]="{'width':'100%', 'background-color':'black'}"
+          >
+            <!-- Group template to display categories -->
+            <ng-template let-group pTemplate="group">
+              <div class="flex align-items-center">
+                <span>{{ group.label }}</span>
+              </div>
+            </ng-template>
+
+            <ng-template let-option pTemplate="item">
+              <div class="flex align-items-center">
+                <span>{{ option.label }}</span>
+              </div>
+            </ng-template>
+          </p-dropdown>
         </th>
         <th>
           <div style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%;">
@@ -84,8 +95,8 @@
               [showButtons]="true"
               [buttonLayout]="numberInputLayout"
               inputId="series"
-              [min]="0"
-              [max]="10"
+              [min]="1"
+              [max]="100"
               [step]="1"
               decrementButtonClass="p-button-contrast"
               incrementButtonClass="p-button-contrast"
@@ -107,8 +118,8 @@
               [showButtons]="true"
               [buttonLayout]="numberInputLayout"
               inputId="repetitions"
-              [min]="0"
-              [max]="10"
+              [min]="1"
+              [max]="100"
               [step]="1"
               decrementButtonClass="p-button-contrast"
               incrementButtonClass="p-button-contrast"
@@ -129,7 +140,7 @@
             icon="pi pi-plus"
             class="p-button-rounded p-button-text add-button"
             (click)="addNewExercise()"
-            [disabled]="nameInput.invalid || seriesInput.invalid || repetitionsInput.invalid"
+            [disabled]="seriesInput.invalid || repetitionsInput.invalid"
           >
           </button>
         </th>
@@ -144,13 +155,31 @@
         <td>
           <p-cellEditor>
             <ng-template pTemplate="input">
-              <input
-                pInputText type="text"
-                style="width: 100%; max-width: 100%;"
-                [(ngModel)]="exercise.name" />
+              <p-dropdown
+              [options]="groupedExercises"
+              [editable]="true"
+              appendTo="body"
+              [(ngModel)]="selectedExercise2"
+              [group]="true"
+              [style]="{'width':'100%'}"
+          >
+            <!-- Group template to display categories -->
+            <ng-template let-group pTemplate="group">
+              <div class="flex align-items-center">
+                <span>{{ group.label }}</span>
+              </div>
+            </ng-template>
+
+            <!-- Item template to display exercises within each group -->
+            <ng-template let-option pTemplate="item">
+              <div class="flex align-items-center">
+                <span>{{ option.label }}</span>
+              </div>
+            </ng-template>
+          </p-dropdown>
             </ng-template>
             <ng-template pTemplate="output">
-              {{exercise.name}}
+              {{ exercise.name }}
             </ng-template>
           </p-cellEditor>
         </td>
@@ -166,8 +195,8 @@
                 [showButtons]="true"
                 [buttonLayout]="numberInputLayout"
                 inputId="series-edit"
-                [min]="0"
-                [max]="10"
+                [min]="1"
+                [max]="100"
                 [step]="1"
                 decrementButtonClass="p-button-contrast"
                 incrementButtonClass="p-button-contrast"
@@ -192,8 +221,8 @@
                 [showButtons]="true"
                 [buttonLayout]="numberInputLayout"
                 inputId="repetitions-edit"
-                [min]="0"
-                [max]="10"
+                [min]="1"
+                [max]="100"
                 [step]="1"
                 decrementButtonClass="p-button-contrast"
                 incrementButtonClass="p-button-contrast"
@@ -287,8 +316,8 @@
             [buttonLayout]="'horizontal'"
             id="series"
             inputId="series"
-            [min]="0"
-            [max]="10"
+            [min]="1"
+            [max]="100"
             [step]="1"
             decrementButtonClass="p-button-contrast"
             incrementButtonClass="p-button-contrast"
@@ -309,8 +338,8 @@
             [buttonLayout]="'horizontal'"
             id="repetitions"
             inputId="repetitions"
-            [min]="0"
-            [max]="10"
+            [min]="1"
+            [max]="100"
             [step]="1"
             decrementButtonClass="p-button-contrast"
             incrementButtonClass="p-button-contrast"

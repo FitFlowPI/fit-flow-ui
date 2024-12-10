@@ -4,4 +4,7 @@ export interface Exercise {
   muscles: Array<string>,
   thumbnail: string,
   time: number
+  category?: string;
+  media?: string;
+  description?: string;
 }

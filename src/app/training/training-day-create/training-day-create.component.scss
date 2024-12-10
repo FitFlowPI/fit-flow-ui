@@ -11,6 +11,11 @@
   align-items: center;
 }
 
+:host ::ng-deep .p-dropdown-panel {
+  background-color: black !important;
+  color: wheat !important;
+}
+
 .floating-button {
   display: block;
   position: absolute;

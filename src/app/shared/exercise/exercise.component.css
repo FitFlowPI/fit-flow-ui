@@ -56,8 +56,8 @@
     .muscles-details {
 
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      justify-content: start;
+      gap: 10px;
       width: 100%;
 
       h6 {
@@ -76,7 +76,7 @@
         span {
           margin: 2px 0;
           white-space: nowrap;
-          font-size: 0.6rem;
+          font-size: 1rem;
           color: var(--white-weak);
         }
       }

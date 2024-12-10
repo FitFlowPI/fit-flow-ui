@@ -103,9 +103,9 @@ export class LoginComponent implements OnInit {
     const attemptData = this.loginAttempts[email];
     attemptData.count += 1;
 
-    if (attemptData.count >= 3) {
-      attemptData.blockedUntil = currentTime + 5000;
-      this.toastService.showError(`Muitas tentativas falharam. Este email está bloqueado por 5 segundos.`);
+    if (attemptData.count > 3) {
+      attemptData.blockedUntil = currentTime + 3000;
+      this.toastService.showError(`Muitas tentativas falharam. Este email está bloqueado por 3 segundos.`);
     }
   }
 

@@ -15,35 +15,55 @@ import {ActivatedRoute, Router, RouterLink} from "@angular/router";
   templateUrl: './training-day-exercise-select.component.html',
   styleUrl: './training-day-exercise-select.component.css'
 })
-export class TrainingDayExerciseSelectComponent implements OnInit{
-  // @Input({required: true}) exercises!: Array<Exercise>;
+export class TrainingDayExerciseSelectComponent implements OnInit {
+  public exercises: Array<Exercise> = [];
+  private trainingDayId: string | null = null;
 
-  public exercises: Array<Exercise> =
-  [
-    {id: '0', name: 'Rosca Direta', thumbnail: '', muscles: ['biceps'], time: 20},
-    {id: '1', name: 'Remada Cavalinho', thumbnail: '', muscles: ['costas'], time: 30}
-  ];
-
-  private id!: string | null;
-
-  constructor(private route: ActivatedRoute, private router: Router) {
-  }
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
-    this.id = this.route.snapshot.paramMap.get('id');
-
-    // if (!this.isIdValid(this.id)) {
-    //   this.router.navigate(['/training/training-day-select']);
-    //   return;
-    // }
-
-
-
+    // Access the `trainingDayId` from route params
+    this.route.paramMap.subscribe(params => {
+      this.trainingDayId = params.get('trainingDayId');
+      console.log('Training Day ID received from route:', this.trainingDayId);
+      
+      if (this.trainingDayId) {
+        this.loadExercisesFromChart(this.trainingDayId);
+      } else {
+        console.log('No trainingDayId found in the route');
+      }
+    });
   }
 
-  private isIdValid(id: string | null) {
-    return id;
-    //TODO: Check if it is on database
+  private loadExercisesFromChart(trainingDayId: string | null) {
+    if (trainingDayId) {
+      console.log('Loading chart from LocalStorage with ID:', trainingDayId);
+
+      // Get the chart array from local storage and parse it as an array
+      const charts = JSON.parse(localStorage.getItem('charts') || '[]');
+
+      // Find the chart with the matching ID
+      const chart = charts.find((chart: any) => chart.id === trainingDayId);
+
+      if (chart) {
+        console.log('Chart found:', chart);
+        this.exercises = chart.exercises || [];
+        console.log('Exercises loaded:', this.exercises);
+      } else {
+        console.log('Chart not found or ID mismatch');
+      }
+    } else {
+      console.log('Invalid trainingDayId');
+    }
   }
 
+  onPlay(exerciseId: string) {
+    if (this.trainingDayId && exerciseId) {
+      const route = `/training/exercise-start/${this.trainingDayId}/${exerciseId}`;
+      console.log('Navigating to:', route);
+      this.router.navigate([route]);
+    } else {
+      console.error('Invalid trainingDayId or exerciseId:', this.trainingDayId, exerciseId);
+    }
+  }
 }
