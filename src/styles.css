@@ -2,37 +2,37 @@
 /*@import "node_modules/normalize.css/normalize.css";*/
 @import "primeng/resources/themes/lara-light-blue/theme.css";
 @import "primeng/resources/primeng.css";
+@import "primeicons/primeicons.css";
 @import "./primeEdit.css";
-
-
 :root {
   --dark-blue: #0f101c;
   --darker-blue: #0f0f13;
   --blue: #2805FF;
+  --cyan: #288ef5;
+  --red: #ff1212;
+  --green: #4eff14;
   --yellow: #FE9800;
   --yellow-glow: rgba(254, 152, 0, 0.24);
   --white: #FEFFDA;
   --white-weak: rgba(254, 255, 218, 0.5);
   --black: #000000;
   --brighter-black: #171717;
-
   --logo-width: 190px;
   --logo-height: 100px;
-
   --picture-margin: 30px;
 }
 
-* {
+span, h1, h2, h3, h4 {
   font-family: "Poppins", sans-serif;
 }
 
-span {
+span, h1, h2, h3, h4 {
   color: var(--white);
 }
 
 label {
   color: var(--white);
-  font-size: 0.8em;
+  font-size: 0.8rem;
   margin: 5px;
 }
 
@@ -57,16 +57,16 @@ body {
   text-align: center;
 }
 
-.text-link{
+.text-link {
   display: flex;
   justify-content: center;
   width: 100%;
   font-weight: 200;
-  font-size: 0.7em;
-  .hyperlink {
-    font-size: 1em;
-    display: inline;
-  }
+  font-size: 0.7rem;
+}
+.text-link .hyperlink {
+  font-size: 1rem;
+  display: inline;
 }
 
 button {
@@ -86,7 +86,7 @@ button {
 }
 
 .hyperlink:before {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -95,10 +95,14 @@ button {
   width: 0;
   transition: width 0.1s ease-in-out;
 }
+
 .hyperlink:hover, .return-button:hover {
   text-shadow: 1px 1px 5px var(--yellow);
   cursor: pointer;
 }
+
 .hyperlink:hover:before {
   width: 98%;
 }
+
+/*# sourceMappingURL=styles.css.map */

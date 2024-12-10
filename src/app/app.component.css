@@ -1,4 +1,31 @@
-.button-container {
-  padding: 10px 30px;
-
+:host .wave-background-bottom {
+  position: fixed !important;
+  transform: rotateZ(-20deg);
+  overflow: visible !important;
+  z-index: -1;
+  bottom: -20%;
+  right: -20%;
 }
+:host .wave-background-top {
+  position: fixed !important;
+  transform: rotateZ(-20deg);
+  overflow: visible !important;
+  z-index: -1;
+  top: -20%;
+  left: -20%;
+}
+
+@media only screen and (min-width: 600px) {
+  :host .wave-background-top {
+    transform: rotateZ(0) translateX(-10%) translateY(-50%);
+    top: 0;
+    left: 0;
+  }
+  :host .wave-background-bottom {
+    transform: rotateZ(0) translateX(-10%) translateY(50%);
+    bottom: 0;
+    left: 0;
+  }
+}
+
+/*# sourceMappingURL=app.component.css.map */

@@ -1,13 +1,14 @@
 import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { NgClass, NgStyle } from "@angular/common";
-import { SvgGeneratorComponent } from "../generators/svg-generator/svg-generator.component";
+import { SvgGeneratorComponent } from "../shared/svg-generator/svg-generator.component";
 import { ChartModule } from 'primeng/chart';
 import { demoChartOptions2, demoChartData2 } from "../JSONs";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [NgClass, NgStyle, SvgGeneratorComponent, ChartModule],
+  imports: [NgClass, NgStyle, SvgGeneratorComponent, ChartModule, RouterLink],
   templateUrl: 'home.component.html',
   styleUrls: ['./home.component.scss']
 })

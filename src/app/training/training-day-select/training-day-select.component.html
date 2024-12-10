@@ -1,0 +1,7 @@
+<div class="chart-page">
+  <h2 class="title"> Seus Treinos </h2>
+  <app-training-day *ngFor="let data of trainingDayData" [chartData]="data"></app-training-day>
+  <button #addButton class="new-chart-button" (click)="newSeriesButtonClick($event)" [routerLink]="['/training', 'training-day-create']">
+    Adicionar Treino <fa-icon [icon]="faPlus"></fa-icon>
+  </button>
+</div>

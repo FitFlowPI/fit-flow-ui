@@ -1,0 +1,8 @@
+<div class="exercise-list-container">
+  <div class="title">
+    <h2> Seleção de Exercício </h2>
+  </div>
+  <div class="exercise-list">
+    <app-exercise [routerLink]="['/training', 'exercise']" *ngFor="let exercise of exercises" [exercise]="exercise"></app-exercise>
+  </div>
+</div>

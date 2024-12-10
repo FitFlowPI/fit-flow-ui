@@ -1,0 +1,20 @@
+<div
+  [style.height.px]="actualSize.height"
+  [style.width.px]="actualSize.width"
+  [style.filter]="'blur(' + blur + 'px)'"
+  [style.opacity]="opacity"
+>
+  <svg
+    [attr.viewBox]="'0 0 ' + waveLength + ' ' + actualSize.height"
+    [attr.width]="waveLength"
+    [attr.height]="actualSize.height"
+  >
+    <path
+      *ngFor="let path of paths; let i = index"
+      [attr.d]="path"
+      [attr.stroke]="interpolateColor(colors, i / (count - 1))"
+      [attr.stroke-width]="thickness"
+      fill="transparent"
+    />
+  </svg>
+</div>

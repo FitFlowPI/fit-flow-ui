@@ -1,0 +1,28 @@
+:host {
+  background-size: cover;
+}
+
+.svg-wave {
+  width: auto;
+  height: auto;
+}
+
+.svg-wave:hover .button-container:not(.disabled) {
+  background-color: rgba(0, 0, 0, 0.21);
+}
+
+.button-container.disabled {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.button-container {
+  display: inline-flex;
+  background-color: var(--black);
+  border: none;
+  color: var(--white);
+  transition: background-color 0.3s ease-in-out;
+  align-items: center;
+  justify-content: center;
+}
+
+/*# sourceMappingURL=button.component.css.map */

@@ -1,0 +1,20 @@
+.number-container {
+  display: inline-flex;
+  flex-direction: row;
+  color: var(--white);
+  margin: 0;
+  font-family: "Roboto Mono", monospace !important;
+  font-optical-sizing: auto;
+  align-items: center;
+
+  .icon {
+    margin-right: 0.4em;
+  }
+
+  .edit-button, .confirm-button {
+    display: inline-flex;
+    color: var(--white);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+}

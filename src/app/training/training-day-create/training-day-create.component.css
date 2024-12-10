@@ -1,0 +1,133 @@
+.create-chart-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  padding: 10px 20px;
+  gap: 10px;
+  overflow-y: scroll;
+  align-items: center;
+}
+
+.floating-button {
+  display: block;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+p-table {
+  width: 100%;
+  max-width: 60rem;
+}
+
+.training-name {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  margin: 10px 0;
+  gap: 10px;
+  width: 100%;
+  max-width: 600px;
+  height: 2.34rem;
+  color: var(--yellow);
+}
+.training-name input {
+  width: 100%;
+  height: 2.34rem;
+  background: transparent;
+  border: none;
+  transition: box-shadow 0.5s ease;
+  box-shadow: 0 1px 0 var(--yellow);
+  color: var(--yellow);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  font-variation-settings: normal;
+  line-height: 27.6px;
+  margin: 0;
+  text-align: start;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: normal;
+}
+.training-name input:focus-visible, .training-name input:focus {
+  outline: none;
+  box-shadow: 0 2px 0 var(--yellow);
+}
+.training-name .return-button {
+  text-decoration: none;
+  color: var(--yellow);
+  width: 20px;
+  font-size: 1em;
+  left: 0;
+  top: 50%;
+  transition: text-shadow 0.5s ease-out;
+}
+.training-name .title {
+  flex-shrink: 0;
+  margin: 0;
+}
+
+app-floating-card .title {
+  text-align: center;
+}
+app-floating-card .form {
+  display: inline-flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 500px;
+  gap: 15px;
+  justify-content: space-evenly;
+}
+app-floating-card .form .input-container {
+  display: flex;
+  gap: 2px;
+  flex-direction: column;
+  margin: 0 5px;
+}
+app-floating-card .form .input-container input {
+  width: 100%;
+}
+app-floating-card .form .input-container.series-name, app-floating-card .form .input-container.exercise-name {
+  flex: 2;
+  max-width: 500px;
+  margin: 0;
+}
+app-floating-card .form .numbers {
+  display: inline-flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+  max-width: 500px;
+  justify-content: center;
+}
+app-floating-card .form .numbers .input-container {
+  flex: 1;
+  margin: 0 !important;
+}
+app-floating-card .button-container {
+  display: inline-flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  width: 100%;
+  margin-top: 40px;
+  margin-bottom: 10px;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 20px;
+}
+
+.submit-button-container {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: end;
+  width: 100%;
+  max-width: 50rem;
+}
+
+/*# sourceMappingURL=training-day-create.component.css.map */

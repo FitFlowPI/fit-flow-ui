@@ -1,31 +1,46 @@
 <div class="form-card">
   <h2 class="title">Log In</h2>
 
-  <div class="welcome">
-    <h2> Bem vindo </h2>
-    <span>
-      Prossiga com o login para utilizar nosso aplicativo
-    </span>
+  <div class="header">
+    <h2>Bem vindo</h2>
+    <span>Prossiga com o login para utilizar nosso aplicativo</span>
   </div>
 
   <div class="form-container">
-    <form method="POST">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="flex flex-column gap-2">
         <label for="email">Nome de Usuário ou Email</label>
-        <input class="input-contrast" pInputText id="email" />
+        <input class="input-contrast rounded" pInputText id="email" formControlName="email" 
+          [ngClass]="{'ng-invalid': loginForm.get('email')?.invalid && loginForm.get('email')?.touched, 'ng-dirty': loginForm.get('email')?.dirty}" />
+        
+        <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="error-message">
+          <small *ngIf="loginForm.get('email')?.hasError('required')">Email é obrigatório.</small>
+          <small *ngIf="loginForm.get('email')?.hasError('email')">Email inválido.</small>
+        </div>
       </div>
+
       <div class="flex flex-column gap-2">
         <label for="senha">Senha</label>
-        <input class="input-contrast" type="password" pInputText id="senha" />
+        <input class="input-contrast rounded" type="password" pInputText id="senha" formControlName="password" 
+          [ngClass]="{'ng-invalid': loginForm.get('password')?.invalid && loginForm.get('password')?.touched, 'ng-dirty': loginForm.get('password')?.dirty}" />
+        
+        <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error-message">
+          <small *ngIf="loginForm.get('password')?.hasError('required')">Senha é obrigatória.</small>
+        </div>
         <p class="text-link">
-          <span> Esqueceu sua senha?&nbsp;<a class="hyperlink" [routerLink]="['/auth', 'recovery']" title="ir para recuperação de senha">Clique aqui </a> </span>
+          <span> Esqueceu sua senha?&nbsp;
+            <a class="hyperlink" [routerLink]="['/user', 'recovery']" title="ir para recuperação de senha">Clique aqui</a>
+          </span>
         </p>
       </div>
+
     </form>
   </div>
+  <app-button id="b-login" type="submit" [disabled]="loginForm.invalid" (click)="onSubmit()">Entrar</app-button>
 
-  <app-button id="b-login">Entrar</app-button>
   <p class="text-link to-register">
-    <span> Ainda não possui uma conta?&nbsp;<a class="hyperlink" [routerLink]="['/auth', 'register']" title="ir para cadastro">Cadastre-se </a> </span>
+    <span> Ainda não possui uma conta?&nbsp;
+      <a class="hyperlink" [routerLink]="['/user', 'register']" title="ir para cadastro">Cadastre-se</a>
+    </span>
   </p>
 </div>

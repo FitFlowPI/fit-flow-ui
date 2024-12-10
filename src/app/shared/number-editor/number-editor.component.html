@@ -1,0 +1,41 @@
+<div class="number-container">
+  <fa-icon
+    *ngIf="icon"
+    class="icon"
+    [ngStyle]="{
+      'font-size': ((isEditing ? editingFontSize : fontSize) / 1.4) + 'rem'
+    }"
+    [icon]="icon">
+  </fa-icon>
+  <app-number-selector
+    *ngFor="let digit of dividedNumber; let i = index"
+    [index]="i"
+    [number]="digit"
+    [fontSize]="(isEditing ? editingFontSize : fontSize)"
+    [showButtons]="isEditing"
+    [padding]="isEditing ? ('0 ' + ((isEditing ? editingFontSize : fontSize) / 1.5) + 'rem') : '0'"
+    (numberOutput)="handleNumberChange($event)"
+  >
+  </app-number-selector>
+  <div
+    *ngIf="!isEditing"
+    class="edit-button"
+    [ngStyle]="{
+
+      'padding': ((isEditing ? editingFontSize : fontSize) / 2.1) + 'rem'
+    }"
+    (click)="edit()"
+  >
+    <fa-icon [ngStyle]="{'font-size': ((isEditing ? editingFontSize : fontSize) / 1.3) + 'rem'}" [icon]="faPencil"></fa-icon>
+  </div>
+  <div
+    *ngIf="isEditing"
+    class="confirm-button"
+    [ngStyle]="{
+      'padding': ((isEditing ? editingFontSize : fontSize) / 2.1) + 'rem'
+    }"
+    (click)="confirmEdit()"
+  >
+    <fa-icon [ngStyle]="{'font-size': ((isEditing ? editingFontSize : fontSize) / 1.3) + 'rem'}" [icon]="faCheck"></fa-icon>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+<div class="gender-select">
+<!--TODO: arrumar a resposividade-->
+  <div class="header">
+    <h2>Qual é seu gênero de nascimento?</h2>
+    <span> Saber com qual corpo nasceu é crucial para a anamnese</span>
+  </div>
+
+  <div class="gender-buttons">
+    <div class="button">
+      <app-button
+        aspectRatio="1"
+        borderRadius="100%"
+        [wrapContent]=false
+        width="70%"
+        minWidth="145px"
+        [colors]="['#c000c4', '#8f002a']"
+        id="b-male">
+        <div class="gender-icon-venus"></div>
+      </app-button>
+      <h3>Feminino</h3>
+    </div>
+    <div class="button">
+      <app-button
+        aspectRatio="1"
+        borderRadius="100%"
+        [wrapContent]=false
+        width="70%"
+        minWidth="145px"
+        [colors]="['#0028af', '#00b4b2']"
+        id="b-female">
+        <div class="gender-icon-mars"></div>
+      </app-button>
+      <h3>Masculino</h3>
+    </div>
+  </div>
+
+  <app-button id="b-gender-continue">Continuar</app-button>
+</div>
