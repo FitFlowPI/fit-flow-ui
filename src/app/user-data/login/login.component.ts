@@ -27,6 +27,8 @@ import { CommonModule } from '@angular/common';
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
+  loginAttempts: { [email: string]: { count: number; blockedUntil: number } } = {};
+
 
   constructor(
     private fb: FormBuilder,
@@ -43,33 +45,68 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+    const email = this.loginForm.value.email;
+
+    localStorage.setItem('email', email);
+
+    if (this.isEmailBlocked(email)) {
+      this.toastService.showError('Você atingiu o limite de tentativas. Tente novamente em alguns segundos.');
+      return;
+    }
+
     if (this.loginForm.valid) {
       const payload: LoginPayload = {
-        email: this.loginForm.value.email,
+        email,
         password: this.loginForm.value.password
       };
 
       this.loginService.authenticate(payload).subscribe({
         next: (response: LoginResponse) => {
-          console.log('Login successful', response);
-          localStorage.setItem('authToken', response.data.token); // Store token
 
-          // Show success toast message
+          localStorage.removeItem('email');
+          if (this.loginAttempts[email]) delete this.loginAttempts[email];
+
+          localStorage.setItem('authToken', response.data.token);
           this.toastService.showSuccess('Login realizado com sucesso!');
-
-          // Redirect on success
           this.router.navigate(['/home']);
         },
         error: (error) => {
-          console.error('Login failed', error);
 
-          // Show error toast message
+          this.handleFailedAttempt(email);
+
           this.toastService.showError('Erro ao fazer login. Verifique suas credenciais e tente novamente.');
         }
       });
     } else {
       this.toastService.showError('Formulário inválido! Por favor, preencha todos os campos corretamente.');
-      console.log('Formulário inválido');
     }
   }
+
+  isEmailBlocked(email: string): boolean {
+    const attemptData = this.loginAttempts[email];
+    if (attemptData) {
+      const currentTime = Date.now();
+      if (attemptData.blockedUntil && attemptData.blockedUntil > currentTime) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  handleFailedAttempt(email: string): void {
+    const currentTime = Date.now();
+
+    if (!this.loginAttempts[email]) {
+      this.loginAttempts[email] = { count: 0, blockedUntil: 0 };
+    }
+
+    const attemptData = this.loginAttempts[email];
+    attemptData.count += 1;
+
+    if (attemptData.count >= 3) {
+      attemptData.blockedUntil = currentTime + 5000;
+      this.toastService.showError(`Muitas tentativas falharam. Este email está bloqueado por 5 segundos.`);
+    }
+  }
+
 }

@@ -24,12 +24,12 @@ export class NumberEditorComponent implements OnInit, OnChanges{
   @Input() fontSize: number = 1;
   @Input() editingFontSize: number = 2
   @Input() icon?: IconDefinition;
-  dividedNumber: number[] = []; // Array of digits
-  updatedDividedNumber: number[] = [];
+  numbers: number[] = []; // Array of digits
 
   @Output() numberOutput: EventEmitter<number> = new EventEmitter<number>();
 
   ngOnInit() {
+    this.numberOutput.emit(this.number);
     this.divideNumber();
   }
 
@@ -38,15 +38,46 @@ export class NumberEditorComponent implements OnInit, OnChanges{
   }
 
   private divideNumber() {
-    this.dividedNumber = this.number
+    this.numbers = this.number
       .toString()
       .split('')
       .map((digit) => parseInt(digit, 10));
   }
 
-  handleNumberChange(newNumber: { number: number, index: number }) {
-    // Update the specific index in dividedNumber
-    this.updatedDividedNumber[newNumber.index] = newNumber.number;
+
+  handleIncrement(index: number) {
+    if (index < 0 || index >= this.numbers.length) return;
+
+    this.numbers[index] += 1;
+
+    if (this.numbers[index] > 9) {
+      this.numbers[index] = 0; // Reset the current digit to 0
+
+      if (index === 0) {
+        // Add a new digit at the start of the array
+        this.numbers.unshift(1);
+      } else {
+        // Cascade increment to the previous digit
+        this.handleIncrement(index - 1);
+      }
+    }
+  }
+
+  handleDecrement(index: number) {
+    if (index < 0 || index >= this.numbers.length) return;
+
+    this.numbers[index] -= 1;
+
+    if (this.numbers[index] < 0) {
+      if (index === 0 && this.numbers.length > 1) {
+        // Remove the first digit if it underflows and there are multiple digits
+        this.numbers.shift();
+      } else {
+        // Reset the current digit to 9 and cascade to the previous digit
+        this.numbers[index] = 9;
+        this.handleDecrement(index - 1);
+      }
+    }
   }
 
   edit() {
@@ -55,7 +86,7 @@ export class NumberEditorComponent implements OnInit, OnChanges{
 
   confirmEdit() {
     // Combine digits into a single number
-    const updatedNumber = parseInt(this.updatedDividedNumber.join(''), 10);
+    const updatedNumber = parseInt(this.numbers.join(''), 10);
 
     // Emit the updated number
     this.numberOutput.emit(updatedNumber);

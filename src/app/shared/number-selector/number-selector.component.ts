@@ -14,36 +14,23 @@ import {NgIf, NgStyle} from "@angular/common";
   templateUrl: './number-selector.component.html',
   styleUrl: './number-selector.component.css'
 })
-export class NumberSelectorComponent implements OnChanges{
-
-
-
-  @Input() number: number = 0;
-  @Input({required: true}) index!: number;
+export class NumberSelectorComponent {
+  @Input() number: number = 0; // Controlled externally
+  @Input({ required: true }) index!: number;
   @Input() color: string = 'var(--white)';
   @Input() fontSize: number = 1;
   @Input() showButtons: boolean = true;
-  @Input() maxLimit: number = 9;
   @Input() padding: string = '0';
-  @Output() numberOutput: EventEmitter<{ index: number, number: number }> = new EventEmitter<{ index: number, number: number }>();
 
-
-  //TODO: checkar overflow e underflow e emitir
+  @Output() incrementNumber: EventEmitter<number> = new EventEmitter<number>();
+  @Output() decrementNumber: EventEmitter<number> = new EventEmitter<number>();
 
   increment() {
-    this.number = (this.number + 1) % (this.maxLimit + 1); // Wraps around at maxLimit + 1
-    this.numberOutput.emit({index: this.index, number: this.number});
+    this.incrementNumber.emit(this.index);
   }
 
   decrement() {
-    this.number = (this.number - 1 + (this.maxLimit + 1)) % (this.maxLimit + 1); // Wraps around at -1
-    this.numberOutput.emit({index: this.index, number: this.number});
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['number'] && (this.number < 0 || this.number > 9)) {
-      this.number = 0; // Reset to default if invalid
-    }
+    this.decrementNumber.emit(this.index);
   }
 
   protected readonly faAngleUp = faAngleUp;

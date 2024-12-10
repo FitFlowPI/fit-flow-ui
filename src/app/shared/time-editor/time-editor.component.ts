@@ -4,6 +4,9 @@ import {NgIf, NgStyle} from "@angular/common";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {faCheck, faPencil, faStopwatch} from "@fortawesome/free-solid-svg-icons";
 
+const MAX_DIGIT: number = 9;
+const MAX_TENS_DIGIT = 5; // Maximum for tens
+
 @Component({
   selector: 'app-time-editor',
   standalone: true,
@@ -20,18 +23,18 @@ export class TimeEditorComponent implements OnInit, OnChanges{
   @Input() isEditing: boolean = false;
   @Input() fontSize: number = 1;
   @Input() editingFontSize: number = 2
-  @Input() number: number = 0;
+  @Input() milliseconds: number = 0;
 
   @Output() numberOutput: EventEmitter<number> = new EventEmitter<number>();
 
+
   dividedTime: number[] = [0, 0, 0, 0];
-  updatedDividedTime: number[] = [];
 
   //TODO: impedir que a unidade de segundos/minutos aumente pra mais que 0 quando a dezena for 6
 
   ngOnInit() {
+    this.numberOutput.emit(this.milliseconds);
     this.divideTime();
-    this.updatedDividedTime = this.dividedTime;
   }
 
   ngOnChanges() {
@@ -40,7 +43,7 @@ export class TimeEditorComponent implements OnInit, OnChanges{
 
 
   divideTime(): void {
-    const totalSeconds = Math.floor(this.number / 1000);
+    const totalSeconds = Math.floor(this.milliseconds / 1000);
     const seconds = totalSeconds % 60;
     const minutes = Math.floor(totalSeconds / 60);
 
@@ -50,8 +53,42 @@ export class TimeEditorComponent implements OnInit, OnChanges{
     this.dividedTime[2] = minutes % 10;            // Units digit of minutes
   }
 
-  handleNumberChange(newNumber: { number: number, index: number }) {
-    this.updatedDividedTime[newNumber.index] = newNumber.number;
+  incrementTime(index: number): void {
+    if (index < 0 || index >= this.dividedTime.length) return;
+
+    const maxLimit = index % 2 === 0 ? MAX_DIGIT : MAX_TENS_DIGIT; // Units vs. tens digit
+    this.dividedTime[index] += 1;
+
+    if (this.dividedTime[index] > maxLimit) {
+      this.dividedTime[index] = 0;
+      // Carry over to the next higher digit
+      if (index + 1 < this.dividedTime.length) {
+        this.incrementTime(index + 1);
+      }
+    }
+  }
+
+  decrementTime(index: number): void {
+    if (index < 0 || index >= this.dividedTime.length) return;
+
+    const maxLimit = index % 2 === 0 ? MAX_DIGIT : MAX_TENS_DIGIT; // Units vs. tens digit
+    this.dividedTime[index] -= 1;
+
+    if (this.dividedTime[index] < 0) {
+      this.dividedTime[index] = maxLimit;
+      // Borrow from the next higher digit
+      if (index + 1 < this.dividedTime.length) {
+        this.decrementTime(index + 1);
+      }
+    }
+  }
+
+  handleIncrement(index: number) {
+    this.incrementTime(index);
+  }
+
+  handleDecrement(index: number) {
+    this.decrementTime(index);
   }
 
   edit() {
@@ -60,8 +97,8 @@ export class TimeEditorComponent implements OnInit, OnChanges{
 
   confirmEdit() {
     // Assemble the updatedDividedTime back into total milliseconds
-    const seconds = this.updatedDividedTime[1] * 10 + this.updatedDividedTime[0];
-    const minutes = this.updatedDividedTime[3] * 10 + this.updatedDividedTime[2];
+    const seconds = this.dividedTime[1] * 10 + this.dividedTime[0];
+    const minutes = this.dividedTime[3] * 10 + this.dividedTime[2];
     const totalMilliseconds = (minutes * 60 + seconds) * 1000;
 
     // Emit or process the combined totalMilliseconds

@@ -234,9 +234,17 @@
     .buttons {
       display: inline-flex;
       flex-wrap: wrap;
-      width: 100%;
-      justify-content: space-evenly;
-      gap: 20px;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+
+      .left, .right {
+        display: inline-flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+      }
+
     }
   }
 

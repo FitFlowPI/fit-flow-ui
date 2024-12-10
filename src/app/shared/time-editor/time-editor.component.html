@@ -10,42 +10,42 @@
   <app-number-selector
     [number]="dividedTime[3]"
     [index]="3"
-    [maxLimit]="6"
     [fontSize]="(isEditing ? editingFontSize : fontSize)"
     [showButtons]="isEditing"
     [padding]="isEditing ? ('0 ' + ((isEditing ? editingFontSize : fontSize) / 1.5) + 'rem') : '0'"
-    (numberOutput)="handleNumberChange($event)"
+    (incrementNumber)="handleIncrement($event)"
+    (decrementNumber)="handleDecrement($event)"
   >
   </app-number-selector>
   <app-number-selector
     [number]="dividedTime[2]"
     [index]="2"
-    [maxLimit]="6"
     [fontSize]="(isEditing ? editingFontSize : fontSize)"
     [showButtons]="isEditing"
     [padding]="isEditing ? ('0 ' + ((isEditing ? editingFontSize : fontSize) / 1.5) + 'rem') : '0'"
-    (numberOutput)="handleNumberChange($event)"
+    (incrementNumber)="handleIncrement($event)"
+    (decrementNumber)="handleDecrement($event)"
   >
   </app-number-selector>
   <p [ngStyle]="{'font-size': (isEditing ? editingFontSize : fontSize) + 'rem'}"> : </p>
   <app-number-selector
     [number]="dividedTime[1]"
     [index]="1"
-    [maxLimit]="6"
     [fontSize]="(isEditing ? editingFontSize : fontSize)"
     [showButtons]="isEditing"
     [padding]="isEditing ? ('0 ' + ((isEditing ? editingFontSize : fontSize) / 1.5) + 'rem') : '0'"
-    (numberOutput)="handleNumberChange($event)"
+    (incrementNumber)="handleIncrement($event)"
+    (decrementNumber)="handleDecrement($event)"
   >
   </app-number-selector>
   <app-number-selector
     [number]="dividedTime[0]"
     [index]="0"
-    [maxLimit]="6"
     [fontSize]="(isEditing ? editingFontSize : fontSize)"
     [showButtons]="isEditing"
     [padding]="isEditing ? ('0 ' + ((isEditing ? editingFontSize : fontSize) / 1.5) + 'rem') : '0'"
-    (numberOutput)="handleNumberChange($event)"
+    (incrementNumber)="handleIncrement($event)"
+    (decrementNumber)="handleDecrement($event)"
   >
   </app-number-selector>
   <div
