@@ -4,7 +4,6 @@ export interface Exercise {
   category: string,
   thumbnail: string,
   time: number
-  category?: string;
   media?: string;
   description?: string;
 }
